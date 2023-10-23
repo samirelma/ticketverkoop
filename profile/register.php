@@ -1,99 +1,105 @@
 <?php
 session_start();
-include "connect/connect.php";
-include "connect/db.php";
-include "fetch/util.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/connect/db.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/fetch/util.php";  
 
-echo "<h1>Welkom " . $_SESSION['username'] . "</h1>";
-
-
+global $connect;
 function register($formData) {
+
   $firstname = $formData['firstname'];
   $lastname = $formData['lastname'];
   $email = $formData['email'];
   $username = $formData['username'];
   $password = $formData['password'];
   $passwordConfirm = $formData['passwordConfirm'];
-  
+
+
+
+  $data = fetchSingle('SELECT * FROM users WHERE firstname = ?', [
+    'type' => 's',
+    'value' => $firstname,
+  ]);
+
+
+  $data = fetchSingle('SELECT * FROM users WHERE lastname = ?', [
+    'type' => 's',
+    'value' => $lastname,
+  ]);
+
+
   $data = fetchSingle('SELECT * FROM users WHERE email = ?', [
     'type' => 's',
     'value' => $email,
   ]);
 
   if ($data) {
-    header('Location: /account/register?error=email');
-    exit();
+    return [
+      'status' => 'error',
+      'message' => 'This email is already taken',
+    ];
   }
-  
+
   $data = fetchSingle('SELECT * FROM users WHERE username = ?', [
     'type' => 's',
     'value' => $username,
   ]);
-  
-  if ($data) {
-    header('Location: /account/register?error=username');
-    exit();
-  }
-  
+
+
+  $data = fetchSingle('SELECT * FROM users WHERE password = ?', [
+    'type' => 's',
+    'value' => $password,
+  ]);
+
   if ($password !== $passwordConfirm) {
-    header('Location: /account/register?error=password');
-    exit();
+    return [
+      'status' => 'error',
+      'message' => 'Passwords do not match',
+    ];
   }
-  
-  $password = password_hash($password, PASSWORD_ARGON2ID);
-  $initialized = insertUser($username, $password, $email, $firstname, $lastname);
 
-  if (!$initialized) {
-    header('Location: /account/register?error=server');
-    return;
+  
+}
+//insert the data into the database
+if (isset($_POST['register'])) {
+  $firstname = $_POST['firstname'];
+  $lastname = $_POST['lastname'];
+  $email = $_POST['email'];
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+  $passwordConfirm = $_POST['passwordConfirm'];
+
+
+
+  $sql = "SELECT * FROM users WHERE email='$email'";
+
+  $mysqli = new mysqli('localhost', 'root', '', 'ticketverkoop');
+  $result = mysqli_query($mysqli, $sql);
+
+
+
+
+    // Define the SQL query
+    $sql = "INSERT INTO users (firstname, lastname, email, username, password) VALUES ('$firstname', '$lastname', '$email', '$username', '$password')";
+
+    // Execute the SQL query
+    $result = mysqli_query($mysqli, $sql);
+
+    if ($result) {
+      header("Location: ../index.php");
+    } else {
+      echo "Something went wrong";
+    }
   }
-  
-  header('Location: /account/login?success=register');
-  exit();
-}
 
-function insertUser($username, $password, $email, $firstname, $lastname) {
-  global $connection;
-  $userData = insert(
-    'INSERT INTO users (username, password, email, firstname, lastname) VALUES (?, ?, ?, ?, ?)',
-    ['type' => 's', 'value' => $username],
-    ['type' => 's', 'value' => $password],
-    ['type' => 's', 'value' => $email],
-    ['type' => 's', 'value' => $firstname],
-    ['type' => 's', 'value' => $lastname],
-  );
 
-  $userId = mysqli_insert_id($connection);
 
-  $userProfileData = insert(
-    'INSERT INTO user_profile (userid, profilePictureUrl, about, theme, language) VALUES (?, ?, ?, ?, ?)',
-    ['type' => 'i', 'value' => $userId],
-    [
-      'type' => 's',
-      'value' => 'https://avatars.githubusercontent.com/u/64209400?v=4',
-    ],
-    ['type' => 's', 'value' => 'Hello!'],
-    ['type' => 's', 'value' => 'light'],
-    ['type' => 's', 'value' => 'text_en'],
-  );
 
-  return $userData && $userProfileData;
-}
 
- ?>
-
-<div class="min-h-[100svh] w-full flex flex-col justify-center items-center px-8 py-8">
-  <div class="w-full flex justify-center text-sm breadcrumbs mb-2">
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li>Account</li>
-      <li><a href="/account/register">Register</a></li>
-    </ul>
-  </div>
+  ?>
 
   <h1 class="md:text-center text-4xl font-bold mb-8">Create a new account</h1>
-
-  <form action="/src/lib/account/register.php" method="post" class="flex flex-col gap-8 w-full md:max-w-2xl">
+  <form action="/profile/register.php" method="post" class="flex flex-col gap-8 w-full md:max-w-2xl">
     <div class="flex flex-col gap-4">
       <div class="flex flex-col gap-4 md:flex-row">
         <div class="form-control md:flex-1">
@@ -132,14 +138,14 @@ function insertUser($username, $password, $email, $firstname, $lastname) {
           <label class="label">
             <span class="label-text">Password</span>
           </label>
-          <input type="password" name="password" placeholder="Make it a good one!" class="input input-bordered w-full" required />
+          <input type="password" name="password" placeholder="Password" class="input input-bordered w-full" required />
         </div>
         
         <div class="form-control md:flex-1">
           <label class="label">
             <span class="label-text">Confirm password</span>
           </label>
-          <input type="password" name="passwordConfirm" placeholder="Confirm..." class="input input-bordered w-full" required />
+          <input type="password" name="passwordConfirm" placeholder="Confirm password" class="input input-bordered w-full" required />
         </div>
       </div>
     </div>
@@ -148,6 +154,6 @@ function insertUser($username, $password, $email, $firstname, $lastname) {
   </form>
 
   <div class="w-full text-center mt-8">
-    <a class="link" href="/account/login">I already have an account</a>
+    <a class="link" href="../account/index">I already have an account</a>
   </div>
 </div>

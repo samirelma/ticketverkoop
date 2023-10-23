@@ -1,9 +1,15 @@
 <?php
+include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
+
+
 
 function fetchSingle($query, ...$params) {
- global $connection;
-
-  $stmt = $connection->prepare($query);
+ global $connect;
+ if (!$connect) {
+  die("Error: Could not connect to database");
+}
+  $stmt = $connect->prepare($query);
+  $stmt->execute();
 
   if (!empty($params)) {
     $paramTypes = '';
@@ -19,7 +25,39 @@ function fetchSingle($query, ...$params) {
 
   if (!$stmt->execute()) {
     $stmt->close();
-    $connection->close();
+    $connect->close();
+    return false;
+  }
+
+  $result = $stmt->get_result();
+  $data = $result->fetch_assoc();
+
+  $stmt->close();
+
+  return $data;
+}
+
+
+function fetchAll($query, ...$params) {
+  global $connect;
+
+  $stmt = $connect->prepare($query);
+
+  if (!empty($params)) {
+    $paramTypes = '';
+    $paramValues = [];
+
+    foreach ($params as $param) {
+      $paramTypes .= $param['type'];
+      $paramValues[] = $param['value'];
+    }
+
+    $stmt->bind_param($paramTypes, ...$paramValues);
+  }
+
+  if (!$stmt->execute()) {
+    $stmt->close();
+    $connect->close();
     return false;
   }
 
@@ -29,12 +67,14 @@ function fetchSingle($query, ...$params) {
   $stmt->close();
 
   return $data;
+
 }
 
-function insert($query, ...$params) {
-  global $connection;
 
-  $stmt = $connection->prepare($query);
+function execute($query, ...$params) {
+  global $connect;
+
+  $stmt = $connect->prepare($query);
 
   if (!empty($params)) {
     $paramTypes = '';
@@ -50,11 +90,13 @@ function insert($query, ...$params) {
 
   if (!$stmt->execute()) {
     $stmt->close();
-    $connection->close();
+    $connect->close();
     return false;
   }
 
   $stmt->close();
+
   return true;
 }
-?>
+
+
