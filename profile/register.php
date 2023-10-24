@@ -1,5 +1,4 @@
-<link href="https://cdn.jsdelivr.net/npm/daisyui@3.7.4/dist/full.css" rel="stylesheet" type="text/css" />
-<script src="https://cdn.tailwindcss.com"></script>
+
 
 <?php
 
@@ -138,6 +137,17 @@ if (isset($_POST['register'])) {
 
 
   ?>
+  <!DOCTYPE html>
+  <html lang="en">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.7.4/dist/full.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.tailwindcss.com"></script>
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+
   <center>
 
   <h1 class="md:text-center text-4xl font-bold mb-8">Create a new account</h1>
@@ -200,3 +210,7 @@ if (isset($_POST['register'])) {
   </div>
 </div>
   </center>
+
+  </body>
+  </html>
+  
