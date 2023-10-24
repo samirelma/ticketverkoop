@@ -2,7 +2,7 @@
 
 function getUserDataByUsername($username) {
     $conn = mysqli_init();
-    $conn->real_connect("127.0.0.1", "root", "", "ticketverkoop");
+    $conn->real_connect("127.0.0.1", "root", "", "dbticketverkoop");
     mysqli_set_charset($conn, "utf8");
 
     $sql = "SELECT * FROM users where id = ?";
@@ -19,7 +19,7 @@ function getUserDataByUsername($username) {
 
 function getProductById($id) {
     $conn = mysqli_init();
-    $conn->real_connect("127.0.0.1", "root", "", "ticketverkoop");
+    $conn->real_connect("127.0.0.1", "root", "", "dbticketverkoop");
     mysqli_set_charset($conn, "utf8");
 
     $sql = "SELECT * FROM tickets where id = ?";
@@ -35,7 +35,7 @@ function getProductById($id) {
 
 function getProducts() {
     $conn = mysqli_init();
-    $conn->real_connect("127.0.0.1", "root", "", "ticketverkoop");
+    $conn->real_connect("127.0.0.1", "root", "", "dbticketverkoop");
     mysqli_set_charset($conn, "utf8");
 
     $sql = "SELECT * FROM tickets";

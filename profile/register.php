@@ -1,83 +1,102 @@
-
-
 <link href="https://cdn.jsdelivr.net/npm/daisyui@3.7.4/dist/full.css" rel="stylesheet" type="text/css" />
 <script src="https://cdn.tailwindcss.com"></script>
 
 <?php
-session_start();
+
 include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/connect/db.php";
-include $_SERVER['DOCUMENT_ROOT'] . "/fetch/util.php";  
-
-global $connect;
-function register($formData) {
-
-  $firstname = $formData['firstname'];
-  $lastname = $formData['lastname'];
-  $email = $formData['email'];
-  $username = $formData['username'];
-  $password = $formData['password'];
-  $passwordConfirm = $formData['passwordConfirm'];
+include $_SERVER['DOCUMENT_ROOT'] . "/fetch/util.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/hashing/hash.php";
 
 
 
-  $data = fetchSingle('SELECT * FROM users WHERE firstname = ?', [
-    'type' => 's',
-    'value' => $firstname,
-  ]);
 
+function register($data) {
 
-  $data = fetchSingle('SELECT * FROM users WHERE lastname = ?', [
-    'type' => 's',
-    'value' => $lastname,
-  ]);
+  $username = $data['username'];
+  $lastname = $data['lastname'];
+  $firstname = $data['firstname'];
+  $email = $data['email'];
+  $password = $data['password'];
+  $passwordConfirm = $data['passwordConfirm'];
 
-
-  $data = fetchSingle('SELECT * FROM users WHERE email = ?', [
+   $data = fetchSingle('SELECT * FROM users WHERE email = ?', [
     'type' => 's',
     'value' => $email,
   ]);
 
   if ($data) {
-    return [
-      'status' => 'error',
-      'message' => 'This email is already taken',
-    ];
+    echo "mail does not match";
+    echo "<br>";
+    echo "<a href='/profile/register.php'>Go back</a>";
+    exit;
   }
+  
+  $data = fetchSingle('SELECT * FROM users WHERE username = ?', [
+    'type' => 's',
+    'value' => $username,
+  ]);
+  
+  if ($data) {
+    echo "username does not work";
+        echo "<br>";
+        echo "<a href='/profile/register.php'>Go back</a>";
+        exit;
+  }
+  
+
+  $initialized = insertUser($username, $password, $email, $firstname, $lastname);
+
+  if (!$initialized) {
+    echo "Password is not initialized";
+        echo "<br>";
+        echo "<a href='/profile/register.php'>Go back</a>";
+        exit;
+  }
+  
+  echo "You successfully registered!";
+  echo "<br>";
+  echo "<a href='/profile/login.php'>Go back</a>";
+  exit;
 
 
-$data = fetchSingle('SELECT * FROM users WHERE username = ?', [
-  'type' => 's',
-  'value' => $username,
-]);
-
-
-
-$data = fetchSingle('SELECT * FROM users WHERE password = ?', [
-  'type' => 's',
-  'value' => $password,
-]);
-
-$data = fetchSingle('SELECT * FROM users WHERE passwordConfirm = ?', [
-  'type' => 's',
-  'value' => $passwordConfirm,
-]);
-
-//check if passwords match if it does not match return password does not match
-if ($password !== $passwordConfirm) {
-  return [
-    'message' => 'Password does not match',
-  ];
 }
 
-//hash password
-function hashPassword($password) {
-  return password_hash($password, PASSWORD_DEFAULT);
 
+function insertUser($username, $lastname, $firstname, $email, $password) {
+    global $connect;
+    if ($password !== $_POST['passwordConfirm']) {
+        return false;
+    }
+    function hashPassword($password) {
+      return password_hash($password, PASSWORD_DEFAULT);
+    
+    }    
+        $data = insert(
+        'INSERT INTO users (username, password, email, firstname, lastname) VALUES (?, ?, ?, ?, ?)',
+        ['type' => 's', 'value' => $username],
+        ['type' => 's', 'value' => $password],
+        ['type' => 's', 'value' => $email],
+        ['type' => 's', 'value' => $firstname],
+        ['type' => 's', 'value' => $lastname],
+    );
+
+
+
+    $userId = mysqli_insert_id($connect);
+
+    $userProfileData = insert(
+        'INSERT INTO user_profile (userid, profilePictureUrl, about) VALUES (?, ?, ?)',
+        ['type' => 'i', 'value' => $userId],
+        [
+            'type' => 's',
+            'value' => 'https://avatars.githubusercontent.com/u/64209400?v=4',
+        ],
+        ['type' => 's', 'value' => 'test!']
+    );
+
+    return $data && $userProfileData;
 }
-}
-
-
 
 //insert the data into the database
 if (isset($_POST['register'])) {
@@ -86,35 +105,33 @@ if (isset($_POST['register'])) {
   $email = $_POST['email'];
   $username = $_POST['username'];
   $password = $_POST['password'];
+  $passwordConfirm = $_POST['passwordConfirm'];
 
+  // Check if passwords match
+  if ($password !== $passwordConfirm) {
+    echo "Password does not match";
+    echo "<br>";
+    echo "<a href='/profile/register.php'>Go back</a>";
+    exit;
+}
 
-  $sql = "SELECT * FROM users WHERE email='$email'";
+  // Define the SQL query
+  $sql = "INSERT INTO users (firstname, lastname, email, username, password) VALUES ('$firstname', '$lastname', '$email', '$username', '$password')";
+
   $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
-  $result = mysqli_query($mysqli, $sql);
-  
-  if (mysqli_num_rows($result) > 0) {
-      echo 'This email is already taken';
-  } else {
-      // Define the SQL query
-      $sql = "INSERT INTO users (firstname, lastname, email, username, password) VALUES ('$firstname', '$lastname', '$email', '$username', '$password')";
-  
-      try {
-          // Execute the SQL query
-          $result = mysqli_query($mysqli, $sql);
-          if ($result) {
-              header("Location: ../index.php");
-          } else {
-              echo "Something went wrong";
-          }
-      } catch (mysqli_sql_exception $e) {
-          if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-              echo 'This email is already taken';
-          } else {
-              // handle other exceptions
-          }
-      }
+  try {
+    // Execute the SQL query
+    $result = mysqli_query($mysqli, $sql);
+    if ($result) {
+      header("Location: ../index.php");
+    } else {
+      echo "Something went wrong";
+    }
+  } catch (mysqli_sql_exception $e) {
+    echo $e->getMessage();
   }
 }
+
 
 
 
