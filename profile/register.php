@@ -73,7 +73,7 @@ if (isset($_POST['register'])) {
 
   $sql = "SELECT * FROM users WHERE email='$email'";
 
-  $mysqli = new mysqli('localhost', 'root', '', 'ticketverkoop');
+  $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
   $result = mysqli_query($mysqli, $sql);
 
 
