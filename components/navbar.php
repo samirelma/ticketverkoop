@@ -16,10 +16,7 @@ session_start();
 </head>
 <body>
 <div class="navbar bg-base-100">
-  <div class="flex-1">
-    <a class="btn btn-ghost normal-case text-xl">RS ticket service</a>
-  </div>
-  <div class="flex-none gap-2">
+    <a class="btn btn-ghost normal-case text-xl" href="../main_page/index.php">RS ticket service</a>
     <div class="form-control">
       <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
     </div>
@@ -40,7 +37,6 @@ session_start();
         <li><a href="../profile/login.php">Login</a></li>
       </ul>
     </div>
-  </div>
 </div> 
 </body>
 </html>

@@ -1,6 +1,14 @@
 <?php
-include "../components/navbar.php"; 
-
+include "../components/navbar.php";
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+</head>
+<body>
+  <?php
 global $connect;
 function register($formData) {
 
@@ -89,12 +97,7 @@ if (isset($_POST['register'])) {
     }
   }
 
-
-
-
-
-  ?>
-
+  echo '
   <h1 class="md:text-center text-4xl font-bold mb-8">Create a new account</h1>
   <form action="/profile/register.php" method="post" class="flex flex-col gap-8 w-full md:max-w-2xl">
     <div class="flex flex-col gap-4">
@@ -151,6 +154,11 @@ if (isset($_POST['register'])) {
   </form>
 
   <div class="w-full text-center mt-8">
-    <a class="link" href="../account/index">I already have an account</a>
+    <a class="link" href="../profile/login.php">I already have an account</a>
   </div>
-</div>
+</div> '; 
+?>
+</body>
+</html>
+
+
