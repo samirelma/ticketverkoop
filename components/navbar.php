@@ -1,5 +1,8 @@
 <?php
-include "./connect/connect.php"; 
+include  "../connect/connect.php";
+include  "../connect/db.php";
+include "../fetch/util.php";   
+session_start();
 ?>
 
 
