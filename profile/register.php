@@ -40,25 +40,59 @@ function register($formData) {
     ];
   }
 
-  $data = fetchSingle('SELECT * FROM users WHERE username = ?', [
-    'type' => 's',
-    'value' => $username,
-  ]);
+  // Check if username already exists
+$data = fetchSingle('SELECT * FROM users WHERE username = ?', [
+  'type' => 's',
+  'value' => $username,
+]);
 
+if ($data) {
+  return [
+    'status' => 'error',
+    'message' => 'This username is already taken',
+  ];
+}
 
-  $data = fetchSingle('SELECT * FROM users WHERE password = ?', [
-    'type' => 's',
-    'value' => $password,
-  ]);
+// Check if email already exists
+$data = fetchSingle('SELECT * FROM users WHERE email = ?', [
+  'type' => 's',
+  'value' => $email,
+]);
 
-  if ($password !== $passwordConfirm) {
-    return [
-      'status' => 'error',
-      'message' => 'Passwords do not match',
-    ];
-  }
+if ($data) {
+  return [
+    'status' => 'error',
+    'message' => 'This email is already taken',
+  ];
+}
 
-  
+if ($password !== $passwordConfirm) {
+  return [
+    'status' => 'error',
+    'message' => 'Passwords do not match',
+  ];
+}
+
+// Define the SQL query
+$sql = "INSERT INTO users (firstname, lastname, email, username, password) VALUES (?, ?, ?, ?, ?)";
+
+// Execute the SQL query
+$result = execute($sql, [
+  'types' => 'sssss',
+  'values' => [$firstname, $lastname, $email, $username, $password],
+]);
+
+if ($result) {
+  return [
+    'status' => 'success',
+    'message' => 'Registration successful',
+  ];
+} else {
+  return [
+    'status' => 'error',
+    'message' => 'Something went wrong',
+  ];
+}
 }
 //insert the data into the database
 if (isset($_POST['register'])) {
@@ -82,8 +116,15 @@ if (isset($_POST['register'])) {
     // Define the SQL query
     $sql = "INSERT INTO users (firstname, lastname, email, username, password) VALUES ('$firstname', '$lastname', '$email', '$username', '$password')";
 
-    // Execute the SQL query
-    $result = mysqli_query($mysqli, $sql);
+    // Execute the SQL query for xampp
+    $result = mysqli_query($connect, $sql);
+    
+    if ($result) {
+      header("Location: ../index.php");
+    } else {
+      echo "Something went wrong";
+    }
+    
 
     if ($result) {
       header("Location: ../index.php");
