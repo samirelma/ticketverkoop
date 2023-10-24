@@ -42,7 +42,6 @@ function fetchAll($query, ...$params) {
   global $connect;
 
   $stmt = $connect->prepare($query);
-
   if (!empty($params)) {
     $paramTypes = '';
     $paramValues = [];
@@ -100,3 +99,30 @@ function execute($query, ...$params) {
 }
 
 
+
+function insert($query, ...$params) {
+  global $connect;
+
+  $stmt = $connect->prepare($query);
+
+  if (!empty($params)) {
+    $paramTypes = '';
+    $paramValues = [];
+
+    foreach ($params as $param) {
+      $paramTypes .= $param['type'];
+      $paramValues[] = $param['value'];
+    }
+
+    $stmt->bind_param($paramTypes, ...$paramValues);
+  }
+
+  if (!$stmt->execute()) {
+    $stmt->close();
+    $connect->close();
+    return false;
+  }
+
+  $stmt->close();
+  return true;
+}
