@@ -1,3 +1,8 @@
+
+
+<link href="https://cdn.jsdelivr.net/npm/daisyui@3.7.4/dist/full.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.tailwindcss.com"></script>
+
 <?php
 session_start();
 include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
@@ -40,60 +45,40 @@ function register($formData) {
     ];
   }
 
-  // Check if username already exists
+
 $data = fetchSingle('SELECT * FROM users WHERE username = ?', [
   'type' => 's',
   'value' => $username,
 ]);
 
-if ($data) {
-  return [
-    'status' => 'error',
-    'message' => 'This username is already taken',
-  ];
-}
 
-// Check if email already exists
-$data = fetchSingle('SELECT * FROM users WHERE email = ?', [
+
+$data = fetchSingle('SELECT * FROM users WHERE password = ?', [
   'type' => 's',
-  'value' => $email,
+  'value' => $password,
 ]);
 
-if ($data) {
-  return [
-    'status' => 'error',
-    'message' => 'This email is already taken',
-  ];
-}
+$data = fetchSingle('SELECT * FROM users WHERE passwordConfirm = ?', [
+  'type' => 's',
+  'value' => $passwordConfirm,
+]);
 
+//check if passwords match if it does not match return password does not match
 if ($password !== $passwordConfirm) {
   return [
-    'status' => 'error',
-    'message' => 'Passwords do not match',
+    'message' => 'Password does not match',
   ];
 }
 
-// Define the SQL query
-$sql = "INSERT INTO users (firstname, lastname, email, username, password) VALUES (?, ?, ?, ?, ?)";
+//hash password
+function hashPassword($password) {
+  return password_hash($password, PASSWORD_DEFAULT);
 
-// Execute the SQL query
-$result = execute($sql, [
-  'types' => 'sssss',
-  'values' => [$firstname, $lastname, $email, $username, $password],
-]);
-
-if ($result) {
-  return [
-    'status' => 'success',
-    'message' => 'Registration successful',
-  ];
-} else {
-  return [
-    'status' => 'error',
-    'message' => 'Something went wrong',
-  ];
 }
 }
+
+
+
 //insert the data into the database
 if (isset($_POST['register'])) {
   $firstname = $_POST['firstname'];
@@ -101,43 +86,42 @@ if (isset($_POST['register'])) {
   $email = $_POST['email'];
   $username = $_POST['username'];
   $password = $_POST['password'];
-  $passwordConfirm = $_POST['passwordConfirm'];
-
 
 
   $sql = "SELECT * FROM users WHERE email='$email'";
-
   $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
   $result = mysqli_query($mysqli, $sql);
-
-
-
-
-    // Define the SQL query
-    $sql = "INSERT INTO users (firstname, lastname, email, username, password) VALUES ('$firstname', '$lastname', '$email', '$username', '$password')";
-
-    // Execute the SQL query for xampp
-    $result = mysqli_query($connect, $sql);
-    
-    if ($result) {
-      header("Location: ../index.php");
-    } else {
-      echo "Something went wrong";
-    }
-    
-
-    if ($result) {
-      header("Location: ../index.php");
-    } else {
-      echo "Something went wrong";
-    }
+  
+  if (mysqli_num_rows($result) > 0) {
+      echo 'This email is already taken';
+  } else {
+      // Define the SQL query
+      $sql = "INSERT INTO users (firstname, lastname, email, username, password) VALUES ('$firstname', '$lastname', '$email', '$username', '$password')";
+  
+      try {
+          // Execute the SQL query
+          $result = mysqli_query($mysqli, $sql);
+          if ($result) {
+              header("Location: ../index.php");
+          } else {
+              echo "Something went wrong";
+          }
+      } catch (mysqli_sql_exception $e) {
+          if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+              echo 'This email is already taken';
+          } else {
+              // handle other exceptions
+          }
+      }
   }
+}
 
 
 
 
 
   ?>
+  <center>
 
   <h1 class="md:text-center text-4xl font-bold mb-8">Create a new account</h1>
   <form action="/profile/register.php" method="post" class="flex flex-col gap-8 w-full md:max-w-2xl">
@@ -198,3 +182,4 @@ if (isset($_POST['register'])) {
     <a class="link" href="../account/index">I already have an account</a>
   </div>
 </div>
+  </center>
