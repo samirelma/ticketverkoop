@@ -33,7 +33,7 @@ session_start();
             <span class="badge">New</span>
           </a>
         </li>
-        <li><a>Settings</a></li>
+        <li><a href="../profile/register.php">Registreren</a></li>
         <li><a href="../profile/login.php">Login</a></li>
       </ul>
     </div>
