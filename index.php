@@ -17,6 +17,6 @@ include $_SERVER['DOCUMENT_ROOT'] . "/connect/db.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/fetch/util.php";   
 
 //make a link that goes to register.php
-echo "<a href='/front-end/register.php'>Register</a>";
+echo "<a href='/profile/register.php'>Register</a>";
 
 
