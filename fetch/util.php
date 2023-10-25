@@ -1,5 +1,5 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
+include  "../connect/connect.php";
 
 
 
