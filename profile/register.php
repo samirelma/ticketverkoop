@@ -1,8 +1,5 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
-include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
-include $_SERVER['DOCUMENT_ROOT'] . "/connect/db.php";
-include $_SERVER['DOCUMENT_ROOT'] . "/fetch/util.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/hashing/hash.php";
 
 
@@ -201,8 +198,8 @@ if (isset($_POST['register'])) {
   <div class="w-full text-center mt-8">
     <a class="link" href="../profile/login.php">I already have an account</a>
   </div>
-</div> '; 
-?>
+</div>  
+
 </body>
 </html>
 
