@@ -8,6 +8,6 @@ include "../components/navbar.php";
     <title>title</title>
 </head>
 <body>
-    <a href="../profile/register.php">registreren</a>
+    
 </body>
 </html>

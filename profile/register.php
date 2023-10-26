@@ -1,5 +1,16 @@
 <?php
-
+include "../components/navbar.php";
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+</head>
+<body>
+  <?php
+global $connect;
+function register($formData) {
 include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/connect/db.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/fetch/util.php";
@@ -119,6 +130,7 @@ if (isset($_POST['register'])) {
 }
 
 
+  echo '
 
 
 
@@ -198,8 +210,14 @@ if (isset($_POST['register'])) {
   </form>
 
   <div class="w-full text-center mt-8">
-    <a class="link" href="../account/index">I already have an account</a>
+    <a class="link" href="../profile/login.php">I already have an account</a>
   </div>
+</div> '; 
+?>
+</body>
+</html>
+
+
 </div>
   </center>
 
