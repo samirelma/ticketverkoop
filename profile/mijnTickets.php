@@ -1,5 +1,5 @@
 <?php
-include "../components/navbar.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 ?>
 <!DOCTYPE html>
 <html>
