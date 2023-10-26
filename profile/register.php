@@ -1,24 +1,6 @@
-
-
 <?php
-include "../components/navbar.php";
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <title>title</title>
-</head>
-<body>
-  <?php
-global $connect;
-function register($formData) {
-include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
-include $_SERVER['DOCUMENT_ROOT'] . "/connect/db.php";
-include $_SERVER['DOCUMENT_ROOT'] . "/fetch/util.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/hashing/hash.php";
-
-
 
 
 function register($data) {
@@ -29,6 +11,7 @@ function register($data) {
   $email = $data['email'];
   $password = $data['password'];
   $passwordConfirm = $data['passwordConfirm'];
+
 
    $data = fetchSingle('SELECT * FROM users WHERE email = ?', [
     'type' => 's',
@@ -55,14 +38,6 @@ function register($data) {
   }
   
 
-  $initialized = insertUser($username, $password, $email, $firstname, $lastname);
-
-  if (!$initialized) {
-    echo "Password is not initialized";
-        echo "<br>";
-        echo "<a href='/profile/register.php'>Go back</a>";
-        exit;
-  }
   
   echo "You successfully registered!";
   echo "<br>";
@@ -73,43 +48,10 @@ function register($data) {
 }
 
 
-function insertUser($username, $lastname, $firstname, $email, $password) {
-    global $connect;
-    if ($password !== $_POST['passwordConfirm']) {
-        return false;
-    }
-    function hashPassword($password) {
-      return password_hash($password, PASSWORD_DEFAULT);
-    
-    }    
-        $data = insert(
-        'INSERT INTO users (username, password, email, firstname, lastname) VALUES (?, ?, ?, ?, ?)',
-        ['type' => 's', 'value' => $username],
-        ['type' => 's', 'value' => $password],
-        ['type' => 's', 'value' => $email],
-        ['type' => 's', 'value' => $firstname],
-        ['type' => 's', 'value' => $lastname],
-    );
-
-
-
-    $userId = mysqli_insert_id($connect);
-
-    $userProfileData = insert(
-        'INSERT INTO user_profile (userid, profilePictureUrl, about) VALUES (?, ?, ?)',
-        ['type' => 'i', 'value' => $userId],
-        [
-            'type' => 's',
-            'value' => 'https://avatars.githubusercontent.com/u/64209400?v=4',
-        ],
-        ['type' => 's', 'value' => 'test!']
-    );
-
-    return $data && $userProfileData;
-}
 
 //insert the data into the database
 if (isset($_POST['register'])) {
+  global $connect;
   $firstname = $_POST['firstname'];
   $lastname = $_POST['lastname'];
   $email = $_POST['email'];
@@ -117,16 +59,45 @@ if (isset($_POST['register'])) {
   $password = $_POST['password'];
   $passwordConfirm = $_POST['passwordConfirm'];
 
-  // Check if passwords match
-  if ($password !== $passwordConfirm) {
-    echo "Password does not match";
-    echo "<br>";
-    echo "<a href='/profile/register.php'>Go back</a>";
-    exit;
-}
+    // Check if passwords match
+    if ($password !== $passwordConfirm) {
+      echo "Password does not match";
+      echo "<br>";
+      echo "<a href='/profile/register.php'>Go back</a>";
+      exit;
+  }
+  $password = password_hash($password, PASSWORD_ARGON2ID);
+  $passwordConfirm = password_hash($passwordConfirm, PASSWORD_ARGON2ID);
+
+   
+// insert userprofile data  
+
+  $userId = mysqli_insert_id($connect);
 
   // Define the SQL query
   $sql = "INSERT INTO users (firstname, lastname, email, username, password) VALUES ('$firstname', '$lastname', '$email', '$username', '$password')";
+
+  // Execute the SQL query
+  $result = mysqli_query($connect, $sql);
+
+  if ($result) {
+    // Get the ID of the last inserted row
+    $userId = mysqli_insert_id($connect);
+
+    // Define the user profile data query
+    $userProfileData = "INSERT INTO user_profile (userid, profilePictureUrl, about) VALUES ('$userId', 'https://avatars.githubusercontent.com/u/64209400?v=4', 'test!')";
+
+    // Execute the user profile data query
+    $result = mysqli_query($connect, $userProfileData);
+
+    if ($result) {
+      header("Location: ../index.php");
+    } else {
+      echo "Something went wrong";
+    }
+  } else {
+    echo "Something went wrong";
+  }
 
   $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
   try {
@@ -140,10 +111,17 @@ if (isset($_POST['register'])) {
   } catch (mysqli_sql_exception $e) {
     echo $e->getMessage();
   }
+  
+ 
 }
 
 
-  echo '
+
+
+
+
+
+
 
 
 
@@ -220,8 +198,8 @@ if (isset($_POST['register'])) {
   <div class="w-full text-center mt-8">
     <a class="link" href="../profile/login.php">I already have an account</a>
   </div>
-</div> '; 
-?>
+</div>  
+
 </body>
 </html>
 

@@ -1,5 +1,5 @@
 <?php
-include  "../connect/connect.php";
+include $_SERVER['DOCUMENT_ROOT'] . "../connect/connect.php";
 
 
 
@@ -72,8 +72,13 @@ function fetchAll($query, ...$params) {
 
 function execute($query, ...$params) {
   global $connect;
+  if (!$connect) {
+    die("Error: Could not connect to database");
+  }
 
   $stmt = $connect->prepare($query);
+  $stmt->execute();
+
 
   if (!empty($params)) {
     $paramTypes = '';
@@ -102,8 +107,13 @@ function execute($query, ...$params) {
 
 function insert($query, ...$params) {
   global $connect;
+  if (!$connect) {
+    die("Error: Could not connect to database");
+  }
 
   $stmt = $connect->prepare($query);
+  $stmt->execute();
+
 
   if (!empty($params)) {
     $paramTypes = '';
