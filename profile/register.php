@@ -1,6 +1,5 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
-include $_SERVER['DOCUMENT_ROOT'] . "/hashing/hash.php";
 
 
 function register($data) {

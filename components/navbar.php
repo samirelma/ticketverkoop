@@ -17,11 +17,11 @@ session_start();
 <body>
 <div class="navbar bg-[#150578]">
   <div class="flex-1">
-    <a class="btn btn-ghost normal-case text-xl text-[#FF101F]" href="../main_page/index.php">RS ticket service</a>
+    <a class="btn btn-ghost normal-case text-xl text-[#FF101F]" href="../index.php">RS ticket service</a>
   </div>
   <div class="flex-auto">
     <a class="btn btn-ghost normal-case text-xl text-[#FDFFFF]" href="../main_page/zalen.php">Zalen</a>
-    <a class="btn btn-ghost normal-case text-xl text-[#FDFFFF]" href="../main_page/index.php">Tickets</a>
+    <a class="btn btn-ghost normal-case text-xl text-[#FDFFFF]" href="../index.php">Tickets</a>
     <div class="form-control">
       <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
     </div>
