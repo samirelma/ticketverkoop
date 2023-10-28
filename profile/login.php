@@ -11,3 +11,6 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
     <a href="../profile/register.php">registreren</a>
 </body>
 </html>
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . "/components/footer.php";
+?>

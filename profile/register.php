@@ -1,7 +1,6 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 
-
 function register($data) {
 
   $username = $data['username'];
@@ -113,18 +112,6 @@ if (isset($_POST['register'])) {
   
  
 }
-
-
-
-
-
-
-
-
-
-
-
-
   ?>
   <!DOCTYPE html>
   <html lang="en">
@@ -208,4 +195,7 @@ if (isset($_POST['register'])) {
 
   </body>
   </html>
+  <?php
+include $_SERVER['DOCUMENT_ROOT'] . "/components/footer.php";
+?>
   

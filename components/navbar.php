@@ -1,7 +1,7 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . "../connect/connect.php";
-include $_SERVER['DOCUMENT_ROOT'] . "../connect/db.php";
-include $_SERVER['DOCUMENT_ROOT'] . "../fetch/util.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/connect/db.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/fetch/util.php";
 session_start();
 ?>
 
