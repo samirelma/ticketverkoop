@@ -1,22 +1,16 @@
+<?php
+ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
+?>
 <!DOCTYPE html>
-  <html lang="en">
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.7.4/dist/full.css" rel="stylesheet" type="text/css" />
-<script src="https://cdn.tailwindcss.com"></script>
-
-  <head>
+<html>
+<head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-  </head>
-  <body>  
-
-
+    <title>title</title>
+</head>
+<body>  
 <?php 
   
-include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
-
-
-//make a link that goes to register.php
-echo "<a href='/profile/register.php'>Register</a>";
+ 
 
 // Define the SQL query to retrieve the ticket data
 $sql = "SELECT name, description, price, imageurl FROM tickets";
@@ -45,3 +39,9 @@ echo "</div>";
 
 // Close the database connection
 mysqli_close($mysqli);
+?>
+  </body>
+  </html>
+  <?php
+include $_SERVER['DOCUMENT_ROOT'] . "/components/footer.php";
+?>

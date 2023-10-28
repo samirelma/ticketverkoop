@@ -11,3 +11,6 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
     
 </body>
 </html>
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . "/components/footer.php";
+?>
