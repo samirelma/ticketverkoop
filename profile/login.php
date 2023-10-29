@@ -10,6 +10,8 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 <body>
 <?php
 if (isset($_POST["knop"])){
+$gebruikersnaam = $_POST["gebruikersnaam"];
+$wachtwoord = $_POST["wachtwoord"]; 
 
 } else {
 echo '
