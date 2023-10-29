@@ -16,7 +16,6 @@ function getUserDataByUsername($username) {
     return False;
 }
 
-
 function getProductById($id) {
     $conn = mysqli_init();
     $conn->real_connect("127.0.0.1", "root", "", "dbticketverkoop");
@@ -78,11 +77,8 @@ function getProductsByCategory($category) {
     return False;
 }
 
-
-
-
-
-
-
-
-
+function getusers($mysqli) {
+ $sql = "SELECT * FROM users";
+ $resultaat = $mysqli -> query($sql); 
+ return $resultaat; 
+}

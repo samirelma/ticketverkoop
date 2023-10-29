@@ -12,7 +12,12 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 if (isset($_POST["knop"])){
 $gebruikersnaam = $_POST["gebruikersnaam"];
 $wachtwoord = $_POST["wachtwoord"]; 
-
+$data = getusers($mysqli); 
+foreach ($data as $value) {
+$wachtwoord2 = $value["password"]; 
+$gebruikersnaam2 = $value["username"]; 
+    }
+    var_dump($wachtwoord2); 
 } else {
 echo '
 <form method="post" action="login.php">
