@@ -77,8 +77,21 @@ function getProductsByCategory($category) {
     return False;
 }
 
-function getusers($mysqli) {
- $sql = "SELECT * FROM users";
- $resultaat = $mysqli -> query($sql); 
- return $resultaat; 
+function checkGebruikersnaam($connect, $gebruikersnaam) {
+    $resultaat = $connect -> query("SELECT * FROM users WHERE username = '". $gebruikersnaam ."'"); 
+    return ($resultaat -> num_rows == 0) ? false : true; 
+}
+
+function checkWachtwoord($connect,$wachtwoord, $gebruikersnaam){
+    $resultaat = $connect->query("SELECT * FROM users where email = '".$gebruikersnaam."'");
+    return (password_verify($wachtwoord,$resultaat->fetch_assoc()['password']))?true:false;
+}
+
+function getGebruikersid($connect, $gebruikersnaam) {
+    $resultaat = $connect->query("SELECT * FROM users where email = '".$gebruikersnaam."'");
+    return ($resultaat->num_rows == 0)?false:$resultaat->fetch_assoc()['gebruikerid'];   
+}
+function controleerAdmin($connect, $gebruikersnaam) {
+    $resultaat = $connect->query("SELECT * FROM users where email = '".$gebruikersnaam."' and admin=1");
+    return ($resultaat->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC);
 }

@@ -12,12 +12,22 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 if (isset($_POST["knop"])){
 $gebruikersnaam = $_POST["gebruikersnaam"];
 $wachtwoord = $_POST["wachtwoord"]; 
-$data = getusers($mysqli); 
-foreach ($data as $value) {
-$wachtwoord2 = $value["password"]; 
-$gebruikersnaam2 = $value["username"]; 
-    }
-    var_dump($wachtwoord2); 
+if (checkGebruikersnaam($connect, $gebruikersnaam)) {
+    if (checkWachtwoord($connect,$wachtwoord,$gebruikersnaam)) {
+        $gebruikersid = getGebruikersid($connect, $gebruikersnaam); 
+        $_SESSION["gebruikersid"] = $gebruikersid; 
+        if(controleerAdmin($connect,$gebruikersnaam)){
+            $_SESSION["admin"] = "true";
+         }
+         header("Location:index.php");
+     } else {
+
+    
+     }
+ }
+ //header('location: login.php?error');
+ var_dump($gebruikersnaam); 
+var_dump($wachtwoord);
 } else {
 echo '
 <form method="post" action="login.php">
