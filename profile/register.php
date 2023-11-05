@@ -70,32 +70,13 @@ if (isset($_POST['register'])) {
    
 // insert userprofile data  
 
-  $userId = mysqli_insert_id($connect);
 
   // Define the SQL query
   $sql = "INSERT INTO users (firstname, lastname, email, username, password) VALUES ('$firstname', '$lastname', '$email', '$username', '$password')";
 
   // Execute the SQL query
-  $result = mysqli_query($connect, $sql);
 
-  if ($result) {
-    // Get the ID of the last inserted row
-    $userId = mysqli_insert_id($connect);
 
-    // Define the user profile data query
-    $userProfileData = "INSERT INTO user_profile (userid, profilePictureUrl, about) VALUES ('$userId', 'https://avatars.githubusercontent.com/u/64209400?v=4', 'test!')";
-
-    // Execute the user profile data query
-    $result = mysqli_query($connect, $userProfileData);
-
-    if ($result) {
-      header("Location: ../index.php");
-    } else {
-      echo "Something went wrong";
-    }
-  } else {
-    echo "Something went wrong";
-  }
 
   $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
   try {
