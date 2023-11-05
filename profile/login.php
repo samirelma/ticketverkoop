@@ -22,7 +22,7 @@ if (checkGebruikersnaam($connect, $gebruikersnaam)) {
          header("Location:index.php");
      } else {
 
-    
+
      }
  }
  //header('location: login.php?error');
