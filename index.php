@@ -13,7 +13,7 @@
  
 
 // Define the SQL query to retrieve the ticket data
-$sql = "SELECT name, description, price, imageurl FROM tickets";
+$sql = "SELECT name, description, price, imageurl FROM tbltickets";
 $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
 
 

@@ -19,15 +19,11 @@ if (checkGebruikersnaam($connect, $gebruikersnaam)) {
         if(controleerAdmin($connect,$gebruikersnaam)){
             $_SESSION["admin"] = "true";
          }
-         header("Location:index.php");
-     } else {
-
-
-     }
+         header('Location:../index.php');
+     } 
+ } else {
+ header('location: login.php?error');
  }
- //header('location: login.php?error');
- var_dump($gebruikersnaam); 
-var_dump($wachtwoord);
 } else {
 echo '
 <form method="post" action="login.php">
