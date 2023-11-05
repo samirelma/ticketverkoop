@@ -19,8 +19,10 @@ if (checkGebruikersnaam($connect, $gebruikersnaam)) {
         if(controleerAdmin($connect,$gebruikersnaam)){
             $_SESSION["admin"] = "true";
          }
-         header('Location:../index.php');
-     } 
+         header('Location: ../index.php');
+     } else {
+        
+     }
  } else {
  header('location: login.php?error');
  }
