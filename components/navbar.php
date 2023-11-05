@@ -17,10 +17,10 @@ session_start();
 <body>
 <div class="navbar bg-base-100">
     <a class="btn btn-ghost normal-case text-xl" href="../main_page/index.php">RS ticket service</a>
-    <div class="form-control justify-center">
+    <div class="form-control">
       <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
     </div>
-    <div class="dropdown dropdown-end justify-end">
+    <div class="dropdown dropdown-end">
       <label tabindex="0" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">
           <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
