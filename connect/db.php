@@ -83,7 +83,7 @@ function checkGebruikersnaam($connect, $gebruikersnaam) {
 }
 
 function checkWachtwoord($connect,$wachtwoord, $gebruikersnaam){
-    $resultaat = $connect->query("SELECT * FROM users where email = '".$gebruikersnaam."'");
+    $resultaat = $connect->query("SELECT * FROM users WHERE username = '".$gebruikersnaam."'");
     return (password_verify($wachtwoord,$resultaat->fetch_assoc()['password']))?true:false;
 }
 

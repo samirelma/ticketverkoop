@@ -13,7 +13,7 @@
  
 
 // Define the SQL query to retrieve the ticket data
-$sql = "SELECT name, description, price, imageurl FROM tickets";
+$sql = "SELECT name, description, price, imageurl FROM tbltickets";
 $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
 
 
@@ -37,11 +37,12 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 echo "</div>";
 
-// Close the database connection
-mysqli_close($mysqli);
+
 ?>
   </body>
   </html>
   <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/components/footer.php";
+// Close the database connection
+mysqli_close($mysqli);
 ?>
