@@ -1,6 +1,8 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 ?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +10,6 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
     <title>title</title>
 </head>
 <body>
-    <a href="../profile/register.php">registreren</a>
 </body>
 </html>
 <?php

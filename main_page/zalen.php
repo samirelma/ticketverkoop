@@ -8,7 +8,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
     <title>title</title>
 </head>
 <body>
-    <a href="../profile/register.php">registreren</a>
+    <h1>Zalen</h1>
 </body>
 </html>
 <?php
