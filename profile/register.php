@@ -65,7 +65,6 @@ if (isset($_POST['register'])) {
       exit;
   }
   $password = password_hash($password, PASSWORD_ARGON2ID);
-  $passwordConfirm = password_hash($passwordConfirm, PASSWORD_ARGON2ID);
 
    
 // insert userprofile data  

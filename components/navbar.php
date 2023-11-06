@@ -16,12 +16,12 @@ session_start();
 </head>
 <body>
 <div class="navbar bg-[#150578]">
-  <div class="flex-1">
-    <a class="btn btn-ghost normal-case text-xl text-[#FF101F]" href="../index.php">RS ticket service</a>
+  <div class="flex-1 text-[#FF101F]">
+    <a class="btn btn-ghost normal-case text-xl " href="../index.php">RS ticket service</a>
   </div>
-  <div class="flex-auto">
-    <a class="btn btn-ghost normal-case text-xl text-[#FDFFFF]" href="../main_page/zalen.php">Zalen</a>
-    <a class="btn btn-ghost normal-case text-xl text-[#FDFFFF]" href="../index.php">Tickets</a>
+  <div class="flex-auto text-[#FDFFFF]">
+    <a class="btn btn-ghost normal-case text-xl " href="../main_page/zalen.php">Zalen</a>
+    <a class="btn btn-ghost normal-case text-xl " href="../index.php">Tickets</a>
     <div class="form-control">
       <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
     </div>
