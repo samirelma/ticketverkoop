@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 04 nov 2023 om 21:28
+-- Gegenereerd op: 08 nov 2023 om 08:41
 -- Serverversie: 10.4.28-MariaDB
 -- PHP-versie: 8.2.4
 
@@ -37,6 +37,15 @@ CREATE TABLE `evenementen` (
   `zaalID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Gegevens worden geëxporteerd voor tabel `evenementen`
+--
+
+INSERT INTO `evenementen` (`evenementID`, `naam`, `datum`, `aantalTickets`, `beschrijving`, `afbeelding`, `zaalID`) VALUES
+(1, 'Test', '0000-00-00', 15, 'testtt', '', 0),
+(2, 'test', '2023-11-06', 15, 'cool', '', 1),
+(3, '', '0000-00-00', 0, '', '', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -63,6 +72,13 @@ CREATE TABLE `tblzalen` (
   `afbeelding` mediumtext NOT NULL,
   `capaciteit` mediumtext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `tblzalen`
+--
+
+INSERT INTO `tblzalen` (`zaalID`, `naam`, `afbeelding`, `capaciteit`) VALUES
+(1, 'test1', '', '100');
 
 -- --------------------------------------------------------
 
@@ -104,7 +120,10 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `firstname`, `lastname`, `function`, `profilePicture`, `updatedAt`, `createdAt`) VALUES
 (1, 'test', 'test@gmail.com', '123', 'test', 'test', 0, '', '2023-10-20 16:34:52', '2023-10-20 16:34:52'),
-(2, 'a', 'a@a.com', 'crcr', 'a', 'a', 0, '', '2023-10-24 08:37:24', '2023-10-24 08:37:24');
+(2, 'a', 'a@a.com', 'crcr', 'a', 'a', 0, '', '2023-10-24 08:37:24', '2023-10-24 08:37:24'),
+(4, 'll', 'mlsml@l.p', '$argon2id$v=19$m=65536,t=4,p=1$YWR4ck16SmlML0JnS1Q0Ng$fQoTYc9pSAN51pgFUpzqmg8wlC7oQ7SgO8suGOYt38w', 'sa', 'sa', 0, '', '2023-11-05 19:32:50', '2023-11-05 19:32:50'),
+(6, 'colslll', 'ss@lm.p', '$argon2id$v=19$m=65536,t=4,p=1$UkJHYXpHWUhUWjNKOGRveA$akbvJiDknTLS4JcugOsXIpULZWNXW5WfxL3YEULhhNQ', 'plpl', 'ozllm', 0, '', '2023-11-05 19:34:38', '2023-11-05 19:34:38'),
+(11, 'slkzld', 'dkzl@m.o', '$argon2id$v=19$m=65536,t=4,p=1$U3c4YzExbzB2cEVmeFAzLg$lM6JRqUFKpoIadiRHLn3C4ZDaInWI+WnY8KaQ221XWE', 'dlzm', 'smlom', 0, '', '2023-11-05 19:39:12', '2023-11-05 19:39:12');
 
 -- --------------------------------------------------------
 
@@ -140,25 +159,6 @@ INSERT INTO `user_roles` (`id`, `name`) VALUES
 (3, 'admin'),
 (2, 'bedrijf'),
 (1, 'member');
-
--- --------------------------------------------------------
-
---
--- Tabelstructuur voor tabel `user_role_mapping`
---
-
-CREATE TABLE `user_role_mapping` (
-  `id` int(11) NOT NULL,
-  `userid` int(11) NOT NULL,
-  `roleid` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Gegevens worden geëxporteerd voor tabel `user_role_mapping`
---
-
-INSERT INTO `user_role_mapping` (`id`, `userid`, `roleid`) VALUES
-(1, 1, 3);
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -205,14 +205,6 @@ ALTER TABLE `user_roles`
   ADD UNIQUE KEY `name` (`name`);
 
 --
--- Indexen voor tabel `user_role_mapping`
---
-ALTER TABLE `user_role_mapping`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `role_mapping_roleid` (`roleid`),
-  ADD KEY `role_mapping_userid` (`userid`);
-
---
 -- AUTO_INCREMENT voor geëxporteerde tabellen
 --
 
@@ -220,7 +212,7 @@ ALTER TABLE `user_role_mapping`
 -- AUTO_INCREMENT voor een tabel `evenementen`
 --
 ALTER TABLE `evenementen`
-  MODIFY `evenementID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `evenementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT voor een tabel `tbltickets`
@@ -232,7 +224,7 @@ ALTER TABLE `tbltickets`
 -- AUTO_INCREMENT voor een tabel `tblzalen`
 --
 ALTER TABLE `tblzalen`
-  MODIFY `zaalID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `zaalID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT voor een tabel `ticket_categories`
@@ -244,30 +236,13 @@ ALTER TABLE `ticket_categories`
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT voor een tabel `user_roles`
 --
 ALTER TABLE `user_roles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT voor een tabel `user_role_mapping`
---
-ALTER TABLE `user_role_mapping`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- Beperkingen voor geëxporteerde tabellen
---
-
---
--- Beperkingen voor tabel `user_role_mapping`
---
-ALTER TABLE `user_role_mapping`
-  ADD CONSTRAINT `role_mapping_roleid` FOREIGN KEY (`roleid`) REFERENCES `user_roles` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `role_mapping_userid` FOREIGN KEY (`userid`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
