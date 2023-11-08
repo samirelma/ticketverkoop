@@ -33,16 +33,17 @@ if (checkEmail($connect, $email)) {
  }
 } else {
 echo '
-<form method="post" action="login.php">
+<form class="card-body" method="post" action="login.php">
 <label class="label">email</label>
 <input type="text" placeholder="email" class="input input-bordered input-primary w-full max-w-xs" name="email" /> <br>  
 <label class="label">wachtwoord</label>
 <input type="password" placeholder="wachtwoord" class="input input-bordered input-primary w-full max-w-xs" name="wachtwoord" /><br>
-<button class="btn" type="submit" name="knop">login</button><br>
+<button class="btn text-white bg-[#150578] mt-3 w-full border-white" type="submit" name="knop">login</button><br>
 </form>
 
-
+<div class="flex justify-center mt-2">
 <a href="../profile/register.php" >als je nog geen account hebt, <br> klik hier om te Registreren </a>
+</div>
 ';
 }
 ?>
