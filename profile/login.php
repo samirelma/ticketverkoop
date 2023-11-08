@@ -18,7 +18,6 @@ if (checkEmail($connect, $email)) {
         $_SESSION["gebruikersid"] = $gebruikersid; 
         if(controleerAdmin($connect,$email)){
             $_SESSION["user"] = "admin";
-            var_dump(controleerAdmin($connect,$email));
          } else if(controleerBedrijf($connect,$email)) {
             $_SESSION["user"] = "bedrijf"; 
          } else if(controleerMember($connect,$email)) {
@@ -46,7 +45,7 @@ echo '
 </div>
 
 <div class="flex justify-center mt-2">
-<a href="../profile/register.php" >als je nog geen account hebt, <br> klik hier om te Registreren </a>
+<a href="../profile/register.php" >, klik hier om te Registreren </a>
 </div>
 ';
 }
