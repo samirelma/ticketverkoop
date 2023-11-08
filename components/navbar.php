@@ -16,12 +16,12 @@ session_start();
 </head>
 <body>
 <div class="navbar bg-[#150578]">
-  <div class="flex-1">
-    <a class="btn btn-ghost normal-case text-xl text-[#FF101F]" href="../index.php">RS ticket service</a>
+  <div class="flex-1 text-[#FF101F]">
+    <a class="btn btn-ghost normal-case text-xl " href="../index.php">RS ticket service</a>
   </div>
-  <div class="flex-auto">
-    <a class="btn btn-ghost normal-case text-xl text-[#FDFFFF]" href="../main_page/zalen.php">Zalen</a>
-    <a class="btn btn-ghost normal-case text-xl text-[#FDFFFF]" href="../index.php">Tickets</a>
+  <div class="flex-auto text-[#FDFFFF]">
+    <a class="btn btn-ghost normal-case text-xl " href="../main_page/zalen.php">Zalen</a>
+    <a class="btn btn-ghost normal-case text-xl " href="../index.php">Tickets</a>
     <div class="form-control">
       <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
     </div>
@@ -35,7 +35,10 @@ session_start();
       <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
         <li><a href="../profile/gebruikersProfiel.php">Profiel</a>
         <li><a href="../profile/register.php">Registreren</a></li>
-        <li><a href="../profile/login.php">Login</a></li>
+        <?php
+       echo ' <li><a href="../profile/login.php">Login</a></li>'
+
+        ?>
         <li><a href="../profile/mijnTickets.php">Mijn Tickets</a></li>
       </ul>
     </div>
