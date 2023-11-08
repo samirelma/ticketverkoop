@@ -92,6 +92,7 @@ function getGebruikersid($connect, $email) {
     return ($resultaat->num_rows == 0)?false:$resultaat->fetch_assoc()['id'];   
 }
 function controleerAdmin($connect,$email){
-    $resultaat = $connect->query("SELECT * FROM users where email = '".$email."' and function=3");
+    $functie = $connect->query("SELECT id FROM user_roles WHERE name= admin");
+    $resultaat = $connect->query("SELECT * FROM users where email = '".$email."' and function=".$functie);
     return ($resultaat->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC);
 }
