@@ -92,7 +92,20 @@ function getGebruikersid($connect, $email) {
     return ($resultaat->num_rows == 0)?false:$resultaat->fetch_assoc()['id'];   
 }
 function controleerAdmin($connect,$email){
-    $functie = $connect->query("SELECT id FROM user_roles WHERE name= admin");
+    $result = $connect->query("SELECT id FROM user_roles WHERE name= 'admin'");
+    $functie = $result ->fetch_assoc()['id'];
+    $resultaat = $connect->query("SELECT * FROM users where email = '".$email."' and function=".$functie);
+    return ($resultaat->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC);
+}
+function controleerBedrijf($connect,$email){
+    $result = $connect->query("SELECT id FROM user_roles WHERE name= 'bedrijf'");
+    $functie = $result ->fetch_assoc()['id'];
+    $resultaat = $connect->query("SELECT * FROM users where email = '".$email."' and function=".$functie);
+    return ($resultaat->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC);
+}
+function controleerMember($connect,$email){
+    $result = $connect->query("SELECT id FROM user_roles WHERE name= 'member'");
+    $functie = $result ->fetch_assoc()['id'];
     $resultaat = $connect->query("SELECT * FROM users where email = '".$email."' and function=".$functie);
     return ($resultaat->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC);
 }

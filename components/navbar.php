@@ -36,13 +36,23 @@ session_start();
         <li><a href="../profile/gebruikersProfiel.php">Profiel</a>
         <li><a href="../profile/register.php">Registreren</a></li>
         <?php
-        if (isset($_SESSION["gebruikersid"])) {
+        if (isset($_SESSION["user"])) {
           echo '<li><a href="../profile/logout.php">Uit loggen</a></li>';
         } else {
        echo ' <li><a href="../profile/login.php">Login</a></li>';
         }
+        if (isset($_SESSION["user"])) {
+          if ($_SESSION["user"] == "bedrijf") {
+            echo '<li><a href="">evenementen toevoegen</a></li>';
+          }
+          if ($_SESSION["user"] == "member") {
+            echo '<li><a href="../profile/mijnTickets.php">Mijn Tickets</a></li>';
+          }
+          if ($_SESSION["user"] == "admin") {
+            echo '<li><a href="../profile/bedrijvenLijst.php">bedrijven banner</a></li>';
+          }
+        } 
         ?>
-        <li><a href="../profile/mijnTickets.php">Mijn Tickets</a></li>
       </ul>
     </div>
 </div> 

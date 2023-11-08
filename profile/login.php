@@ -17,7 +17,12 @@ if (checkEmail($connect, $email)) {
         $gebruikersid = getGebruikersid($connect, $email); 
         $_SESSION["gebruikersid"] = $gebruikersid; 
         if(controleerAdmin($connect,$email)){
-            $_SESSION["admin"] = "true";
+            $_SESSION["user"] = "admin";
+            var_dump(controleerAdmin($connect,$email));
+         } else if(controleerBedrijf($connect,$email)) {
+            $_SESSION["user"] = "bedrijf"; 
+         } else if(controleerMember($connect,$email)) {
+            $_SESSION["user"] = "member";
          }
          header('Location: ../index.php');
      } else {
