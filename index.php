@@ -16,6 +16,8 @@
 
 // Define the SQL query to retrieve the ticket data
 
+
+
 $sql = "SELECT naam, aantalTickets, beschrijving, afbeelding FROM evenementen";
 $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
 

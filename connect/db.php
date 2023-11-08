@@ -77,21 +77,21 @@ function getProductsByCategory($category) {
     return False;
 }
 
-function checkGebruikersnaam($connect, $gebruikersnaam) {
-    $resultaat = $connect -> query("SELECT * FROM users WHERE username = '". $gebruikersnaam ."'"); 
+function checkEmail($connect, $email) {
+    $resultaat = $connect -> query("SELECT * FROM users WHERE email = '". $email ."'"); 
     return ($resultaat -> num_rows == 0) ? false : true; 
 }
 
-function checkWachtwoord($connect,$wachtwoord, $gebruikersnaam){
-    $resultaat = $connect->query("SELECT * FROM users WHERE username = '".$gebruikersnaam."'");
+function checkWachtwoord($connect,$wachtwoord, $email){
+    $resultaat = $connect->query("SELECT * FROM users WHERE email = '".$email."'");
     return (password_verify($wachtwoord,$resultaat->fetch_assoc()['password']))?true:false;
 }
 
-function getGebruikersid($connect, $gebruikersnaam) {
-    $resultaat = $connect->query("SELECT * FROM users where email = '".$gebruikersnaam."'");
-    return ($resultaat->num_rows == 0)?false:$resultaat->fetch_assoc()['gebruikerid'];   
+function getGebruikersid($connect, $email) {
+    $resultaat = $connect->query("SELECT * FROM users where email = '".$email."'");
+    return ($resultaat->num_rows == 0)?false:$resultaat->fetch_assoc()['id'];   
 }
-function controleerAdmin($connect, $gebruikersnaam) {
-    $resultaat = $connect->query("SELECT * FROM users where email = '".$gebruikersnaam."' and admin=1");
+function controleerAdmin($connect, $email) {
+    $resultaat = $connect->query("SELECT * FROM users where email = '".$email."' and admin=1");
     return ($resultaat->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC);
 }

@@ -10,13 +10,13 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 <body>
 <?php
 if (isset($_POST["knop"])){
-$gebruikersnaam = $_POST["gebruikersnaam"];
+$email = $_POST["email"];
 $wachtwoord = $_POST["wachtwoord"]; 
-if (checkGebruikersnaam($connect, $gebruikersnaam)) {
-    if (checkWachtwoord($connect,$wachtwoord,$gebruikersnaam)) {
-        $gebruikersid = getGebruikersid($connect, $gebruikersnaam); 
+if (checkEmail($connect, $email)) {
+    if (checkWachtwoord($connect,$wachtwoord,$email)) {
+        $gebruikersid = getGebruikersid($connect, $email); 
         $_SESSION["gebruikersid"] = $gebruikersid; 
-        if(controleerAdmin($connect,$gebruikersnaam)){
+        if(controleerAdmin($connect,$email)){
             $_SESSION["admin"] = "true";
          }
          header('Location: ../index.php');
@@ -29,8 +29,8 @@ if (checkGebruikersnaam($connect, $gebruikersnaam)) {
 } else {
 echo '
 <form method="post" action="login.php">
-<label class="label">gebruikersnaam</label>
-<input type="text" placeholder="gebruikersnaam" class="input input-bordered input-primary w-full max-w-xs" name="gebruikersnaam" /> <br>  
+<label class="label">email</label>
+<input type="text" placeholder="email" class="input input-bordered input-primary w-full max-w-xs" name="email" /> <br>  
 <label class="label">wachtwoord</label>
 <input type="password" placeholder="wachtwoord" class="input input-bordered input-primary w-full max-w-xs" name="wachtwoord" /><br>
 <button class="btn" type="submit" name="knop">login</button><br>
