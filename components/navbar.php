@@ -36,8 +36,11 @@ session_start();
         <li><a href="../profile/gebruikersProfiel.php">Profiel</a>
         <li><a href="../profile/register.php">Registreren</a></li>
         <?php
-       echo ' <li><a href="../profile/login.php">Login</a></li>'
-
+        if (isset($_SESSION["gebruikersid"])) {
+          echo '<li><a href="../profile/logout.php">Uit loggen</a></li>';
+        } else {
+       echo ' <li><a href="../profile/login.php">Login</a></li>';
+        }
         ?>
         <li><a href="../profile/mijnTickets.php">Mijn Tickets</a></li>
       </ul>

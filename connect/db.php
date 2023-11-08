@@ -92,6 +92,6 @@ function getGebruikersid($connect, $email) {
     return ($resultaat->num_rows == 0)?false:$resultaat->fetch_assoc()['id'];   
 }
 function controleerAdmin($connect,$email){
-    $resultaat = $connect->query("SELECT * FROM tblgebruikers where email = '".$email."' and admin=3");
+    $resultaat = $connect->query("SELECT * FROM users where email = '".$email."' and function=3");
     return ($resultaat->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC);
 }
