@@ -8,7 +8,49 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
     <title>title</title>
 </head>
 <body>
-    <a href="../profile/register.php">registreren</a>
+<?php
+if (isset($_POST["knop"])){
+$email = $_POST["email"];
+$wachtwoord = $_POST["wachtwoord"]; 
+if (checkEmail($connect, $email)) {
+    if (checkWachtwoord($connect,$wachtwoord,$email)) {
+        $gebruikersid = getGebruikersid($connect, $email); 
+        $_SESSION["gebruikersid"] = $gebruikersid; 
+        if(controleerAdmin($connect,$email)){
+            $_SESSION["user"] = "admin";
+            var_dump(controleerAdmin($connect,$email));
+         } else if(controleerBedrijf($connect,$email)) {
+            $_SESSION["user"] = "bedrijf"; 
+         } else if(controleerMember($connect,$email)) {
+            $_SESSION["user"] = "member";
+         }
+         header('Location: ../index.php');
+     } else {
+        
+     }
+ } else {
+ header('location: login.php?error');
+ }
+} else {
+echo '
+<div class="card-body">
+<div class="card-actions justify-center">
+<form  method="post" action="login.php">
+<label class="label">email</label>
+<input type="text" placeholder="email" class="input input-bordered input-primary w-full max-w-xs" name="email" /> <br>  
+<label class="label">wachtwoord</label>
+<input type="password" placeholder="wachtwoord" class="input input-bordered input-primary w-full max-w-xs" name="wachtwoord" /><br><br>
+<button class="btn btn-primary" type="submit" name="knop">login</button><br>
+</div>
+</form>
+</div>
+
+<div class="flex justify-center mt-2">
+<a href="../profile/register.php" >als je nog geen account hebt, <br> klik hier om te Registreren </a>
+</div>
+';
+}
+?>
 </body>
 </html>
 <?php

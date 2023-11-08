@@ -16,7 +16,6 @@ function getUserDataByUsername($username) {
     return False;
 }
 
-
 function getProductById($id) {
     $conn = mysqli_init();
     $conn->real_connect("127.0.0.1", "root", "", "dbticketverkoop");
@@ -78,11 +77,35 @@ function getProductsByCategory($category) {
     return False;
 }
 
+function checkEmail($connect, $email) {
+    $resultaat = $connect -> query("SELECT * FROM users WHERE email = '". $email ."'"); 
+    return ($resultaat -> num_rows == 0) ? false : true; 
+}
 
+function checkWachtwoord($connect,$wachtwoord, $email){
+    $resultaat = $connect->query("SELECT * FROM users WHERE email = '".$email."'");
+    return (password_verify($wachtwoord,$resultaat->fetch_assoc()['password']))?true:false;
+}
 
-
-
-
-
-
-
+function getGebruikersid($connect, $email) {
+    $resultaat = $connect->query("SELECT * FROM users where email = '".$email."'");
+    return ($resultaat->num_rows == 0)?false:$resultaat->fetch_assoc()['id'];   
+}
+function controleerAdmin($connect,$email){
+    $result = $connect->query("SELECT id FROM user_roles WHERE name= 'admin'");
+    $functie = $result ->fetch_assoc()['id'];
+    $resultaat = $connect->query("SELECT * FROM users where email = '".$email."' and function=".$functie);
+    return ($resultaat->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC);
+}
+function controleerBedrijf($connect,$email){
+    $result = $connect->query("SELECT id FROM user_roles WHERE name= 'bedrijf'");
+    $functie = $result ->fetch_assoc()['id'];
+    $resultaat = $connect->query("SELECT * FROM users where email = '".$email."' and function=".$functie);
+    return ($resultaat->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC);
+}
+function controleerMember($connect,$email){
+    $result = $connect->query("SELECT id FROM user_roles WHERE name= 'member'");
+    $functie = $result ->fetch_assoc()['id'];
+    $resultaat = $connect->query("SELECT * FROM users where email = '".$email."' and function=".$functie);
+    return ($resultaat->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC);
+}

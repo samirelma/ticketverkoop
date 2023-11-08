@@ -15,6 +15,9 @@
  
 
 // Define the SQL query to retrieve the ticket data
+
+
+
 $sql = "SELECT naam, aantalTickets, beschrijving, afbeelding FROM evenementen";
 $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
 
@@ -43,11 +46,12 @@ if ($result->num_rows > 0) {
 }
 echo "</div>";
 
-// Close the database connection
-mysqli_close($mysqli);
+
 ?>
   </body>
   </html>
   <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/components/footer.php";
+// Close the database connection
+mysqli_close($mysqli);
 ?>
