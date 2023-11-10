@@ -43,13 +43,16 @@ session_start();
         }
         if (isset($_SESSION["user"])) {
           if ($_SESSION["user"] == "bedrijf") {
-            echo '<li><a href="">evenementen toevoegen</a></li>';
+            echo '<li><a href="../profile/evenementen-toevoegen.php">evenementen toevoegen</a></li>';
           }
           if ($_SESSION["user"] == "member") {
             echo '<li><a href="../profile/mijnTickets.php">Mijn Tickets</a></li>';
           }
           if ($_SESSION["user"] == "admin") {
             echo '<li><a href="../profile/bedrijvenLijst.php">bedrijven banner</a></li>';
+            echo '<li><a href="../profile/evenementen-toevoegen.php">evenementen toevoegen</a></li>';
+
+            
           }
         } 
         ?>

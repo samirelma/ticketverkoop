@@ -31,9 +31,9 @@ if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
       echo "<div class='p-4 border rounded-lg'>";
       if ($row['afbeelding'] != '') {
-        echo "<img src='" . $row['afbeelding'] . "' alt='" . $row['naam'] . "' class='w-full'>";
+            echo "<img src='afbeelding/" . $row['afbeelding'] . "' alt='" . $row['naam'] . "' class='w-full' style='max-width: 200px; height: auto;'>";
       } else {
-        echo "<img src='https://thenounproject.com/api/private/icons/583402/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0' alt='No Image' class='w-full'>";
+        echo "<img src='https://thenounproject.com/api/private/icons/583402/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0' alt='No Image' class='w-full' style='max-width: 250px; height: auto;'>";
       }
       echo "<h2 class='text-lg font-bold'>" . $row['naam'] . "</h2>";
       echo "<p class='text-gray-600'>" . $row['beschrijving'] . "</p>";
