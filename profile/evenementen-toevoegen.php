@@ -40,10 +40,8 @@ if (isset($_POST['create'])) {
   );
 }
 
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
+
 function addEvent(
   $naam,
   $datum,
@@ -52,19 +50,8 @@ function addEvent(
   $file
 ) {
     $query = 'INSERT INTO evenementen (naam, datum, aantalTickets, beschrijving, afbeelding) VALUES (?, ?, ?, ?, ?)';
-<<<<<<< Updated upstream
-
-    $imageName = $file['name'];
-    $imageTmpName = $file['tmp_name'];
-  
-    $targetDir = PUBLIC_R . "/images/";
-    $baseImageName = basename($imageName, ".png") . ".png";
-    $targetFile = $targetDir . $baseImageName;
-    move_uploaded_file($imageTmpName, $targetFile);
-  
 
     // execute the query
-=======
     
 
     // Set the image name to the uploaded file name or to 'default.png' if no file is uploaded
@@ -85,7 +72,6 @@ function addEvent(
     }
 
     // Create a new mysqli object to connect to the database
->>>>>>> Stashed changes
     $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop'); 
 
     // Prepare the SQL query
