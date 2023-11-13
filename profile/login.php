@@ -45,7 +45,7 @@ echo '
 </div>
 
 <div class="flex justify-center mt-2">
-<a href="../profile/register.php" >, klik hier om te Registreren </a>
+<a href="../profile/register.php" >klik hier om te Registreren </a>
 </div>
 ';
 }
