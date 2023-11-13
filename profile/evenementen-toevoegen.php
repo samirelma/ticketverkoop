@@ -21,7 +21,7 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
 </head>
 <body>
 <?php
-//naam datum aantalTickets beschrijving afbeelding
+
 if (isset($_POST['create'])) {
     global $connect;
 
@@ -40,7 +40,8 @@ if (isset($_POST['create'])) {
   );
 }
 
-
+?>
+<?php
 function addEvent(
   $naam,
   $datum,
@@ -49,13 +50,22 @@ function addEvent(
   $file
 ) {
     $query = 'INSERT INTO evenementen (naam, datum, aantalTickets, beschrijving, afbeelding) VALUES (?, ?, ?, ?, ?)';
-
+    // De naam van de afbeelding wordt opgeslagen in de variabele $imageName
     $imageName = $file['name'];
+
+    // De tijdelijke naam van de afbeelding wordt opgeslagen in de variabele $imageTmpName
     $imageTmpName = $file['tmp_name'];
-  
+
+    // Het doelmap wordt gedefinieerd in de variabele $targetDir
     $targetDir = PUBLIC_R . "/images/";
+
+    // De basisnaam van de afbeelding wordt opgeslagen in de variabele $baseImageName
     $baseImageName = basename($imageName, ".png") . ".png";
+
+    // Het doelbestand wordt gedefinieerd in de variabele $targetFile
     $targetFile = $targetDir . $baseImageName;
+
+    // De afbeelding wordt verplaatst van de tijdelijke locatie naar de doelmap
     move_uploaded_file($imageTmpName, $targetFile);
   
 
@@ -76,11 +86,14 @@ function addEvent(
             // Execute the SQL query
             $result = $stmt->execute();
             if ($result) {
+                // Redirect to the homepage if the query was successful
                 header("Location: ../index.php");
             } else {
+                // Print an error message if the query failed
                 echo "Something went wrong";
             }
         } catch (mysqli_sql_exception $e) {
+            // Print any errors that occurred during the execution of the query
             echo $e->getMessage();
         }
            
