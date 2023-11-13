@@ -50,43 +50,45 @@ function addEvent(
   $file
 ) {
     $query = 'INSERT INTO evenementen (naam, datum, aantalTickets, beschrijving, afbeelding) VALUES (?, ?, ?, ?, ?)';
+    // Use the user ID to query the database
+    $sql = "SELECT * FROM users WHERE id = ?";
+    $userid = $_SESSION['userid']; // Get the user ID from the session
 
-    // execute the query
-    
-
-    // Set the image name to the uploaded file name or to 'default.png' if no file is uploaded
-    $imageName = isset($file['afbeelding']) ? $file['afbeelding'] : 'default.png';
-
-    // Set the temporary image name to the uploaded file's temporary name or to null if no file is uploaded
-    $imageTmpName = isset($file['tmp_name']) ? $file['tmp_name'] : null;
-
-    // If a file is uploaded, move it to the public downloads directory and update the image name
-    if ($imageTmpName) {
-        $targetDir = PUBLIC_R . "/Downloads/";
-        $baseImageName = basename($imageName, ".png") . ".png";
-        $targetFile = $targetDir . $baseImageName;
-        move_uploaded_file($imageTmpName, $targetFile);
-    } else {
-        // Use a default image if no image is uploaded
-        $imageName = 'default.png';
-    }
-
-    // Create a new mysqli object to connect to the database
     $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop'); 
+    $connect = $mysqli;
+    $stmt = $connect->prepare($sql);
+    $stmt->bind_param('i', $userid);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
 
-    // Prepare the SQL query
-    $stmt = $mysqli->prepare($query);
 
-    // Bind the parameters to the prepared statement
-    $stmt->bind_param(
+
+        // If a file is uploaded, move it to folder img and update the image name
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (isset($_FILES['fileToUpload'])) {
+                $file = $_FILES['fileToUpload'];
+                $imageName = $file['name']; // The original name of the uploaded file
+                $imageTmpName = $file['tmp_name']; // The temporary location of the uploaded file
+                // Move the uploaded file from the temporary location to the img folder
+                move_uploaded_file($imageTmpName, $_SERVER['DOCUMENT_ROOT'] . '/img/' . $imageName);
+            }
+        }
+        // Create a new mysqli object to connect to the database
+        $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop'); 
+
+        // Prepare the SQL query
+        $stmt = $mysqli->prepare($query);
+
+        // Bind the parameters to the prepared statement
+        $stmt->bind_param(
         'ssiss',    
         $naam,
         $datum,
         $aantalTickets,
         $beschrijving,
         $imageName
-    );
-
+        );
         try {
             // Execute the SQL query
             $result = $stmt->execute();
@@ -98,8 +100,9 @@ function addEvent(
         } catch (mysqli_sql_exception $e) {
             echo $e->getMessage();
         }
+    }
            
-}
+    
 ?>
 
 
