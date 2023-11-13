@@ -46,11 +46,12 @@ if (isset($_POST['userid'])) {
     echo "<div id='message'>User not deleted</div>";
   }
 }
-  // Hide the message after 3 seconds using JavaScript
   ?>
   <script>
     setTimeout(function() {
+      // Get the message element by its id
       var message = document.getElementById('message');
+      // If the message element exists, hide it by setting its display style to 'none'
       if (message) message.style.display = 'none';
     }, 3000);
   </script>
@@ -74,22 +75,35 @@ echo '
 <?php 
 $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
 
+// Check if the search term is set in the URL query parameters
 if (isset($_GET['search'])) {
-    $searchTerm = $_GET['search'];
-    $sql = "SELECT id, username, email, firstname, lastname FROM users WHERE function = 2 AND username LIKE ?";
-    $stmt = $mysqli->prepare($sql);
-    $param = "%{$searchTerm}%";
-    $stmt->bind_param('s', $param);
+  // If set, assign the search term to a variable
+  $searchTerm = $_GET['search'];
+  // Prepare a SQL statement to select users with a specific function and username containing the search term
+  $sql = "SELECT id, username, email, firstname, lastname FROM users WHERE function = 2 AND username LIKE ?";
+  // Prepare the statement for execution
+  $stmt = $mysqli->prepare($sql);
+  // Bind the search term as a parameter to the statement
+  $param = "%{$searchTerm}%";
+  $stmt->bind_param('s', $param);
 } else {
-    $sql = "SELECT id, username, email, firstname, lastname FROM users WHERE function = 2";
-    $stmt = $mysqli->prepare($sql);
+  // If the search term is not set, prepare a SQL statement to select all users with a specific function
+  $sql = "SELECT id, username, email, firstname, lastname FROM users WHERE function = 2";
+  // Prepare the statement for execution
+  $stmt = $mysqli->prepare($sql);
 }
 
+?>
+<?php
+// Execute the statement
 $stmt->execute();
+// Get the result set from the executed statement
 $result = $stmt->get_result();
+// Fetch all rows from the result set as an associative array
 $users = $result->fetch_all(MYSQLI_ASSOC);
-
+// Check if there are any users to delete
 if (count($users) > 0) {
+  // Loop through each user and delete them
   foreach ($users as $user) {
     echo "<div class='p-4 border rounded-lg'>";
     echo "<div class='user-info'>";
