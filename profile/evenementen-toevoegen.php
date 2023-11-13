@@ -40,8 +40,6 @@ if (isset($_POST['create'])) {
   );
 }
 
-?>
-<?php
 function addEvent(
   $naam,
   $datum,
@@ -50,6 +48,10 @@ function addEvent(
   $file
 ) {
     $query = 'INSERT INTO evenementen (naam, datum, aantalTickets, beschrijving, afbeelding) VALUES (?, ?, ?, ?, ?)';
+    // Use the user ID to query the database
+    $sql = "SELECT * FROM users WHERE id = ?";
+    $userid = $_SESSION['userid']; // Get the user ID from the session
+
     // De naam van de afbeelding wordt opgeslagen in de variabele $imageName
     $imageName = $file['name'];
 
@@ -71,17 +73,40 @@ function addEvent(
 
     // execute the query
     $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop'); 
+    $connect = $mysqli;
+    $stmt = $connect->prepare($sql);
+    $stmt->bind_param('i', $userid);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
 
-    $stmt = $mysqli->prepare($query);
-    $stmt->bind_param(
+
+
+        // If a file is uploaded, move it to folder img and update the image name
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (isset($_FILES['fileToUpload'])) {
+                $file = $_FILES['fileToUpload'];
+                $imageName = $file['name']; // The original name of the uploaded file
+                $imageTmpName = $file['tmp_name']; // The temporary location of the uploaded file
+                // Move the uploaded file from the temporary location to the img folder
+                move_uploaded_file($imageTmpName, $_SERVER['DOCUMENT_ROOT'] . '/img/' . $imageName);
+            }
+        }
+        // Create a new mysqli object to connect to the database
+        $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop'); 
+
+        // Prepare the SQL query
+        $stmt = $mysqli->prepare($query);
+
+        // Bind the parameters to the prepared statement
+        $stmt->bind_param(
         'ssiss',    
         $naam,
         $datum,
         $aantalTickets,
         $beschrijving,
         $imageName
-    );
-
+        );
         try {
             // Execute the SQL query
             $result = $stmt->execute();
@@ -96,8 +121,9 @@ function addEvent(
             // Print any errors that occurred during the execution of the query
             echo $e->getMessage();
         }
+    }
            
-}
+    
 ?>
 
 
@@ -139,15 +165,17 @@ function addEvent(
 
     <!-- Image -->
     <div class="form-control w-full">
-        <label class="label">
-            <span class="label-text text-purple-500">Foto</span>
-        </label>
-        <input name="afbeelding" type="file" class="file-input file-input-bordered w-full" required />
-    </div>
+    <label class="label">
+      <span class="label-text text-purple-500">Foto</span>
+    </label>
+    <input type="file" name="fileToUpload" id="fileToUpload">
+  </div>
+
 
     <div class="form-control w-full max-w-xs mt-4">
         <button name="create" class="btn btn-primary bg-blue-500 hover:bg-blue-600 text-white">Create</button>
     </div>
+    
     <br>
 </form>
 </form> 
