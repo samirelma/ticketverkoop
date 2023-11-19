@@ -24,9 +24,7 @@ if (checkEmail($connect, $email)) {
             $_SESSION["user"] = "member";
          }
          header('Location: ../index.php');
-     } else {
-        
-     }
+     } 
  } else {
  header('location: login.php?error');
  }
