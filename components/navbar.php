@@ -2,6 +2,7 @@
 include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/connect/db.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/fetch/util.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/functions/userfunctions.php";
 session_start();
 ?>
 
@@ -31,8 +32,16 @@ session_start();
    if (isset($_SESSION["user"])) {
     echo'
       <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-        <div class="w-10 rounded-full">
-          <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+        <div class="w-10 rounded-full">';
+        $gebruikersid = $_SESSION["gebruikersid"]; 
+        $data["profilePicture"] = getProfilePicture($mysqli,$gebruikersid);
+        if (empty($data["profilePicture"])) {
+          echo '<img src="../img/accountPictures/no_profile_picture.jpg" />'; 
+        } else {
+          echo '<img src="../img/profilePictures/'.$profielfoto.'" />'; 
+        }
+        var_dump($data["profilePicture"]);
+        echo'
         </div>
       </label>
       <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
