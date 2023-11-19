@@ -34,13 +34,13 @@ session_start();
       <label tabindex="0" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">';
         $gebruikersid = $_SESSION["gebruikersid"]; 
-        $data["profilePicture"] = getProfilePicture($mysqli,$gebruikersid);
-        if (empty($data["profilePicture"])) {
+        var_dump($gebruikersid);
+        $data = getProfilePicture($mysqli,$gebruikersid);
+        if (empty($data)) {
           echo '<img src="../img/accountPictures/no_profile_picture.jpg" />'; 
         } else {
           echo '<img src="../img/profilePictures/'.$profielfoto.'" />'; 
         }
-        var_dump($data["profilePicture"]);
         echo'
         </div>
       </label>

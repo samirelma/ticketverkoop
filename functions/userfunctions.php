@@ -1,8 +1,6 @@
-
-
 <?php
 function getProfilePicture($mysqli, $gebruikerid) {
-    $sql = ("SELECT profilePicture FROM users WHERE id =".$gebruikerid); 
-    return ($mysqli -> query($sql));
+    $resultaat = $mysqli->query("SELECT * FROM users where gebruikerid= '".$gebruikerid."'");
+    return ($resultaat->num_rows == 0)?false:$resultaat->fetch_assoc()['profielfoto'];
 }
 ?>
