@@ -77,35 +77,35 @@ function getProductsByCategory($category) {
     return False;
 }
 
-function checkEmail($connect, $email) {
-    $resultaat = $connect -> query("SELECT * FROM users WHERE email = '". $email ."'"); 
+function checkEmail($mysqli, $email) {
+    $resultaat = $mysqli -> query("SELECT * FROM users WHERE email = '". $email ."'"); 
     return ($resultaat -> num_rows == 0) ? false : true; 
 }
 
-function checkWachtwoord($connect,$wachtwoord, $email){
-    $resultaat = $connect->query("SELECT * FROM users WHERE email = '".$email."'");
+function checkWachtwoord($mysqli,$wachtwoord, $email){
+    $resultaat = $mysqli->query("SELECT * FROM users WHERE email = '".$email."'");
     return (password_verify($wachtwoord,$resultaat->fetch_assoc()['password']))?true:false;
 }
 
-function getGebruikersid($connect, $email) {
-    $resultaat = $connect->query("SELECT * FROM users where email = '".$email."'");
+function getGebruikersid($mysqli, $email) {
+    $resultaat = $mysqli->query("SELECT * FROM users where email = '".$email."'");
     return ($resultaat->num_rows == 0)?false:$resultaat->fetch_assoc()['id'];   
 }
-function controleerAdmin($connect,$email){
-    $result = $connect->query("SELECT id FROM user_roles WHERE name= 'admin'");
+function controleerAdmin($mysqli,$email){
+    $result = $mysqli->query("SELECT id FROM user_roles WHERE name= 'admin'");
     $functie = $result ->fetch_assoc()['id'];
-    $resultaat = $connect->query("SELECT * FROM users where email = '".$email."' and function=".$functie);
+    $resultaat = $mysqli->query("SELECT * FROM users where email = '".$email."' and function=".$functie);
     return ($resultaat->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC);
 }
-function controleerBedrijf($connect,$email){
-    $result = $connect->query("SELECT id FROM user_roles WHERE name= 'bedrijf'");
+function controleerBedrijf($mysqli,$email){
+    $result = $mysqli->query("SELECT id FROM user_roles WHERE name= 'bedrijf'");
     $functie = $result ->fetch_assoc()['id'];
-    $resultaat = $connect->query("SELECT * FROM users where email = '".$email."' and function=".$functie);
+    $resultaat = $mysqli->query("SELECT * FROM users where email = '".$email."' and function=".$functie);
     return ($resultaat->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC);
 }
-function controleerMember($connect,$email){
-    $result = $connect->query("SELECT id FROM user_roles WHERE name= 'member'");
+function controleerMember($mysqli,$email){
+    $result = $mysqli->query("SELECT id FROM user_roles WHERE name= 'member'");
     $functie = $result ->fetch_assoc()['id'];
-    $resultaat = $connect->query("SELECT * FROM users where email = '".$email."' and function=".$functie);
+    $resultaat = $mysqli->query("SELECT * FROM users where email = '".$email."' and function=".$functie);
     return ($resultaat->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC);
 }

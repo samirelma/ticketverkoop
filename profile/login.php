@@ -12,15 +12,15 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 if (isset($_POST["knop"])){
 $email = $_POST["email"];
 $wachtwoord = $_POST["wachtwoord"]; 
-if (checkEmail($connect, $email)) {
-    if (checkWachtwoord($connect,$wachtwoord,$email)) {
-        $gebruikersid = getGebruikersid($connect, $email); 
+if (checkEmail($mysqli, $email)) {
+    if (checkWachtwoord($mysqli,$wachtwoord,$email)) {
+        $gebruikersid = getGebruikersid($mysqli, $email); 
         $_SESSION["gebruikersid"] = $gebruikersid; 
-        if(controleerAdmin($connect,$email)){
+        if(controleerAdmin($mysqli,$email)){
             $_SESSION["user"] = "admin";
-         } else if(controleerBedrijf($connect,$email)) {
+         } else if(controleerBedrijf($mysqli,$email)) {
             $_SESSION["user"] = "bedrijf"; 
-         } else if(controleerMember($connect,$email)) {
+         } else if(controleerMember($mysqli,$email)) {
             $_SESSION["user"] = "member";
          }
          header('Location: ../index.php');
