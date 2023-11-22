@@ -30,17 +30,19 @@ session_start();
     <?php
    echo ' <div class="dropdown dropdown-end">';
    if (isset($_SESSION["user"])) {
-    echo'
+       echo'
       <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-        <div class="w-10 rounded-full">';
+       <div class="w-10 rounded-full">';
         $gebruikersid = $_SESSION["gebruikersid"]; 
-        var_dump($gebruikersid);
-        $data = getProfilePicture($mysqli,$gebruikersid);
-        if (empty($data)) {
-          echo '<img src="../img/accountPictures/no_profile_picture.jpg" />'; 
+        $data = getProfilePicture($connect,$gebruikersid);
+        foreach($data as $value){ 
+        if (empty($value)) {
+          echo '<img src="../img/accountPictures/no_profile_picture.jpg"/>'; 
         } else {
-          echo '<img src="../img/profilePictures/'.$profielfoto.'" />'; 
+          echo '<img src="../img/accountPictures/'.$value.'"/>'; 
+          var_dump($value);
         }
+      }
         echo'
         </div>
       </label>
