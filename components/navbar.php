@@ -2,6 +2,7 @@
 include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/connect/db.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/fetch/util.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/functions/userfunctions.php";
 session_start();
 ?>
 
@@ -9,7 +10,7 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.7.4/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.2/dist/full.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <meta charset="UTF-8" />
     <title>title</title>
@@ -26,22 +27,30 @@ session_start();
       <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
     </div>
 </div>
-    <div class="dropdown dropdown-end">
+    <?php
+   echo ' <div class="dropdown dropdown-end">';
+   if (isset($_SESSION["user"])) {
+       echo'
       <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-        <div class="w-10 rounded-full">
-          <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+       <div class="w-10 rounded-full">';
+        $gebruikersid = $_SESSION["gebruikersid"]; 
+        $data = getProfilePicture($connect,$gebruikersid);
+        foreach($data as $value){ 
+        if (empty($value)) {
+          echo '<img src="../img/accountPictures/no_profile_picture.jpg"/>'; 
+        } else {
+          echo '<img src="../img/accountPictures/'.$value.'"/>'; 
+          var_dump($value);
+        }
+      }
+        echo'
         </div>
       </label>
       <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
         <li><a href="../profile/gebruikersProfiel.php">Profiel</a>
-        <li><a href="../profile/register.php">Registreren</a></li>
-        <?php
-        if (isset($_SESSION["user"])) {
-          echo '<li><a href="../profile/logout.php">Uit loggen</a></li>';
-        } else {
-       echo ' <li><a href="../profile/login.php">Login</a></li>';
-        }
-        if (isset($_SESSION["user"])) {
+        <li><a href="../profile/register.php">Registreren</a></li> 
+        <li><a href="../profile/logout.php">uitloggen</a></li>'; 
+        
           if ($_SESSION["user"] == "bedrijf") {
             echo '<li><a href="../profile/evenementen-toevoegen.php">evenementen toevoegen</a></li>';
           }
@@ -52,10 +61,19 @@ session_start();
             echo '<li><a href="../profile/bedrijvenLijst.php">bedrijven banner</a></li>';
             echo '<li><a href="../profile/evenementen-toevoegen.php">evenementen toevoegen</a></li>';
             echo '<li><a href="../profile/bedrijven-verwijderen.php">bedrijven verwijderen</a></li>';
-
-            
+          } 
+          } else {
+          if (isset($_POST['login'])) {
+            header("Location: ../profile/login.php"); 
+          } 
+          if (isset($_POST["register"])) {
+            header("location: ../profile/register.php");
           }
-        } 
+          echo '<form method="post" action="../components/navbar.php">
+         <button class="btn btn-ghost text-[#FDFFFF]" name="login">login</button>
+         <button class="btn btn-ghost text-[#FDFFFF]" name="register">register</button>
+          </form>'; 
+        }
         ?>
       </ul>
     </div>
