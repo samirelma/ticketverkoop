@@ -89,7 +89,7 @@ function addEvent(
                 $imageName = $file['name']; // The original name of the uploaded file
                 $imageTmpName = $file['tmp_name']; // The temporary location of the uploaded file
                 // Move the uploaded file from the temporary location to the img folder
-                move_uploaded_file($imageTmpName, $_SERVER['DOCUMENT_ROOT'] . '/img/' . $imageName);
+                move_uploaded_file($imageTmpName, $_SERVER['DOCUMENT_ROOT'] . '/img/eventPictures/' . $imageName);
             }
         }
         // Create a new mysqli object to connect to the database

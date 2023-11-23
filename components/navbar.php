@@ -34,7 +34,7 @@ session_start();
       <label tabindex="0" class="btn btn-ghost btn-circle avatar">
        <div class="w-10 rounded-full">';
         $gebruikersid = $_SESSION["gebruikersid"]; 
-        $data = getProfilePicture($connect,$gebruikersid);
+        $data = getProfilePicture($mysqli,$gebruikersid);
         foreach($data as $value){ 
         if (empty($value)) {
           echo '<img src="../img/accountPictures/no_profile_picture.jpg"/>'; 
