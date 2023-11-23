@@ -40,7 +40,6 @@ session_start();
           echo '<img src="../img/accountPictures/no_profile_picture.jpg"/>'; 
         } else {
           echo '<img src="../img/accountPictures/'.$value.'"/>'; 
-          var_dump($value);
         }
       }
         echo'
