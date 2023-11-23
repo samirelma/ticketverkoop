@@ -23,7 +23,7 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
 <?php
 
 if (isset($_POST['create'])) {
-    global $connect;
+    global $mysqli;
 
   $naam = $_POST['naam'];
   $datum = $_POST['datum'];
@@ -73,8 +73,8 @@ function addEvent(
 
     // execute the query
     $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop'); 
-    $connect = $mysqli;
-    $stmt = $connect->prepare($sql);
+    $mysqli = $mysqli;
+    $stmt = $mysqli->prepare($sql);
     $stmt->bind_param('i', $userid);
     $stmt->execute();
     $result = $stmt->get_result();

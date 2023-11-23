@@ -19,7 +19,7 @@
 
 
 $sql = "SELECT naam, aantalTickets, beschrijving, afbeelding FROM evenementen";
-$mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
+
 
 
 // Execute the SQL query

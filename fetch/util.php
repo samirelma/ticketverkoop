@@ -4,11 +4,11 @@ include $_SERVER['DOCUMENT_ROOT'] . "../connect/connect.php";
 
 
 function fetchSingle($query, ...$params) {
- global $connect;
- if (!$connect) {
+ global $mysqli;
+ if (!$mysqli) {
   die("Error: Could not connect to database");
 }
-  $stmt = $connect->prepare($query);
+  $stmt = $mysqli->prepare($query);
   $stmt->execute();
 
   if (!empty($params)) {
@@ -25,7 +25,7 @@ function fetchSingle($query, ...$params) {
 
   if (!$stmt->execute()) {
     $stmt->close();
-    $connect->close();
+    $mysqli->close();
     return false;
   }
 
@@ -39,9 +39,9 @@ function fetchSingle($query, ...$params) {
 
 
 function fetchAll($query, ...$params) {
-  global $connect;
+  global $mysqli;
 
-  $stmt = $connect->prepare($query);
+  $stmt = $mysqli->prepare($query);
   if (!empty($params)) {
     $paramTypes = '';
     $paramValues = [];
@@ -56,7 +56,7 @@ function fetchAll($query, ...$params) {
 
   if (!$stmt->execute()) {
     $stmt->close();
-    $connect->close();
+    $mysqli->close();
     return false;
   }
 
@@ -71,12 +71,12 @@ function fetchAll($query, ...$params) {
 
 
 function execute($query, ...$params) {
-  global $connect;
-  if (!$connect) {
+  global $mysqli;
+  if (!$mysqli) {
     die("Error: Could not connect to database");
   }
 
-  $stmt = $connect->prepare($query);
+  $stmt = $mysqli->prepare($query);
   $stmt->execute();
 
 
@@ -94,7 +94,7 @@ function execute($query, ...$params) {
 
   if (!$stmt->execute()) {
     $stmt->close();
-    $connect->close();
+    $mysqli->close();
     return false;
   }
 
@@ -106,12 +106,12 @@ function execute($query, ...$params) {
 
 
 function insert($query, ...$params) {
-  global $connect;
-  if (!$connect) {
+  global $mysqli;
+  if (!$mysqli) {
     die("Error: Could not connect to database");
   }
 
-  $stmt = $connect->prepare($query);
+  $stmt = $mysqli->prepare($query);
   $stmt->execute();
 
 
@@ -129,7 +129,7 @@ function insert($query, ...$params) {
 
   if (!$stmt->execute()) {
     $stmt->close();
-    $connect->close();
+    $mysqli->close();
     return false;
   }
 

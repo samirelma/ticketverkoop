@@ -49,7 +49,7 @@ function register($data) {
 
 //insert the data into the database
 if (isset($_POST['register'])) {
-  global $connect;
+  global $mysqli;
   $firstname = $_POST['firstname'];
   $lastname = $_POST['lastname'];
   $email = $_POST['email'];

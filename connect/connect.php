@@ -1,8 +1,8 @@
 <?php
 //make the connection to the database
-$connect = new mysqli('localhost', 'root', '', 'dbticketverkoop');
+$mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
 
-if ($connect->connect_error) {
-  die("Connection failed: " . $connect->connect_error);
+if ($mysqli->connect_error) {
+  die("Connection failed: " . $mysqli->connect_error);
 }
 
