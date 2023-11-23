@@ -70,8 +70,10 @@ session_start();
             header("location: ../profile/register.php");
           }
           echo '<form method="post" action="../components/navbar.php">
-         <button class="btn btn-ghost text-[#FDFFFF]" name="login">login</button>
-         <button class="btn btn-ghost text-[#FDFFFF]" name="register">register</button>
+          <div class="flex-auto text-[#FDFFFF]">
+         <button class="btn btn-ghost" name="login">login</button>
+         <button class="btn btn-ghost" name="register">register</button>
+          </div>
           </form>'; 
         }
         ?>
