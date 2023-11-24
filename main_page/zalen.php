@@ -37,6 +37,7 @@ if (isset($_POST["zaal"])) {
  }
 } else {
  $data = getzalen($mysqli);
+ echo'<div class="justify-start>';
  foreach( $data as $zaal) {
 echo '
 <div class="card w-96 bg-base-100 shadow-xl">
@@ -53,6 +54,7 @@ echo '
   </div>
 </div>'; 
  }
+ echo'</div>';
 }
 ?>
 </body>
