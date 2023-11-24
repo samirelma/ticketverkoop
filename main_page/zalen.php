@@ -12,6 +12,8 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 if (isset($_POST["zaal"])) {
   $zaal = $_POST["zaal"];
  $data = geteventsforarena($mysqli,$zaal); 
+ echo '<div class="flex flex-wrap gap-4">';
+ if($data != false) {
  foreach ($data as $event) {
   echo '
   <div class="card w-96 bg-base-100 shadow-xl">
@@ -21,7 +23,6 @@ if (isset($_POST["zaal"])) {
   } else {
     echo ' <img src="../img/eventPictures/'.$event["afbeelding"].'" alt="'.$event["naam"].'" class="rounded-xl" />'; 
   }
-   
     echo'
   </figure>
   <div class="card-body items-center text-center">
@@ -36,10 +37,15 @@ if (isset($_POST["zaal"])) {
 
  }
 } else {
+  echo '<p class="text-2xl">er zijn geen gegevens gepland voor deze zaal</p>';
+}
+ echo '</div>';
+} else {
  $data = getzalen($mysqli);
+ echo '<div class="flex flex-wrap gap-4">';
  foreach( $data as $zaal) {
 echo '
-<div class="card w-96 bg-base-100 shadow-xl">
+<div class="card w-96 bg-base-100 shadow-xl ">
   <figure class="px-10 pt-10">
     <img src="../img/zaalPictures/'.$zaal['afbeelding'].'" alt="'.$zaal["naam"].'" class="rounded-xl" />
   </figure>
@@ -53,6 +59,7 @@ echo '
   </div>
 </div>'; 
  }
+ echo'</div>';
 }
 ?>
 </body>
