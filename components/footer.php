@@ -1,4 +1,4 @@
-<footer class="footer p-10 bg-base-100 text-base-content bg-[#150578]">
+<footer class="footer footer-center p-10 bg-[#150578] text-primary-content">
   <aside>
     <p class="normal-case text-xl text-[#FF101F]" href="../index.php">RS ticket service</p>
     <p class="font-bold text-[#FDFFFF]">
