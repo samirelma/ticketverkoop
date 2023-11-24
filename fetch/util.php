@@ -2,14 +2,10 @@
 include $_SERVER['DOCUMENT_ROOT'] . "../connect/connect.php";
 
 
-
 function fetchSingle($query, ...$params) {
- global $mysqli;
- if (!$mysqli) {
-  die("Error: Could not connect to database");
-}
+  global $mysqli;
+
   $stmt = $mysqli->prepare($query);
-  $stmt->execute();
 
   if (!empty($params)) {
     $paramTypes = '';
@@ -30,12 +26,13 @@ function fetchSingle($query, ...$params) {
   }
 
   $result = $stmt->get_result();
-  $data = $result->fetch_assoc();
+  $data = $result->fetch_all(MYSQLI_ASSOC);
 
   $stmt->close();
 
   return $data;
 }
+
 
 
 function fetchAll($query, ...$params) {
