@@ -168,6 +168,18 @@ function register($data)
         </div>
       </div>
 
+      <div class="flex flex-col gap-4 md:flex-row">
+          <div class="form-control md:flex-1">
+      <label class="label">
+              <span class="label-text">functie</span>
+            </label>
+            <select class="select select-primary w-full max-w-xs">
+            <option disabled selected>wat is uw functie</option>
+            <option value="1">Gebruiker</option>
+            <option value="2">Bedrijf</option>
+            </select>
+          </div>
+      </div>
       <button name="register" class="btn btn-primary">Register</button>
     </form>
 
