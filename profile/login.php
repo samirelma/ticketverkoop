@@ -9,6 +9,18 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 </head>
 <body>
 <?php
+if (isset($_POST["knopResetWachtwoord"])) {
+    if (isset($_POST["email"])) {
+
+    } else {
+        echo '<form method="post" action="login.php">
+        <label class="label">email</label>
+        <input type="text" placeholder="email" class="input input-bordered input-primary w-full max-w-xs" name="email" /><br>
+        <button class="btn btn-primary text-[#FDFFFF]" type="submit" name="email">send email</button><br>
+       </form>';
+
+    }
+   }
 if (isset($_POST["knop"])){
 $email = $_POST["email"];
 $wachtwoord = $_POST["wachtwoord"]; 
@@ -37,7 +49,8 @@ echo '
 <input type="text" placeholder="email" class="input input-bordered input-primary w-full max-w-xs" name="email" /> <br>  
 <label class="label">wachtwoord</label>
 <input type="password" placeholder="wachtwoord" class="input input-bordered input-primary w-full max-w-xs" name="wachtwoord" /><br><br>
-<button class="btn btn-primary" type="submit" name="knop">login</button><br>
+<button class="btn btn-primary text-[#FDFFFF]" type="submit" name="knop">login</button>
+<button class="btn btn-primary text-[#FDFFFF]" type="submit" name="knopResetWachtwoord">wachtwoord vergeten</button><br>
 </div>
 </form>
 </div>
