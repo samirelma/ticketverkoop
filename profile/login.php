@@ -10,8 +10,8 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 <body>
 <?php
 if (isset($_POST["knopResetWachtwoord"])) {
-    header('location: passwordReset.php'); 
-   }
+    header("Locations: passwordReset.php"); 
+}
 if (isset($_POST["knop"])){
 $email = $_POST["email"];
 $wachtwoord = $_POST["wachtwoord"]; 

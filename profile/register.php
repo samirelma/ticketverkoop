@@ -72,7 +72,6 @@ function register($data)
     echo "mail does already exist please choose another one";
     echo "<br>";
     echo "<a href='/profile/register.php'>Go back</a>";
-    exit;
   }
 
 
@@ -87,7 +86,6 @@ function register($data)
     echo "username already exists please choose another one";
     echo "<br>";
     echo "<a href='/profile/register.php'>Go back</a>";
-    exit;
   }
 
   // use function register($data) to check if the username and email already exist in the database
