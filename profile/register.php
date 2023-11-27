@@ -10,6 +10,8 @@ if (isset($_POST['register'])) {
   $username = $_POST['username'];
   $password = $_POST['password'];
   $passwordConfirm = $_POST['passwordConfirm'];
+  $function = $_POST['function'];
+  var_dump($function);
 
 
 
@@ -27,7 +29,7 @@ if (isset($_POST['register'])) {
 
 
   // Define the SQL query
-  $sql = "INSERT INTO users (firstname, lastname, email, username, password) VALUES ('$firstname', '$lastname', '$email', '$username', '$password')";
+  $sql = "INSERT INTO users (firstname, lastname, email, username, password, function) VALUES ('$firstname', '$lastname', '$email', '$username', '$password','$function')";
 
 
 
@@ -59,6 +61,7 @@ function register($data)
   $email = $data['email'];
   $password = $data['password'];
   $passwordConfirm = $data['passwordConfirm'];
+
 
   $data = fetchSingle('SELECT * FROM users WHERE email = ?', [
     'type' => 's',
@@ -173,10 +176,10 @@ function register($data)
       <label class="label">
               <span class="label-text">functie</span>
             </label>
-            <select class="select select-primary w-full max-w-xs">
-            <option disabled selected>wat is uw functie</option>
-            <option value="1">Gebruiker</option>
-            <option value="2">Bedrijf</option>
+            <select class="select select-primary w-full max-w-xs" name="function">
+            <value>wat is uw functie</value>
+            <option value="1" id="function">Gebruiker</option>
+            <option value="2" id="function">Bedrijf</option>
             </select>
           </div>
       </div>
