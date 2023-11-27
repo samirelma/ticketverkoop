@@ -10,16 +10,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 <body>
 <?php
 if (isset($_POST["knopResetWachtwoord"])) {
-    if (isset($_POST["email"])) {
-
-    } else {
-        echo '<form method="post" action="login.php">
-        <label class="label">email</label>
-        <input type="text" placeholder="email" class="input input-bordered input-primary w-full max-w-xs" name="email" /><br>
-        <button class="btn btn-primary text-[#FDFFFF]" type="submit" name="email">send email</button><br>
-       </form>';
-
-    }
+    header('location: passwordReset.php'); 
    }
 if (isset($_POST["knop"])){
 $email = $_POST["email"];
@@ -54,7 +45,6 @@ echo '
 </div>
 </form>
 </div>
-
 <div class="flex justify-center mt-2">
 <a href="../profile/register.php" >klik hier om te Registreren </a>
 </div>
