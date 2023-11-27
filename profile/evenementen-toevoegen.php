@@ -25,18 +25,22 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
 if (isset($_POST['create'])) {
     global $mysqli;
 
-  $naam = $_POST['naam'];
-  $datum = $_POST['datum'];
-  $aantalTickets = $_POST['aantalTickets'];
-  $beschrijving = $_POST['beschrijving'];
-  $file = $_FILES['afbeelding'];
+    $naam = $_POST['naam'];
+    $datum = $_POST['datum'];
+    $aantalTickets = $_POST['aantalTickets'];
+    $beschrijving = $_POST['beschrijving'];
+    $zaalID = $_POST['zaal'];  // Use 'zaal' instead of 'zaalID'
+    $userid = $_POST['userid'];  // Make sure 'userid' is submitted with the form
+
+
 
   $insertData = addEvent(
     $naam,
     $datum,
     $aantalTickets,
     $beschrijving,
-    $file
+    $file,
+    $zaalID
   );
 }
 
@@ -45,9 +49,11 @@ function addEvent(
   $datum,
   $aantalTickets,
   $beschrijving,
-  $file
+  $file,
+  $zaalID
 ) {
-    $query = 'INSERT INTO evenementen (naam, datum, aantalTickets, beschrijving, afbeelding) VALUES (?, ?, ?, ?, ?)';
+    $query = 'INSERT INTO evenementen (naam, datum, aantalTickets, beschrijving, afbeelding, zaalID) VALUES (?, ?, ?, ?, ?, ?)';  // Add zaalID to the query
+
     // Use the user ID to query the database
     $sql = "SELECT * FROM users WHERE id = ?";
     $userid = $_SESSION['userid']; // Get the user ID from the session
@@ -100,12 +106,13 @@ function addEvent(
 
         // Bind the parameters to the prepared statement
         $stmt->bind_param(
-        'ssiss',    
+        'ssissi',    
         $naam,
         $datum,
         $aantalTickets,
         $beschrijving,
-        $imageName
+        $imageName,
+        $zaalID
         );
         try {
             // Execute the SQL query
@@ -142,7 +149,7 @@ function addEvent(
     <!-- Date -->
     <div class="form-control w-full">
         <label class="label">
-            <span class="label-text text-green-500">Einde datum event</span>
+            <span class="label-text text-blue-500">Einde datum event</span>
         </label>
         <input type="date" name="datum" class="input input-bordered w-full" required />
     </div>
@@ -150,7 +157,7 @@ function addEvent(
     <!-- Number of Tickets -->
     <div class="form-control w-full">
         <label class="label">
-            <span class="label-text text-yellow-500">Aantal tickets</span>
+            <span class="label-text text-blue-500">Aantal tickets</span>
         </label>
         <input type="number" name="aantalTickets" placeholder="100" class="input input-bordered w-full" required />
     </div>
@@ -158,7 +165,7 @@ function addEvent(
     <!-- Description -->
     <div class="form-control w-full">
         <label class="label">
-            <span class="label-text text-red-500">beschrijving</span>
+            <span class="label-text text-blue-500">beschrijving</span>
         </label>
         <textarea name="beschrijving" class="textarea textarea-bordered min-h-[8em]" placeholder="Event Description" required></textarea>
     </div>
@@ -166,10 +173,36 @@ function addEvent(
     <!-- Image -->
     <div class="form-control w-full">
     <label class="label">
-      <span class="label-text text-purple-500">Foto</span>
+      <span class="label-text text-blue-500">Foto</span>
     </label>
     <input type="file" name="fileToUpload" id="fileToUpload">
   </div>
+
+  <?php
+// Connect to the database
+$mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
+
+// Prepare the SQL query
+$stmt = $mysqli->prepare("SELECT zaalID, naam FROM tblzalen");
+
+// Execute the query
+$stmt->execute();
+
+// Get the result
+$result = $stmt->get_result();
+
+// Start the select element
+echo "<select name='zaal'>";
+
+// Loop through the result and create the option elements
+while ($row = $result->fetch_assoc()) {
+    echo "<option name='zaalID' value='" . $row['zaalID'] . "'>" . $row['naam'] . "</option>";
+}
+
+// End the select element
+echo "</select>";
+?>
+
 
 
     <div class="form-control w-full max-w-xs mt-4">
