@@ -109,3 +109,22 @@ function controleerMember($mysqli,$email){
     $resultaat = $mysqli->query("SELECT * FROM users where email = '".$email."' and function=".$functie);
     return ($resultaat->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC);
 }
+
+function updateWachtwoord($mysqli, $email, $wachtwoord) {
+    $email2 = $mysqli->query("SELECT email FROM users WHERE email = '".$email."'");
+    $email2 = $email2->fetch_assoc()['email'];
+    if ($email2 != null) {
+        if ($email2 === $email) {
+            $wachtwoord = password_hash($wachtwoord, PASSWORD_ARGON2ID);
+            $resultaat = $mysqli->query("UPDATE users SET password= '".$wachtwoord."' WHERE email='".$email."'");
+               header("Location: ../profile/login.php"); 
+
+
+        } else {
+              header("Locations: passwordReset.php"); 
+        }   
+    } else {
+        header("Location: passwordReset.php");
+    }
+  
+}
