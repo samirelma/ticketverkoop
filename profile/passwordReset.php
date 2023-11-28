@@ -14,13 +14,14 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
         $wachtwoord = $_POST["wachtwoord"]; 
         $confirmedWachtwoord = $_POST["wachtwoord2"]; 
         if ($wachtwoord === $confirmedWachtwoord) {
-            
+
             updateWachtwoord($mysqli,$email,$wachtwoord);
-          
+
         } 
         if ($wachtwoord != $confirmedWachtwoord) {
             header("Locations: passwordReset.php"); 
     } 
+}else {
     ?>
     <div class="card-body">
     <div class="card-actions justify-center">
@@ -36,7 +37,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
     </form>
 </div>
 <?php
-    }
+    } 
 ?>
 </body>
 </html>
