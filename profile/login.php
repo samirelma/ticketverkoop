@@ -1,38 +1,45 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <title>title</title>
-</head>
-<body>
-<?php
+ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 if (isset($_POST["knopResetWachtwoord"])) {
-    header("Locations: passwordReset.php"); 
+    header("Location: passwordReset.php");
 }
-if (isset($_POST["knop"])){
-$email = $_POST["email"];
-$wachtwoord = $_POST["wachtwoord"]; 
-if (checkEmail($mysqli, $email)) {
-    if (checkWachtwoord($mysqli,$wachtwoord,$email)) {
-        $gebruikersid = getGebruikersid($mysqli, $email); 
-        $_SESSION["gebruikersid"] = $gebruikersid; 
-        if(controleerAdmin($mysqli,$email)){
-            $_SESSION["user"] = "admin";
-         } else if(controleerBedrijf($mysqli,$email)) {
-            $_SESSION["user"] = "bedrijf"; 
-         } else if(controleerMember($mysqli,$email)) {
-            $_SESSION["user"] = "member";
-         }
-         header('Location: ../index.php');
-     } 
- } else {
- header('location: login.php?error');
- }
-} else {
-echo '
+if (isset($_POST["knop"])) {
+    $email = $_POST["email"];
+    $wachtwoord = $_POST["wachtwoord"];
+    if (checkEmail($mysqli, $email)) {
+        if (checkWachtwoord($mysqli, $wachtwoord, $email)) {
+            $gebruikersid = getGebruikersid($mysqli, $email);
+            $_SESSION["gebruikersid"] = $gebruikersid;
+            if (controleerAdmin($mysqli, $email)) {
+                $_SESSION["user"] = "admin";
+            } else if (controleerBedrijf($mysqli, $email)) {
+                $_SESSION["user"] = "bedrijf";
+            } else if (controleerMember($mysqli, $email)) {
+                $_SESSION["user"] = "member";
+            }
+            header('Location: ../index.php');
+        }
+    } else {
+        header('location: login.php?error');
+    }
+}
+   
+
+?>
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <meta charset="UTF-8" />
+        <title>title</title>
+    </head>
+
+    <body>
+    <?php
+
+
+ if (!isset($_POST["knop"])) {
+    echo '
 <div class="card-body">
 <div class="card-actions justify-center">
 <form  method="post" action="login.php">
@@ -50,9 +57,10 @@ echo '
 </div>
 ';
 }
-?>
-</body>
-</html>
-<?php
-include $_SERVER['DOCUMENT_ROOT'] . "/components/footer.php";
-?>
+    ?>
+    </body>
+
+    </html>
+    <?php
+    include $_SERVER['DOCUMENT_ROOT'] . "/components/footer.php";
+    ?>
