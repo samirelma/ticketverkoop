@@ -49,11 +49,19 @@ if (isset($_POST['register'])) {
     } else {
       echo "Something went wrong";
     }
+
+    // Code that may throw a mysqli_sql_exception
   } catch (mysqli_sql_exception $e) {
     echo "";
+    // This catch block handles the mysqli_sql_exception that may be thrown in the try block.
+    // In this case, it echoes an empty string.
   }
 } else {
   include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
+
+   // This block of code will always be executed, regardless of whether an exception occurred or not
+    // It includes the closing curly brace for the try block
+    // It also includes the code to include the navbar.php file if the 'register' POST parameter is not set
 }
 
 function register($data)
@@ -101,6 +109,8 @@ $usernameExists = fetchSingle('SELECT * FROM users WHERE username = ?', [
                 alertElement.style.display = "none";
               }, 3000);
             </script>';
+            // This code returns the boolean value `false`
+            //the return statement is used to exit a function and return a value to the caller. In this case, the value being returned is false.
       return false;
   }
   
@@ -130,7 +140,13 @@ $usernameExists = fetchSingle('SELECT * FROM users WHERE username = ?', [
             </svg>
             <span>You successfully registered!</span>
           </div>';
-
+ // The setTimeout function is used to delay the execution of a function.
+        // In this case, it delays the execution of the function by 2000 milliseconds (2 seconds).
+          // The following line retrieves the HTML element with the id "success-alert".
+          // The style.display property is used to control the visibility of an element.
+          // In this case, it sets the display property of the successAlert element to "none",
+          // which means the element will be hidden from view.
+         
     echo '<script>
             setTimeout(function() {
               var successAlert = document.getElementById("success-alert");
