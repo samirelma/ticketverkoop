@@ -11,30 +11,35 @@ if (isset($_POST['register'])) {
   $password = $_POST['password'];
   $passwordConfirm = $_POST['passwordConfirm'];
   $function = $_POST['function'];
-  var_dump($function);
 
 
 
-  // Check if passwords match
-  if ($password !== $passwordConfirm) {
-    echo "Password does not match";
-    echo "<br>";
-    echo "<a href='/profile/register.php'>Go back</a>";
-    exit;
-  }
-  $password = password_hash($password, PASSWORD_ARGON2ID);
+    // Check if passwords match
+    if ($password !== $passwordConfirm) {
+        echo '<div id="alert" role="alert" class="alert alert-warning">
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+          <span>Warning: password not the same please try again!</span>
+        </div>';
+
+        echo '<script>
+          setTimeout(function() {
+            var alertElement = document.getElementById("alert");
+            alertElement.style.display = "none";
+          }, 3000);
+        </script>';
+    }
+    register($_POST);
+
+    $password = password_hash($password, PASSWORD_ARGON2ID);
 
 
-  register($_POST);
+
 
 
   // Define the SQL query
   $sql = "INSERT INTO users (firstname, lastname, email, username, password, function) VALUES ('$firstname', '$lastname', '$email', '$username', '$password','$function')";
 
-
-
-
-
+  
   $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
   try {
     // Execute the SQL query
@@ -44,13 +49,20 @@ if (isset($_POST['register'])) {
     } else {
       echo "Something went wrong";
     }
+
+    // Code that may throw a mysqli_sql_exception
   } catch (mysqli_sql_exception $e) {
-    echo $e->getMessage();
+    echo "";
+    // This catch block handles the mysqli_sql_exception that may be thrown in the try block.
+    // In this case, it echoes an empty string.
   }
 } else {
   include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
-}
 
+   // This block of code will always be executed, regardless of whether an exception occurred or not
+    // It includes the closing curly brace for the try block
+    // It also includes the code to include the navbar.php file if the 'register' POST parameter is not set
+}
 
 function register($data)
 {
@@ -62,45 +74,90 @@ function register($data)
   $password = $data['password'];
   $passwordConfirm = $data['passwordConfirm'];
 
+  
 
-  $data = fetchSingle('SELECT * FROM users WHERE email = ?', [
-    'type' => 's',
-    'value' => $email,
-  ]);
+$emailExists = fetchSingle('SELECT * FROM users WHERE email = ?', [
+  'type' => 's',
+  'value' => $email,
+]);
 
-  if (!empty($data)) {
-    echo "mail does already exist please choose another one";
-    echo "<br>";
-    echo "<a href='/profile/register.php'>Go back</a>";
-  }
-
-
-
-
-  $data = fetchSingle('SELECT * FROM users WHERE username = ?', [
-    'type' => 's',
+$usernameExists = fetchSingle('SELECT * FROM users WHERE username = ?', [
+  'type' => 's',
     'value' => $username,
   ]);
-
-  if (!empty($data)) {
-    echo "username already exists please choose another one";
-    echo "<br>";
-    echo "<a href='/profile/register.php'>Go back</a>";
+  if (!empty($emailExists) && !empty($usernameExists)) {
+    echo '<div role="alert" class="alert alert-error">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Both username and email are already in use, please choose another one.</span>
+          </div>';
+    return false;
   }
+  
+  if (!empty($emailExists)) {
+      echo '<div id="alert" role="alert" class="alert alert-warning">
+              <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <span>Warning: email address already in use! please choose another one.</span>
+            </div>';
 
-  // use function register($data) to check if the username and email already exist in the database
+      echo '<script>
+              setTimeout(function() {
+                var alertElement = document.getElementById("alert");
+                alertElement.style.display = "none";
+              }, 3000);
+            </script>';
+            // This code returns the boolean value `false`
+            //the return statement is used to exit a function and return a value to the caller. In this case, the value being returned is false.
+      return false;
+  }
+  
+  if (!empty($usernameExists)) {
+      echo '<div id="alert" role="alert" class="alert alert-warning">
+              <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <span>Warning: username already exists. Please use another one.</span>
+            </div>';
 
+      echo '<script>
+              setTimeout(function() {
+                var alertElement = document.getElementById("alert");
+                alertElement.style.display = "none";
+              }, 3000);
+            </script>';
+      return false;
+  }
+ 
 
-
-  echo "You successfully registered!";
-  echo "<br>";
-  echo "<a href='/profile/login.php'>Go back</a>";
-  return true;
+  
+  if (empty($emailExists) && empty($usernameExists)) {
+    echo '<div id="success-alert" role="alert" class="alert alert-success">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>You successfully registered!</span>
+          </div>';
+ // The setTimeout function is used to delay the execution of a function.
+        // In this case, it delays the execution of the function by 2000 milliseconds (2 seconds).
+          // The following line retrieves the HTML element with the id "success-alert".
+          // The style.display property is used to control the visibility of an element.
+          // In this case, it sets the display property of the successAlert element to "none",
+          // which means the element will be hidden from view.
+         
+    echo '<script>
+            setTimeout(function() {
+              var successAlert = document.getElementById("success-alert");
+              successAlert.style.display = "none";
+            }, 2000);
+          </script>';
+    return true;
+} else {
+    return false;
 }
-
-
-
-
+}
 
 ?>
 <!DOCTYPE html>
