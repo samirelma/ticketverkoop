@@ -1,3 +1,4 @@
+
 <?php
 function checkEmail($mysqli, $email) {
     $resultaat = $mysqli -> query("SELECT * FROM users WHERE email = '". $email ."'"); 
@@ -47,6 +48,15 @@ function updateWachtwoord($mysqli, $email, $wachtwoord) {
         }   
     } else {
         header("Location: passwordReset.php");
-    }
-  
+    }  
+}
+
+function getTicketsByUser($mysqli, $userId) {
+    $resultaat = $mysqli->query("SELECT * FROM tbltickets WHERE userID =" .$userId);
+    return ($resultaat->num_rows ==0)?false:$resultaat->fetch_all(MYSQLI_ASSOC); 
+}
+
+function getEventsByEventid($mysqli, $eventId) {
+    $resultaat = $mysqli -> query("SELECT * FROM evenementen WHERE evenementId=" .$eventId); 
+    return ($resultaat ->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC); 
 }
