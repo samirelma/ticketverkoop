@@ -1,7 +1,7 @@
 <?php
  include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
  if(isset($_POST["ticket"])) {
-  header("Location: ../generatePDF.php");
+  header("Location: ../generatePDF.php?evenementID=".$_POST["evenementID"]);
  }
  ?>
 <!DOCTYPE html>
@@ -40,10 +40,12 @@
                   <th><?php echo $ticket["TicketID"]; ?></th>
                   <td><?php echo $event["naam"]; ?></td>
                   <td><?php echo $event["beschrijving"]; ?></td>
-                  <?php echo '
-                  <form method="post" action="mijnTickets.php">
-                  <td><button class="btn" name="ticket">Ticket</button></td>
-                  </form>
+                  <?php
+                  echo '
+                   <form method="post" action="mijnTickets.php">
+                  <input type="hidden" value="'.$ticket["evenementID"].'" name="evenementID">
+                   <td><button class="btn" name="ticket">Ticket</button></td>
+                   </form>
                   '?>
                 </tr>
           <?php  
