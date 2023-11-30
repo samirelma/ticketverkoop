@@ -19,18 +19,17 @@ $zaalid = $evenement["zaalID"];
 $zaalgegevens = getzalenByID($mysqli, $zaalid); 
 foreach ($zaalgegevens as $zaal); 
 
+$userID = $tickets["userID"];
 $userdata = getUserDataByID($mysqli, $userID);
 //generates pdf + add page
 $pdf = new FPDF(); 
 $pdf -> AddPage(); 
 
 //creates the pdf
-$pdf->SetFont('Arial', '', 10);
+$pdf->SetFont('Arial', 'B', 10);
 $pdf -> Cell(50, 10, 'RS Ticket Service', 0, 0, 'C');
-
-
-
-
+$pdf -> Cell(100, 10, $evenement["naam"], 0, 1, 'C');
+$pdf -> Image("./img/eventPictures/" . $evenement['afbeelding'] . "");
 
 
 //saves the pdf as file + output to browser 

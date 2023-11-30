@@ -70,6 +70,6 @@ function getzalenByID($mysqli, $zaalID) {
     return(($resultaat->num_rows == 0)?false:$resultaat); 
 }
 function getUserDataByID($mysqli, $userID) {
-    $resultaat = $mysqli -> query("SELECT * FROM users WHERE id=" .$userID); 
+    $resultaat = $mysqli -> query("SELECT * FROM users WHERE id=".$userID); 
     return(($resultaat->num_rows == 0)?false:$resultaat); 
 }
