@@ -18,6 +18,8 @@ $zaalid = $evenement["zaalID"];
 
 $zaalgegevens = getzalenByID($mysqli, $zaalid); 
 foreach ($zaalgegevens as $zaal); 
+
+$userdata = getUserDataByID($mysqli, $userID);
 //generates pdf + add page
 $pdf = new FPDF(); 
 $pdf -> AddPage(); 
