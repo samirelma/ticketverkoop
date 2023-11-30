@@ -60,3 +60,16 @@ function getEventsByEventid($mysqli, $eventId) {
     $resultaat = $mysqli -> query("SELECT * FROM evenementen WHERE evenementId=" .$eventId); 
     return ($resultaat ->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC); 
 }
+
+function getTicketdata($mysqli, $ticketid) {
+    $resultaat = $mysqli->query("SELECT * FROM tbltickets WHERE ticketID= ".$ticketid); 
+    return ($resultaat -> num_rows ==0)?false:$resultaat->fetch_all(MYSQLI_ASSOC);
+}
+function getzalenByID($mysqli, $zaalID) {
+    $resultaat = $mysqli->query("SELECT * FROM tblzalen WHERE zaalID=".$zaalID); 
+    return(($resultaat->num_rows == 0)?false:$resultaat); 
+}
+function getUserDataByID($mysqli, $userID) {
+    $resultaat = $mysqli -> query("SELECT * FROM users WHERE id=" .$userID); 
+    return(($resultaat->num_rows == 0)?false:$resultaat); 
+}
