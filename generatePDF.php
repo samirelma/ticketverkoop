@@ -29,7 +29,7 @@ $pdf -> AddPage();
 $pdf->SetFont('Arial', 'B', 10);
 $pdf -> Cell(50, 10, 'RS Ticket Service', 0, 0, 'C');
 $pdf -> Cell(100, 10, $evenement["naam"], 0, 1, 'C');
-$pdf -> Image("./img/eventPictures/" . $evenement['afbeelding'] . "");
+$pdf -> Image("./img/eventPictures/" . $evenement['afbeelding'] . "",10,20, 190, 110);
 
 
 //saves the pdf as file + output to browser 
