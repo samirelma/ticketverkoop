@@ -51,6 +51,7 @@ $pdf -> Cell(90,10,'prijs: '.$categorie["prijs"],1,1,'L');
 
 
 
+
 //saves the pdf as file + output to browser 
 //$pdf-> Output('F', 'ticket.pdf'); 
 $pdf-> Output('i'); 
