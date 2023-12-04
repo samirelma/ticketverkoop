@@ -151,7 +151,7 @@ function addEvent(
         <label class="label">
             <span class="label-text text-blue-500">Einde datum event</span>
         </label>
-        <input type="date" name="datum" class="input input-bordered w-full" required />
+        <input type="datetime-local" name="datum" class="input input-bordered w-full" required />
     </div>
 
     <!-- Number of Tickets -->
