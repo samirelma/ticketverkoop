@@ -4,6 +4,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/connect/db.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/fetch/util.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/functions/userfunctions.php";
 session_start();
+$searchTerm = $_GET['search'] ?? '';
 ?>
 
 
@@ -24,9 +25,12 @@ session_start();
     <a class="btn btn-ghost normal-case text-xl " href="../main_page/zalen.php">Zalen</a>
     <a class="btn btn-ghost normal-case text-xl " href="../index.php">Tickets</a>
     <div class="form-control">
-      <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
+    <form action="/components/search.php" method="get" class="form-control w-full relative">
+      <input type="text" name="search" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
+    </form>
     </div>
 </div>
+
     <?php
    echo ' <div class="dropdown dropdown-end">';
    if (isset($_SESSION["user"])) {
@@ -46,11 +50,10 @@ session_start();
         </div>
       </label>
       <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-        <li><a href="../profile/gebruikersProfiel.php">Profiel</a>
+        <li><a href="../profile/gegevens_aanpassen.php">Profiel</a>
         <li><a href="../profile/register.php">Registreren</a></li> 
-        <li><a href="../profile/logout.php">uitloggen</a></li>'; 
-        
-          if ($_SESSION["user"] == "bedrijf") {
+        <li><a href="../profile/logout.php">Uitloggen</a></li>';         
+          if ($_SESSION["user"] == "bedrijf") { 
             echo '<li><a href="../profile/evenementen-toevoegen.php">evenementen toevoegen</a></li>';
           }
           if ($_SESSION["user"] == "member") {
