@@ -66,10 +66,9 @@ $pdf -> SetTextColor(0,0,0);
 $pdf -> Cell(100,15,$evenement["beschrijving"],1,0, 'L'); 
 $pdf -> Cell (45,15, $tickets["rij"] ,1,0, 'L',0); 
 $pdf -> Cell(45,15,$tickets["stoel"] ,1,1,'L',0);
-// white space invoegen 
 $pdf -> Ln(10); 
 $pdf -> Cell(70,70,'qr code', 1, 0, 'C');
-$pdf->MultiCell( 120, 10, $kleineLetters, 1, 'L',0);
+$pdf-> MultiCell( 120, 17.5, $kleineLetters, 1, 'L');
 
 // output to browser 
 $pdf-> Output('i'); 
