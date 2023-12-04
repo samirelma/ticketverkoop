@@ -11,7 +11,6 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 </head>
 
 <?php
-
 // Database connection
 $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
 
@@ -38,6 +37,31 @@ if (isset($_POST['wijzig'])) {
     header('Location: /profile/gegevens_aanpassen.php');
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Handle the file upload
+    if (isset($_FILES['fileToUpload'])) {
+        $target_dir = $_SERVER['DOCUMENT_ROOT'] . "/img/accountPictures/";
+
+        $filename = basename($_FILES["fileToUpload"]["name"]);
+        $target_file = $target_dir . $filename;
+
+        // Check if the target directory exists and is writable
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0777, true);
+        }
+
+        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+            // Update the user's profile picture in the database
+            $query = 'UPDATE users SET profilePicture = ? WHERE id = ?';
+            $stmt = $mysqli->prepare($query);
+            $stmt->bind_param('si', $filename, $_SESSION["gebruikersid"]);
+            $stmt->execute();
+        } else {
+            echo "Sorry, there was an error uploading your file.";
+        }
+    }
+}
+
 
 
 ?>
@@ -48,8 +72,7 @@ if (isset($_POST['wijzig'])) {
 <body>
     <center>
         <h1 class="md:text-center text-4xl font-bold mb-8">Wijzig account</h1>
-        <form action="/profile/gegevens_aanpassen.php" method="post" class="flex flex-col gap-8 w-full md:max-w-2xl">
-            <div class="flex flex-col gap-4">
+<form action="/profile/gegevens_aanpassen.php" method="post" class="flex flex-col gap-8 w-full md:max-w-2xl" enctype="multipart/form-data">            <div class="flex flex-col gap-4">
                 <div class="flex flex-col gap-4 md:flex-row">
                     <div class="form-control md:flex-1">
                         <label class="label">
