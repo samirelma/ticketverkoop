@@ -2,8 +2,7 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Gegenereerd op: 01 dec 2023 om 14:00
+
 -- Serverversie: 10.4.24-MariaDB
 -- PHP-versie: 7.4.29
 
@@ -30,7 +29,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `evenementen` (
   `evenementID` int(11) NOT NULL,
   `naam` mediumtext NOT NULL,
-  `datum` date NOT NULL,
+  `datum` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `aantalTickets` int(11) NOT NULL,
   `beschrijving` text NOT NULL,
   `afbeelding` mediumtext NOT NULL,
@@ -42,13 +41,14 @@ CREATE TABLE `evenementen` (
 --
 
 INSERT INTO `evenementen` (`evenementID`, `naam`, `datum`, `aantalTickets`, `beschrijving`, `afbeelding`, `zaalID`) VALUES
-(1, 'Test', '0000-00-00', 15, 'testtt', '', 0),
-(2, 'test', '2023-11-06', 15, 'cool', '', 1),
-(3, '', '0000-00-00', 0, '', '', 1),
-(4, 'Hans Zimmer live! ', '2023-11-30', 2000, 'Hans Zimmer live a unique concert experience ', 'HansZimmerLive.jpeg', 1),
-(5, 'Robi Live', '2023-12-08', 11, 'wwww', 'e8773f51-7d80-4086-a861-3ef6628fef30.jpeg', 0),
-(6, 'ww', '2023-11-29', 11, 'll', 'achtergrond.jpg', 1),
-(7, 'testttt', '2023-11-29', 1000, 'ttt', 'e8773f51-7d80-4086-a861-3ef6628fef30.jpeg', 2);
+(1, 'Test', '0000-00-00 00:00:00', 15, 'testtt', '', 0),
+(2, 'test', '2023-11-06 00:00:00', 15, 'cool', '', 1),
+(3, '', '0000-00-00 00:00:00', 0, '', '', 1),
+(4, 'Hans Zimmer live! ', '2023-11-30 20:30:00', 2000, 'Hans Zimmer live a unique concert experience ', 'HansZimmerLive.jpeg', 1),
+(5, 'Robi Live', '2023-12-08 00:00:00', 11, 'wwww', 'e8773f51-7d80-4086-a861-3ef6628fef30.jpeg', 0),
+(6, 'ww', '2023-11-29 00:00:00', 11, 'll', 'achtergrond.jpg', 1),
+(7, 'testttt', '2023-11-29 00:00:00', 1000, 'ttt', 'e8773f51-7d80-4086-a861-3ef6628fef30.jpeg', 2);
+
 
 -- --------------------------------------------------------
 
@@ -103,6 +103,8 @@ CREATE TABLE `ticket_categories` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `icon` text NOT NULL,
+  `beschrijving` text NOT NULL,
+
   `prijs` decimal(38,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -110,8 +112,9 @@ CREATE TABLE `ticket_categories` (
 -- Gegevens worden geëxporteerd voor tabel `ticket_categories`
 --
 
-INSERT INTO `ticket_categories` (`id`, `name`, `icon`, `prijs`) VALUES
-(1, 'Golden Cirkel (VIP) ', '', '80');
+INSERT INTO `ticket_categories` (`id`, `name`, `icon`, `beschrijving`, `prijs`) VALUES
+(1, 'Golden Cirkel (VIP) ', '', 'Op vertoon van dit ticket krijg je toegang tot het eten, de zaal en de parking. De deuren van de voorstelling gaan telkens een half uur voor de start van de voorstelling open. ', '80');
+
 
 -- --------------------------------------------------------
 
@@ -263,7 +266,8 @@ ALTER TABLE `ticket_categories`
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
 
 --
 -- AUTO_INCREMENT voor een tabel `user_roles`
