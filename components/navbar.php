@@ -50,11 +50,10 @@ $searchTerm = $_GET['search'] ?? '';
         </div>
       </label>
       <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-        <li><a href="../profile/gebruikersProfiel.php">Profiel</a>
+        <li><a href="../profile/gegevens_aanpassen.php">Profiel</a>
         <li><a href="../profile/register.php">Registreren</a></li> 
-        <li><a href="../profile/logout.php">uitloggen</a></li>'; 
-        
-          if ($_SESSION["user"] == "bedrijf") {
+        <li><a href="../profile/logout.php">Uitloggen</a></li>';         
+          if ($_SESSION["user"] == "bedrijf") { 
             echo '<li><a href="../profile/evenementen-toevoegen.php">evenementen toevoegen</a></li>';
           }
           if ($_SESSION["user"] == "member") {
