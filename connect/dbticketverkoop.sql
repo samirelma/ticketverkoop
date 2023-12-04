@@ -2,7 +2,8 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
-
+-- Host: 127.0.0.1
+-- Gegenereerd op: 04 dec 2023 om 09:55
 -- Serverversie: 10.4.24-MariaDB
 -- PHP-versie: 7.4.29
 
@@ -48,7 +49,6 @@ INSERT INTO `evenementen` (`evenementID`, `naam`, `datum`, `aantalTickets`, `bes
 (5, 'Robi Live', '2023-12-08 00:00:00', 11, 'wwww', 'e8773f51-7d80-4086-a861-3ef6628fef30.jpeg', 0),
 (6, 'ww', '2023-11-29 00:00:00', 11, 'll', 'achtergrond.jpg', 1),
 (7, 'testttt', '2023-11-29 00:00:00', 1000, 'ttt', 'e8773f51-7d80-4086-a861-3ef6628fef30.jpeg', 2);
-
 
 -- --------------------------------------------------------
 
@@ -104,7 +104,6 @@ CREATE TABLE `ticket_categories` (
   `name` varchar(50) NOT NULL,
   `icon` text NOT NULL,
   `beschrijving` text NOT NULL,
-
   `prijs` decimal(38,0) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -114,7 +113,6 @@ CREATE TABLE `ticket_categories` (
 
 INSERT INTO `ticket_categories` (`id`, `name`, `icon`, `beschrijving`, `prijs`) VALUES
 (1, 'Golden Cirkel (VIP) ', '', 'Op vertoon van dit ticket krijg je toegang tot het eten, de zaal en de parking. De deuren van de voorstelling gaan telkens een half uur voor de start van de voorstelling open. ', '80');
-
 
 -- --------------------------------------------------------
 
@@ -267,7 +265,6 @@ ALTER TABLE `ticket_categories`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
-
 
 --
 -- AUTO_INCREMENT voor een tabel `user_roles`
