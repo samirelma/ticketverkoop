@@ -27,7 +27,7 @@ foreach ($userdata as $user);
 $categorieData = getCategorieDataByID($mysqli, $tickets["categoryID"]); 
 foreach ($categorieData as $categorie); 
 
-if ($categorie["id"] != 1) {
+if ($categorie["id"] == 1) {
  $kleineLetters = 'Op vertoon van dit ticket krijg je toegang tot het eten, de zaal en de parking. De deuren van de voorstelling gaan telkens een half uur voor de start van de voorstelling open. Met dit ticket kan je maar een keer binnen geef deze ticket dus niet door zonder dit te registreren op de website. 
  Let Op scan de qr code van deze ticket niet zelf, de qr code van dit ticket is maar 1 keer geldig en kan geen tweede keer meer gescand worden. indien uw ticket niet geldig is kan uw toegang tot de zaal gewijgerd worden.';
  $lengte = 7.77 ; 
