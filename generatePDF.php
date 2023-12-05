@@ -5,6 +5,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/connect/db.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/fetch/util.php";
 session_start();
 
+define('EURO',chr(128));
 
 $userid = $_SESSION["gebruikersid"];
 $ticketid = $_GET["ticketID"];
@@ -58,7 +59,7 @@ $pdf -> Cell(100, 10, $zaal["naam"], 1, 0, 'L',1 );
 $pdf -> Cell(90,10, 'Categorie: ' .$categorie["name"],1,1,'L',1);
 $pdf -> SetTextColor(0,0,0);
 $pdf -> Cell(100, 10, $evenement["naam"], 1, 0, 'L' );
-$pdf -> Cell(90,10,'prijs: '.$categorie["prijs"],1,1,'L');
+$pdf -> Cell(90,10,'prijs: '.EURO.$categorie["prijs"],1,1,'L');
 $pdf -> SetTextColor(253,255,255);
 $pdf -> Cell(100,10,' beschrijving',1,0, 'L', 1); 
 $pdf -> Cell (45,10, 'rij',1,0, 'L',1); 
