@@ -54,7 +54,8 @@ $searchTerm = $_GET['search'] ?? '';
         <li><a href="../profile/register.php">Registreren</a></li> 
         <li><a href="../profile/logout.php">Uitloggen</a></li>';         
           if ($_SESSION["user"] == "bedrijf") { 
-            echo '<li><a href="../profile/evenementen-toevoegen.php">evenementen toevoegen</a></li>';
+            echo '<li><a href="../profile/evenementen-toevoegen.php">evenementen toevoegen</a></li>
+            <li><a href="../profile/EvenementenOverzichtBedrijf.php">overzicht bedrijfsevenementen</a></li>';
           }
           if ($_SESSION["user"] == "member") {
             echo '<li><a href="../profile/mijnTickets.php">Mijn Tickets</a></li>';
