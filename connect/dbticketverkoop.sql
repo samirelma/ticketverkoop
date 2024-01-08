@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 04 dec 2023 om 09:55
+-- Gegenereerd op: 08 jan 2024 om 15:58
 -- Serverversie: 10.4.24-MariaDB
 -- PHP-versie: 7.4.29
 
@@ -112,7 +112,9 @@ CREATE TABLE `ticket_categories` (
 --
 
 INSERT INTO `ticket_categories` (`id`, `name`, `icon`, `beschrijving`, `prijs`) VALUES
-(1, 'Golden Cirkel (VIP) ', '', 'Op vertoon van dit ticket krijg je toegang tot het eten, de zaal en de parking. De deuren van de voorstelling gaan telkens een half uur voor de start van de voorstelling open. ', '80');
+(1, 'Golden Cirkel (VIP) ', 'vipIcon.jpg', 'Op vertoon van dit ticket krijg je toegang tot het eten, de zaal en de parking. De deuren van de voorstelling gaan telkens een half uur voor de start van de voorstelling open. ', '80'),
+(2, 'casual', '', 'de stoelen met goed zicht achter de vip arrangementen ', '70'),
+(3, 'normal', '', 'zitplaatsen verst verwijderd van het podium ', '50');
 
 -- --------------------------------------------------------
 
@@ -258,7 +260,7 @@ ALTER TABLE `tblzalen`
 -- AUTO_INCREMENT voor een tabel `ticket_categories`
 --
 ALTER TABLE `ticket_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT voor een tabel `users`
