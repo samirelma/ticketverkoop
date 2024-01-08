@@ -121,7 +121,7 @@ if (count($users) > 0) {
     echo "</div>";
   }
 } else {
-  echo "<p>Geen gebruikers gevonden</p>";
+  echo "<p>Geen bedrijven gevonden</p>";
   ?>
   <a href="../profile/bedrijven-verwijderen.php" >klik hier om terug te gaan</a>
   <?php
