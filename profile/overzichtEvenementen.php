@@ -9,7 +9,6 @@
 </head>
 <body>
     <?php
-   
    ?>
    <div class="overflow-x-auto">
    <table class="table">
@@ -32,7 +31,6 @@
           $checked = ""; 
         }
        ?>
-       
            <tr>
              <th><?php echo $evenemten["evenementID"]?></th>
              <td><?php echo $evenemten["naam"]?></td>
@@ -48,9 +46,7 @@
        </table>
        <?php
        }
-       if(isset($_POST["weergeven"])) {
-        
-       }
+     
        ?>
      </div>
 
