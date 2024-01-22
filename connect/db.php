@@ -77,3 +77,7 @@ function getCategorieDataByID($mysqli, $tickets) {
     $resultaat = $mysqli -> query("SELECT * FROM ticket_categories WHERE id=" .$tickets); 
     return(($resultaat->num_rows == 0)?false:$resultaat); 
 }
+function  getEventsByUserID($mysqli,$userID) {
+    $resultaat = $mysqli -> query("SELECT * FROM  evenementen WHERE userID=" . $userID); 
+    return(($resultaat->num_rows == 0)?false:$resultaat); 
+}

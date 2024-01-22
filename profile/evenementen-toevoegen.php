@@ -52,7 +52,7 @@ function addEvent(
   $file,
   $zaalID
 ) {
-    $query = 'INSERT INTO evenementen (naam, datum, aantalTickets, beschrijving, afbeelding, zaalID) VALUES (?, ?, ?, ?, ?, ?)';  // Add zaalID to the query
+    $query = 'INSERT INTO evenementen (naam, datum, aantalTickets, beschrijving, afbeelding, zaalID, userID, weergeven) VALUES (?, ?, ?, ?, ?, ?, '.$_SESSION["gebruikersid"].', 1)';  // Add zaalID to the query
 
     // Use the user ID to query the database
     $sql = "SELECT * FROM users WHERE id = ?";

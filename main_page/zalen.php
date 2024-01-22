@@ -15,6 +15,7 @@ if (isset($_POST["zaal"])) {
  echo '<div class="flex flex-wrap gap-4">';
  if($data != false) {
  foreach ($data as $event) {
+  if($event["weergeven"] == 1) {
   echo '
   <div class="card w-96 bg-base-100 shadow-xl">
   <figure class="px-10 pt-10">';
@@ -34,7 +35,7 @@ if (isset($_POST["zaal"])) {
     </div>
   </div>
 </div>'; 
-
+  } 
  }
 } else {
   echo '<p class="text-2xl">er zijn geen gegevens gepland voor deze zaal</p>';

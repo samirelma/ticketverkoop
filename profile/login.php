@@ -20,7 +20,7 @@ if (isset($_POST["knop"])) {
             header('Location: ../index.php');
         }
     } else {
-        header('location: login.php?1');
+        header('location: login.php?');
     }
 }
    
