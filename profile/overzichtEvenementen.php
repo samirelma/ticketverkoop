@@ -20,32 +20,35 @@
          <th>weergeven</th>
        </tr>
      </thead>
-     <tbody>
-       <?php
-       $userID = $_SESSION["gebruikersid"]; 
-        $dataEvenement = getEventsByUserID($mysqli,$userID); 
-       foreach ($dataEvenement as $evenemten) {
-        if ($evenemten["weergeven"] == 1) {
-          $checked = "checked"; 
-        } else {
-          $checked = ""; 
+      <tbody>
+        <?php
+        $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
+        $userID = $_SESSION["gebruikersid"]; 
+        $dataEvenement = getEventsByUserID($mysqli,$userID);  
+        if ($dataEvenement->num_rows > 0) {
+          while ($row = $dataEvenement->fetch_assoc()) {
+            if($row['weergeven'] == 1){
+              $checked = "checked";
+            }else{
+              $checked = "";
+            }
+
+            ?>
+            <tr>
+              <td><?php echo $row['evenementID']; ?></td>
+              <td><?php echo $row['naam']; ?></td>
+              <td><?php echo $row['beschrijving']; ?></td>
+              <td><input type="checkbox" class="toggle toggle-info" id="weergeven"  <?php $checked ?>/></td>            
+            </tr>
+            <?php
+          }
         }
-       ?>
-           <tr>
-             <th><?php echo $evenemten["evenementID"]?></th>
-             <td><?php echo $evenemten["naam"]?></td>
-             <td><?php echo $evenemten["beschrijving"]?></td>
-             
-             <?php echo '
-              <form method="post" action="overzichtEvenementen.php">
-              <td><input type="checkbox" class="toggle toggle-info" id="weergeven" '.$checked.'/></td>
-              </form>
-             '; ?>
-           </tr>
-         </tbody>
+        ?>
+      </tbody>
+
        </table>
        <?php
-       }
+       
      
        ?>
      </div>
