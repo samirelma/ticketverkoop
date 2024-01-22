@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 08 jan 2024 om 15:58
+-- Gegenereerd op: 22 jan 2024 om 15:05
 -- Serverversie: 10.4.24-MariaDB
 -- PHP-versie: 7.4.29
 
@@ -34,21 +34,26 @@ CREATE TABLE `evenementen` (
   `aantalTickets` int(11) NOT NULL,
   `beschrijving` text NOT NULL,
   `afbeelding` mediumtext NOT NULL,
-  `zaalID` int(11) NOT NULL
+  `zaalID` int(11) NOT NULL,
+  `userID` int(11) NOT NULL,
+  `weergeven` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `evenementen`
 --
 
-INSERT INTO `evenementen` (`evenementID`, `naam`, `datum`, `aantalTickets`, `beschrijving`, `afbeelding`, `zaalID`) VALUES
-(1, 'Test', '0000-00-00 00:00:00', 15, 'testtt', '', 0),
-(2, 'test', '2023-11-06 00:00:00', 15, 'cool', '', 1),
-(3, '', '0000-00-00 00:00:00', 0, '', '', 1),
-(4, 'Hans Zimmer live! ', '2023-11-30 20:30:00', 2000, 'Hans Zimmer live a unique concert experience ', 'HansZimmerLive.jpeg', 1),
-(5, 'Robi Live', '2023-12-08 00:00:00', 11, 'wwww', 'e8773f51-7d80-4086-a861-3ef6628fef30.jpeg', 0),
-(6, 'ww', '2023-11-29 00:00:00', 11, 'll', 'achtergrond.jpg', 1),
-(7, 'testttt', '2023-11-29 00:00:00', 1000, 'ttt', 'e8773f51-7d80-4086-a861-3ef6628fef30.jpeg', 2);
+INSERT INTO `evenementen` (`evenementID`, `naam`, `datum`, `aantalTickets`, `beschrijving`, `afbeelding`, `zaalID`, `userID`, `weergeven`) VALUES
+(1, 'Test', '2024-02-09 12:49:00', 15, 'testtt', '', 0, 0, 0),
+(2, 'test', '2024-01-19 14:33:28', 15, 'cool', '', 1, 0, 0),
+(3, '', '2024-01-19 14:33:24', 0, '', '', 1, 0, 0),
+(4, 'Hans Zimmer live! ', '2024-01-19 15:42:51', 200, 'Hans Zimmer live a unique concert experience ', 'HansZimmerLive.jpeg', 1, 26, 1),
+(5, 'Robi Live', '2023-12-08 00:00:00', 11, 'wwww', 'e8773f51-7d80-4086-a861-3ef6628fef30.jpeg', 0, 0, 0),
+(6, 'ww', '2023-11-29 00:00:00', 11, 'll', 'achtergrond.jpg', 1, 0, 0),
+(7, 'testttt', '2023-11-29 00:00:00', 1000, 'ttt', 'e8773f51-7d80-4086-a861-3ef6628fef30.jpeg', 2, 0, 0),
+(8, 'aaa', '2024-01-02 16:11:00', 2147483647, 'ffsq', '', 1, 0, 0),
+(9, 'weergeventest', '2024-02-10 20:00:00', 2500, 'test', '', 1, 0, 1),
+(10, 'nieuwe test', '2024-01-19 14:43:00', 2500, 'test invoegen userid', '', 1, 26, 1);
 
 -- --------------------------------------------------------
 
@@ -70,7 +75,7 @@ CREATE TABLE `tbltickets` (
 --
 
 INSERT INTO `tbltickets` (`TicketID`, `rij`, `stoel`, `evenementID`, `categoryID`, `userID`) VALUES
-(1, 10, 20, 4, 1, 17);
+(1, 10, 20, 4, 1, 26);
 
 -- --------------------------------------------------------
 
@@ -153,7 +158,9 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `firstname`, `lastna
 (17, '123', 'test@lol.com', '$argon2id$v=19$m=65536,t=4,p=1$VFpYUDQ4MGNrWGFTU3lXSw$SE8cUvW7gWrp08kBzfkDFiNXRw21RkgLm5n2A6Sx0MQ', 'test', 'test', 1, '', '2023-11-30 08:17:01', '2023-11-27 11:32:41'),
 (19, 'ik@test.com', 'ik@test.com', '$argon2id$v=19$m=65536,t=4,p=1$dndvczZiSXhmbmoxSUpObQ$skAS6YEdda9jnbAJkEgC8s/z1yYRrS6csCz+G9frvLw', 'ik', 'l', 2, '', '2023-11-27 15:01:00', '2023-11-27 15:01:00'),
 (21, 'bedijf', 'bedrijftest@test.com', '$argon2id$v=19$m=65536,t=4,p=1$ZTFkOTBZY0JmTVdIS2p2eg$yKEx+BHWd3mWp6Rgkmlv4Bv1hY9nQvVMiPEAr5l2zis', 'bdrijf', 'bedrijf', 2, '', '2023-12-01 12:47:24', '2023-12-01 12:47:24'),
-(22, 'john', 'john@gmail.com', '$argon2id$v=19$m=65536,t=4,p=1$YnNjTTdtcVhacU9xcUhmVA$Wvf27gmT2sxZKqozdk/CB0GE87Ms02nMPGPKk+RokX8', 'john', 'Doe', 3, '', '2023-12-01 12:53:32', '2023-12-01 12:50:01');
+(22, 'john', 'john@gmail.com', '$argon2id$v=19$m=65536,t=4,p=1$YnNjTTdtcVhacU9xcUhmVA$Wvf27gmT2sxZKqozdk/CB0GE87Ms02nMPGPKk+RokX8', 'john', 'Doe', 3, '', '2023-12-01 12:53:32', '2023-12-01 12:50:01'),
+(26, 'alfa', 'alfa@alfa.com', '$argon2id$v=19$m=65536,t=4,p=1$cG10bEpuRjBTUno2VXNBbA$aj9C0TTDTNs8KSNZ2y55EkkIEmmiYkFY0gucgjLSQss', 'alfa', 'alfa', 2, 'achtergrond.jpg', '2024-01-15 14:48:13', '2024-01-08 15:10:09'),
+(28, 'AAAAAAAAAAAAAA', 'a@b.c', '$argon2id$v=19$m=65536,t=4,p=1$QWxMQUsuOHhYSkp3WmxjWA$B/kZyv/iycZAf47V9TEBsV5XjCOfq4/Hq54NouY7cWA', 'AAAAAAAAAAAAAAAAAA', 'AAAAAAAAAAAAAAAAAA', 1, 'achtergrond.jpeg', '2024-01-15 14:49:18', '2024-01-15 14:49:04');
 
 -- --------------------------------------------------------
 
@@ -242,7 +249,7 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT voor een tabel `evenementen`
 --
 ALTER TABLE `evenementen`
-  MODIFY `evenementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `evenementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT voor een tabel `tbltickets`
@@ -266,7 +273,7 @@ ALTER TABLE `ticket_categories`
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT voor een tabel `user_roles`
