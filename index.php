@@ -18,7 +18,7 @@
 
 
 
-$sql = "SELECT naam, aantalTickets, beschrijving, afbeelding FROM evenementen";
+$sql = "SELECT naam, aantalTickets, beschrijving, afbeelding, weergeven FROM evenementen";
 
 
 
@@ -26,9 +26,11 @@ $sql = "SELECT naam, aantalTickets, beschrijving, afbeelding FROM evenementen";
 $result = mysqli_query($mysqli, $sql);
 
 // Display the ticket data in an HTML table
+
 echo "<div class='grid grid-cols-4 gap-4'>";
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
+    if ($row['weergeven'] == 1) {
       echo "<div class='p-4 border rounded-lg'>";
       if ($row['afbeelding'] != '') {
          // If the file exists in the 'img/eventPictures/' directory, set $imgPath to the path of the image
@@ -50,6 +52,7 @@ if ($result->num_rows > 0) {
       echo "<p class='text-gray-600'>aantal Tickets: " . $row['aantalTickets'] . "</p>";
       echo "<button class='btn btn-primary'>Buy Now</button>";
       echo "</div>";
+  }
   }
 } else {
   echo "No results to display!";
