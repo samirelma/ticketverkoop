@@ -140,35 +140,31 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
     <h1 class="text-center text-4xl font-bold mb-12 text-blue-500">Maak een nieuwe evenement</h1>
 
     <form action="/profile/evenementen-toevoegen.php" method="post" enctype="multipart/form-data" class="flex flex-col items-center justify-center gap-4 max-w-2xl mx-auto">
-    <!-- Zalen -->
-       
-            <?php
-            // Connect to the database
-            $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
+        <!-- Zaal Selection -->
+        <div class="form-control w-full">
+            <label class="label">
+                <span class="label-text text-blue-500">Zaal</span>
+            </label>
+            <select name="zaal" id="zaal" class="input input-bordered w-full" required>
+                <?php
+                // Connect to the database
+                $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
 
-            // Prepare the SQL query
-            $stmt = $mysqli->prepare("SELECT zaalID, naam FROM tblzalen");
+                // Prepare the SQL query
+                $stmt = $mysqli->prepare("SELECT zaalID, naam, capaciteit FROM tblzalen");
 
-            // Execute the query
-            $stmt->execute();
+                // Execute the query
+                $stmt->execute();
 
-            // Get the result
-            $result = $stmt->get_result();
+                // Get the result
+                $result = $stmt->get_result();
 
-            // Start the select element
-            echo "<div class='form-control w-full'>";
-            echo "<label class='label'>";
-            echo "<span class='label-text text-blue-500'>Zalen</span>";
-            echo "</label>";
-            echo "<select name='zaal' class='select select-bordered w-full'>";
-            // Loop through the result and create the option elements
-            while ($row = $result->fetch_assoc()) {
-                echo "<option name='zaalID' value='" . $row['zaalID'] . "'>" . $row['naam'] . "</option>";
-            }
-
-            // End the select element
-            echo "</select>";
-            ?>
+                // Loop through the result and create the option elements
+                while ($row = $result->fetch_assoc()) {
+                    echo "<option value='" . $row['zaalID'] . "' data-capaciteit='" . $row['capaciteit'] . "'>" . $row['naam'] . "</option>";
+                }
+                ?>
+            </select>
         </div>
         <!-- Name -->
         <div class="form-control w-full">
@@ -186,30 +182,36 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
             <input type="datetime-local" name="datum" class="input input-bordered w-full" required min="<?php echo date('Y-m-d\TH:i'); ?>" />
         </div>
 
-        <!-- Number of Tickets -->
-        <div class="form-control w-full">
-            <label class="label">
-                <span class="label-text text-blue-500">Aantal tickets</span>
-            </label>
-            <?php
-            // Connect to the database
-            $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
+<!-- Number of Tickets -->
+<div class="form-control w-full">
+    <label class="label">
+        <span class="label-text text-blue-500">Aantal tickets</span>
+    </label>
+    <input type="number" name="aantalTickets" id="aantalTickets" placeholder="100" min="0" class="input input-bordered w-full" required />
+    <p id="warning" style="display: none; color: red;">The number of tickets exceeds the capacity!</p>
+</div>
 
-            // Get the selected zaalID
-            $selectedZaalID = $_POST['zaal'] ?? '';
+<script>
+// When the selected zaal changes, update the max value of the aantalTickets input
+document.getElementById('zaal').addEventListener('change', function() {
+    var selectedOption = this.options[this.selectedIndex];
+    var capaciteit = selectedOption.getAttribute('data-capaciteit');
+    document.getElementById('aantalTickets').max = capaciteit;
+});
 
-            // Prepare the SQL query to get the maximum capaciteit for the selected zaalID
-            $stmt = $mysqli->prepare("SELECT capaciteit FROM tblzalen WHERE zaalID = ?");
-            $stmt->bind_param("s", $selectedZaalID);
-            $stmt->execute();
-            $stmt->bind_result($maxCapaciteit);
-            $stmt->fetch();
-            $stmt->close();
+// When the number of tickets changes, check if it exceeds the capacity
+document.getElementById('aantalTickets').addEventListener('input', function() {
+    var capaciteit = document.getElementById('zaal').options[document.getElementById('zaal').selectedIndex].getAttribute('data-capaciteit');
+    var warning = document.getElementById('warning');
+    if (this.value > capaciteit) {
+        warning.style.display = 'block';
+    } else {
+        warning.style.display = 'none';
+    }
+});
+</script>
 
-            // Render the input field with the maximum allowed value
-            echo "<input type='number' name='aantalTickets' placeholder='100' class='input input-bordered w-full' required min='0' max='$maxCapaciteit' />";
-            ?>
-        </div>
+
 
         <!-- Description -->
         <div class="form-control w-full">
@@ -226,7 +228,7 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
             </label>
             <input type="file" name="fileToUpload" id="fileToUpload">
         </div>
-    
+
         <!-- Submit -->
 
         <div class="form-control w-full max-w-xs mt-4">
