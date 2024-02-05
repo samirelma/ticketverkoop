@@ -188,27 +188,25 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
         <span class="label-text text-blue-500">Aantal tickets</span>
     </label>
     <input type="number" name="aantalTickets" id="aantalTickets" placeholder="100" min="0" class="input input-bordered w-full" required />
-    <p id="warning" style="display: none; color: red;">The number of tickets exceeds the capacity!</p>
+    <p id="warning" style="display: none; color: red;"></p>
 </div>
 
 <script>
+
 // When the selected zaal changes, update the max value of the aantalTickets input
-document.getElementById('zaal').addEventListener('change', function() {
-    var selectedOption = this.options[this.selectedIndex];
+function updateMaxValue() {
+    var selectedOption = document.getElementById('zaal').options[document.getElementById('zaal').selectedIndex];
     var capaciteit = selectedOption.getAttribute('data-capaciteit');
     document.getElementById('aantalTickets').max = capaciteit;
-});
+}
 
-// When the number of tickets changes, check if it exceeds the capacity
-document.getElementById('aantalTickets').addEventListener('input', function() {
-    var capaciteit = document.getElementById('zaal').options[document.getElementById('zaal').selectedIndex].getAttribute('data-capaciteit');
-    var warning = document.getElementById('warning');
-    if (this.value > capaciteit) {
-        warning.style.display = 'block';
-    } else {
-        warning.style.display = 'none';
-    }
-});
+// Call the updateMaxValue function initially
+updateMaxValue();
+
+// Add event listener to the zaal selection
+document.getElementById('zaal').addEventListener('change', updateMaxValue);
+
+
 </script>
 
 
