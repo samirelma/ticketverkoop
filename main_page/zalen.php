@@ -1,5 +1,8 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
+if (isset($_POST["bestelTicket"])) {
+  header("Location:../selectTicketPage.php"); 
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,8 +34,10 @@ if (isset($_POST["zaal"])) {
     <p>'.$event["beschrijving"].'</p>
     <p> datum: '.$event["datum"].'</p>
     <div class="card-actions">
-      <button class="btn btn-primary">Bestel tickets</button>
-    </div>
+      <form method="post" action="zalen.php">
+      <button class="btn btn-primary" name="bestelTicket">Bestel tickets</button>
+      </form>
+      </div>
   </div>
 </div>'; 
   } 

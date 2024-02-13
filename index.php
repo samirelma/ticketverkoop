@@ -1,5 +1,8 @@
 <?php
  include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
+ if (isset($_POST["koopNu"])) {
+  header("Location: selectTicketPage.php"); 
+ }
 ?>
 <!DOCTYPE html>
 <html>
@@ -50,7 +53,7 @@ if ($result->num_rows > 0) {
       echo "<h2 class='text-gray-600'>Naam: " . $row['naam'] . "</h2>";
       echo "<p class='text-gray-600'>Beschrijving: " . $row['beschrijving'] . "</p>";
       echo "<p class='text-gray-600'>aantal Tickets: " . $row['aantalTickets'] . "</p>";
-      echo "<button class='btn btn-primary'>Buy Now</button>";
+      echo '<form method="post" action="index.php"><button class="btn btn-primary" name="koopNu">Buy Now</button></form>';
       echo "</div>";
   }
   }
