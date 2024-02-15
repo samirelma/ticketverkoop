@@ -64,8 +64,6 @@ if ($result->num_rows > 0) {
   echo "No results to display!";
 }
 echo "</div>";
-
-
 ?>
   </body>
   </html>
