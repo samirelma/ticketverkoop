@@ -1,5 +1,6 @@
 <?php
 require "fpdf186/fpdf.php";
+require "phpqrcode/qrlib.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/connect/db.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/fetch/util.php";
@@ -70,6 +71,8 @@ $pdf -> Cell (45,15, $tickets["rij"] ,1,0, 'L',0);
 $pdf -> Cell(45,15,$tickets["stoel"] ,1,1,'L',0);
 $pdf -> Ln(10); 
 $pdf -> Cell(70,70,'qr code', 1, 0, 'C');
+$pdf -> Cell(120,70, $pdf -> Image("temp/test".md5($tickets['TicketID'].'|L|4').".png", 10, 10, 100, 100), 1, 1, 'C');
+$pdf -> SetTextColor(253,255,255);
 $pdf-> MultiCell( 120, $lengte, $kleineLetters, 1, 'L');
 
 // output to browser 
