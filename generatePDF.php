@@ -71,6 +71,50 @@ $pdf -> Cell (45,15, $tickets["rij"] ,1,0, 'L',0);
 $pdf -> Cell(45,15,$tickets["stoel"] ,1,1,'L',0);
 $pdf -> Ln(10); 
 $pdf -> Cell(70,70,'qr code', 1, 0, 'C');
+
+$currentDate = date("Y-m-d");
+$eventDate = $evenement["datum"];/*This is like looking at an invitation to a party (the $evenement), 
+finding the date of the party (the "datum"), and writing it down.
+*/
+$eventDate = date("Y-m-d", strtotime($eventDate));//So, overall, these lines of code retrieve the current date,
+// assigns the value of $evenement["datum"] to $eventDate, and then format $eventDate as a date in the "Y-m-d" format.
+
+/*This is like taking the date we wrote down from the invitation and making sure it's in the same special format as today's date. 
+We do this so we can easily compare the two dates later.
+ The strtotime part is like translating the date from the invitation into a language that our special date format understands.
+*/
+if ($eventDate == $currentDate) {
+    $codeText = "Valid Ticket";
+} else {
+    $codeText = "Invalid Ticket";
+}
+
+$codeText = str_replace(" ", "", $codeText);
+QRcode::png($codeText, "qrcode.png", QR_ECLEVEL_L, 3);
+$pdf -> Image("qrcode.png", 20, 210, 50, 50); 
+unlink("qrcode.png");
+/*1st line
+$codeText = str_replace(" ", "", $codeText); - This line is removing all spaces from the $codeText string. 
+The str_replace function is used to replace some characters with some other characters in a string. 
+Here, it's replacing spaces (" ") with nothing ("").
+
+2nd line
+QRcode::png($codeText, "qrcode.png", QR_ECLEVEL_L, 3); - 
+This line is generating a QR code from the $codeText string. 
+The QRcode::png function is part of the PHP QR Code library. It creates a PNG image of a QR code with the text from $codeText.
+The image is saved as "qrcode.png". QR_ECLEVEL_L is the error correction level, and 3 is the size of the QR code.
+
+3de line
+$pdf -> Image("qrcode.png", 20, 210, 50, 50); - 
+This line is adding the QR code image to a PDF document. 
+The Image method is part of the FPDF library, which is a PHP class to generate PDF files. 
+It inserts the image file "qrcode.png" at the position (20, 210) in the PDF, and the image's size is set to 50x50 units.
+
+4th line
+unlink("qrcode.png"); - This line is deleting the "qrcode.png" file from the server. 
+The unlink function in PHP is used to delete files. 
+It's used here to clean up and remove the QR code image file after it has been added to the PDF.
+*/
 $pdf-> MultiCell( 120, $lengte, $kleineLetters, 1, 'L');
 
 
