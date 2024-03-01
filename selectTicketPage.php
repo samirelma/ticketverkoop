@@ -31,8 +31,7 @@ foreach ($zaalAsString as $zaal) {
     </div>
     <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
     <?php  
-  
-      if (!isset($_POST["volgende"])) {
+      if ((!isset($_POST["volgende"]))&&(!isset($_POST["volgende2"]))) {
       ?>
       <form class="card-body" method="post" action="selectTicketPage.php">
         <div class="form-control">
@@ -63,6 +62,7 @@ foreach ($zaalAsString as $zaal) {
             <span class="label-text">Blok</span>
           </label>
           <input type="hidden" name="zaalID2" value="<?php echo $zaalID ?>">
+          <input typpe="hidden" name
           <select class="select w-full max-w-xs">
             <?php  foreach (berekenZaalBlokken($mysqli, $ticketCategorie) as $blok) { ?>
              <option value="<?php echo $blok ?>"><?php echo $blok?></option> <?php } ?>
@@ -74,8 +74,23 @@ foreach ($zaalAsString as $zaal) {
       </form>
         <?php
       } elseif (isset($_POST["volgende2"])){
-        echo "stoel";
-      }  ?>
+        ?>
+        <form class="card-body" method="post" action="selectTicketPage.php">
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Stoel</span>
+          </label>
+          <input type="hidden" name="zaalID2" value="<?php echo $zaalID ?>">
+          <select class="select w-full max-w-xs">
+            <?php  foreach (berekenZaalBlokken($mysqli, $ticketCategorie) as $blok) { ?>
+             <option value="<?php echo $blok ?>"><?php echo $blok?></option> <?php } ?>
+          </select>
+        </div>
+        <div class="form-control mt-6">
+          <button class="btn btn-primary" name="volgende2">Volgende</button>
+        </div>
+      </form>
+     <?php }  ?>
     </div>
   </div>
 </div>
