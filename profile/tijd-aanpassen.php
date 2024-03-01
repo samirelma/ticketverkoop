@@ -80,7 +80,7 @@ $result = $stmt->get_result();
         </div>
         <br>
         <div class='form-control w-full text-center'>
-            <button class='btn btn-primary mx-auto' type='submit'>Wijzig</button>
+            <button class='btn btn-dark mx-auto' type='submit'>Wijzig</button>
         </div>
         <?php
         // End the form
