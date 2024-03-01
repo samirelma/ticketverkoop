@@ -15,15 +15,14 @@
       <p class="py-6">Selecteer hier uw plaats om een ticket te boeken.</p>
       <?php
 
+
       if (isset($_POST["volgende"])) {
         $zaalID = $_POST["zaalID"]; 
         $ticketCategorie = $_POST["ticketCategorie"];
       } else {
         $zaalID = $_GET["zaalID"]; 
       }
-    
        $zaalAsString = getzalenByID($mysqli, $zaalID); 
-       var_dump($zaalAsString);
        foreach ($zaalAsString as $zaal) {
         $zaalPlategrond = "img/zaalPictures/".$zaal["plategrond"]; 
        }
@@ -31,12 +30,12 @@
       <img src="<?php echo $zaalPlategrond?> " width="500" height="350">
     </div>
     <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-    <?php
+    <?php  
       if (!isset($_POST["volgende"])) {
       ?>
       <form class="card-body" method="post" action="selectTicketPage.php">
         <div class="form-control">
-          <input type="hidden" value="<?php $_GET["zaalID"]?>" name="zaalID" >
+          <input type="hidden" value= " <?php echo $_GET["zaalID"]?> " name="zaalID" >
           <label class="label">
             <span class="label-text">categorie</span>
           </label>
@@ -46,7 +45,7 @@
  $categorieAlsString = getCategorieData($mysqli); 
 foreach ($categorieAlsString as $categorie) { 
  ?>
-  <option value="<?php $categorie['id']?>"><?php echo $categorie['name']?></option>
+  <option value="<?php $categorie['id']?>" ><?php echo $categorie['name']?></option>
  <?php 
 }
 ?>
@@ -56,7 +55,7 @@ foreach ($categorieAlsString as $categorie) {
           <button class="btn btn-primary" name="volgende">Volgende</button>
         </div>
       </form>
-      <?php } elseif(isset($_POST["volgende"])) {
+      <?php } else if(isset($_POST["volgende"])) {
         ?>
      <form class="card-body" method="post" action="selectTicketPage.php">
         <div class="form-control">
