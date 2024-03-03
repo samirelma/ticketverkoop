@@ -1,5 +1,5 @@
 <?php
-function berekenZaalBlokken($mysqli, $categorie) { 
+function berekenZaalBlokken($categorie) { 
 if ($categorie == 1)  {
      $Bloklist = array(001, 002, 003, 004); 
      return $Bloklist;
@@ -14,7 +14,7 @@ if ($categorie == 1)  {
 }
 }
 
-function berekenZaalStoel($mysqli, $blok) {
+function berekenZaalStoel($blok) {
     if (($blok >= 1)&&($blok <= 4)) {
         $aantalStoelen = 37*4; 
         $stoelList = array();
