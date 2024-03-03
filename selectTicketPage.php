@@ -9,7 +9,10 @@
  $ticketCategorie = $_POST["ticketCategorie2"]; 
  $blok = $_POST["blok2"];
 } elseif (isset($_POST["stoelantwoord"])) {
-echo "kies je stoel"; 
+$zaalID = $_POST["zaalID3"]; 
+$ticketCategorie = $_POST["ticketCategorie3"]; 
+$blok = $_POST["blok3"]; 
+$stoel = $_POST["stoel3"];
 } else {
   $zaalID = $_GET["zaalID"]; 
 }
@@ -35,7 +38,7 @@ foreach ($zaalAsString as $zaal) {
     </div>
     <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
     <?php  
-      if ((!isset($_POST["categorieAntwoord"]))&&(!isset($_POST["blokantwoord"]))) {
+      if ((!isset($_POST["categorieAntwoord"]))&&(!isset($_POST["blokantwoord"]))&&(!isset($_POST["stoelantwoord"]))) {
       ?>
       <form class="card-body" method="post" action="selectTicketPage.php">
         <div class="form-control">
@@ -85,9 +88,9 @@ foreach ($zaalAsString as $zaal) {
             <span class="label-text">Stoel</span>
           </label>
           <input type="hidden" name="zaalID3" value="<?php echo $zaalID ?>">
-          <input type="hidden" name="categorie3" value="<?php echo $ticketCategorie ?>">
+          <input type="hidden" name="ticketCategorie3" value="<?php echo $ticketCategorie ?>">
           <input type="hidden" name="blok3" value="<?php echo $blok ?>">
-          <select class="select w-full max-w-xs">
+          <select class="select w-full max-w-xs" name="stoel3">
             <?php  foreach (berekenZaalStoel($mysqli, $blok) as $stoel) { ?>
              <option value="<?php echo $stoel ?>"><?php echo $stoel?></option> <?php } ?>
           </select>
@@ -96,7 +99,23 @@ foreach ($zaalAsString as $zaal) {
           <button class="btn btn-primary" name="stoelantwoord">Volgende</button>
         </div>
       </form>
-     <?php }  ?>
+     <?php } elseif (isset($_POST["stoelantwoord"])) { ?>
+      <div class="card w-96 bg-base-100 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title">Afrekenen</h2>
+        <p>wil je uw plaats afrekenen?</p><br>
+        <?php $sql = 'SELECT `name` FROM ticket_categories WHERE id= "'.$ticketCategorie.'"';
+        $categorienaamString = $mysqli -> query($sql);
+        foreach ($categorienaamString as $categorienaam) {?>
+        <p>uw plaats is categorie: <?php echo $categorienaam["name"] ?> blok: <?php echo $blok ?> stoel: <?php echo $stoel ?></p>
+        <?php } ?>
+      </div>
+        <div class="card-actions justify-end">
+          <button class="btn btn-primary" name="betalen">Betalen</button>
+        </div>
+      </div>
+    </div>
+   <?php  } ?>
     </div>
   </div>
 </div>

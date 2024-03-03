@@ -18,21 +18,21 @@ function berekenZaalStoel($mysqli, $blok) {
     if (($blok >= 1)&&($blok <= 4)) {
         $aantalStoelen = 37*4; 
         $stoelList = array();
-        for ($stoel = 0; $stoel <= $aantalStoelen; $stoel ++) {
+        for ($stoel = 1; $stoel <= $aantalStoelen; $stoel ++) {
           $stoelList[] = $stoel;
     }
         return $stoelList; 
     } elseif (($blok >= 112)&&($blok <= 152)) {
         $aantalStoelen = 37*2; 
         $stoelList = array();
-        for ($stoel = 0; $stoel <= $aantalStoelen; $stoel ++) {
+        for ($stoel = 1; $stoel <= $aantalStoelen; $stoel ++) {
             $stoelList[] = $stoel;
     }
         return $stoelList; 
     } elseif (($blok >= 212)&& ($blok <= 249)) {
         $aantalStoelen = 37; 
         $stoelList = array();
-        for ($stoel = 0; $stoel <= $aantalStoelen; $stoel ++) {
+        for ($stoel = 1; $stoel <= $aantalStoelen; $stoel ++) {
             $stoelList[] = $stoel;  
         }
         return $stoelList; 
