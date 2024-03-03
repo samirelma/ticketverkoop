@@ -1,11 +1,15 @@
 <?php
  include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";  
  include $_SERVER['DOCUMENT_ROOT'] . "/berekenZaalStoelen.php";
- if (isset($_POST["volgende"])) {
-  $zaalID = $_POST["zaalID"]; 
-  $ticketCategorie = $_POST["ticketCategorie"]; 
-  } else if (isset($_POST["volgende2"])){
+ if (isset($_POST["categorieAntwoord"])) {
+  $zaalID = $_POST["zaalID1"]; 
+  $ticketCategorie = $_POST["ticketCategorie1"];
+  } else if (isset($_POST["blokantwoord"])){
  $zaalID = $_POST["zaalID2"];
+ $ticketCategorie = $_POST["ticketCategorie2"]; 
+ $blok = $_POST["blok2"];
+} elseif (isset($_POST["stoelantwoord"])) {
+echo "kies je stoel"; 
 } else {
   $zaalID = $_GET["zaalID"]; 
 }
@@ -31,15 +35,15 @@ foreach ($zaalAsString as $zaal) {
     </div>
     <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
     <?php  
-      if ((!isset($_POST["volgende"]))&&(!isset($_POST["volgende2"]))) {
+      if ((!isset($_POST["categorieAntwoord"]))&&(!isset($_POST["blokantwoord"]))) {
       ?>
       <form class="card-body" method="post" action="selectTicketPage.php">
         <div class="form-control">
-          <input type="hidden" value= " <?php echo $_GET["zaalID"]?> " name="zaalID" >
+          <input type="hidden" value= "<?php echo $_GET["zaalID"]?> " name="zaalID1" >
           <label class="label">
             <span class="label-text">categorie</span>
           </label>
-          <select class="select w-full max-w-xs" name="ticketCategorie">
+          <select class="select w-full max-w-xs" name="ticketCategorie1">
  <?php 
           
           foreach (getCategorieData($mysqli) as $categorie) { 
@@ -51,10 +55,10 @@ foreach ($zaalAsString as $zaal) {
 </select>
         </div>
         <div class="form-control mt-6">
-          <button class="btn btn-primary" name="volgende">Volgende</button>
+          <button class="btn btn-primary" name="categorieAntwoord">Volgende</button>
         </div>
       </form>
-      <?php } else if(isset($_POST["volgende"])) {
+      <?php } else if(isset($_POST["categorieAntwoord"])) {
         ?>
      <form class="card-body" method="post" action="selectTicketPage.php">
         <div class="form-control">
@@ -62,32 +66,34 @@ foreach ($zaalAsString as $zaal) {
             <span class="label-text">Blok</span>
           </label>
           <input type="hidden" name="zaalID2" value="<?php echo $zaalID ?>">
-          <input typpe="hidden" name
-          <select class="select w-full max-w-xs">
+          <input type="hidden" name="ticketCategorie2" value="<?php echo $ticketCategorie ?>">
+          <select class="select w-full max-w-xs" name="blok2">
             <?php  foreach (berekenZaalBlokken($mysqli, $ticketCategorie) as $blok) { ?>
              <option value="<?php echo $blok ?>"><?php echo $blok?></option> <?php } ?>
           </select>
         </div>
         <div class="form-control mt-6">
-          <button class="btn btn-primary" name="volgende2">Volgende</button>
+          <button class="btn btn-primary" name="blokantwoord">Volgende</button>
         </div>
       </form>
         <?php
-      } elseif (isset($_POST["volgende2"])){
+      } else if (isset($_POST["blokantwoord"])){
         ?>
         <form class="card-body" method="post" action="selectTicketPage.php">
         <div class="form-control">
           <label class="label">
             <span class="label-text">Stoel</span>
           </label>
-          <input type="hidden" name="zaalID2" value="<?php echo $zaalID ?>">
+          <input type="hidden" name="zaalID3" value="<?php echo $zaalID ?>">
+          <input type="hidden" name="categorie3" value="<?php echo $ticketCategorie ?>">
+          <input type="hidden" name="blok3" value="<?php echo $blok ?>">
           <select class="select w-full max-w-xs">
-            <?php  foreach (berekenZaalBlokken($mysqli, $ticketCategorie) as $blok) { ?>
-             <option value="<?php echo $blok ?>"><?php echo $blok?></option> <?php } ?>
+            <?php  foreach (berekenZaalStoel($mysqli, $blok) as $stoel) { ?>
+             <option value="<?php echo $stoel ?>"><?php echo $stoel?></option> <?php } ?>
           </select>
         </div>
         <div class="form-control mt-6">
-          <button class="btn btn-primary" name="volgende2">Volgende</button>
+          <button class="btn btn-primary" name="stoelantwoord">Volgende</button>
         </div>
       </form>
      <?php }  ?>
