@@ -57,6 +57,8 @@ $searchTerm = $_GET['search'] ?? '';
           if ($_SESSION["user"] == "bedrijf") { 
             echo '<li><a href="../profile/evenementen-toevoegen.php">Evenementen Toevoegen</a></li>';
             echo'<li><a href="../profile/overzichtEvenementen.php">Overzicht Evenementen</a></li>'; 
+            echo '<li><a href="../profile/tijd-aanpassen.php">Tijd Aanpassen</a></li>';
+            echo '<li><a href="../profile/mijnTickets.php">Mijn Tickets</a></li>';
           }
           if ($_SESSION["user"] == "member") {
             echo '<li><a href="../profile/mijnTickets.php">Mijn Tickets</a></li>';
@@ -65,6 +67,8 @@ $searchTerm = $_GET['search'] ?? '';
             echo '<li><a href="../profile/evenementen-toevoegen.php">Evenementen Toevoegen</a></li>';
             echo '<li><a href="../profile/bedrijven-verwijderen.php">Bedrijven Verwijderen</a></li>';
             echo '<li><a href="../profile/tijd-aanpassen.php">Tijd Aanpassen</a></li>';
+            echo'<li><a href="../profile/overzichtEvenementen.php">Overzicht Evenementen</a></li>'; 
+            echo '<li><a href="../profile/mijnTickets.php">Mijn Tickets</a></li>';
           } 
           } else {
           if (isset($_POST['login'])) {
