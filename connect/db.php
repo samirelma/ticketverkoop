@@ -92,3 +92,8 @@ function getallevents($mysqli) {
     return(($resultaat->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC)); 
 
 }
+
+function  verwijderEvent($mysqli, $eventID) {
+    $sql = ("DELETE * FROM evenementen WHERE evenementID = ".$eventID); 
+    $mysqli -> query($sql); 
+}

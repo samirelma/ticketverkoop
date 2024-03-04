@@ -1,7 +1,11 @@
 <?php
  include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
+if (isset($_POST["verwijderen"])) {
+  $eventID = $_POST["evenementID"]; 
+  $sql = ("DELETE * FROM evenementen WHERE evenementID = ".$eventID); 
 
-
+ $mysqli -> query($sql); 
+}
 
  ?>
 <!DOCTYPE html>
@@ -33,7 +37,8 @@
          <th>Concert</th>
          <th>Beschrijving</th>
          <th>Weergeven</th>
-                </tr>
+         <th>Verwijderen</th>
+        </tr>
      </thead>
      <tbody>
        <?php
@@ -62,6 +67,12 @@ $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
                 <input type="hidden" name="evenementID" value="<?php echo $row['evenementID']; ?>" />
                 <input type="checkbox" class="toggle toggle-info" id="weergeven" name="weergeven" value="1" <?php echo $checked; ?> onchange="this.form.submit()" />
               </td>
+              </form>
+              <form method="POST" action="overzichtEvenementen.php">
+                <td>
+                  <input type="hidden", name="evenementID" value="<?php echo $row['evenementID']; ?>" />
+                  <button type="submit" name="verwijderen" class="btn btn-primary">verwijderen</button>
+                </td>
               </form>
                         </tr>
          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
