@@ -1,7 +1,7 @@
 <?php
  include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
- if (isset($_POST["koopNu"])) {
-  header("Location:../selectTicketPage.php?zaalID=".$_POST["zaalID"]); 
+ if(isset($_POST["bestel"])) {
+  header("Location:../selectTicketPage.php?zaalID=".$_POST["zaalID"]);
  }
 ?>
 <!DOCTYPE html>
@@ -15,26 +15,32 @@
 <body>
 <?php 
   
-
  
 
 // Define the SQL query to retrieve the ticket data
 
 
 
-$sql = "SELECT * FROM evenementen";
+$sql = "SELECT naam, aantalTickets, beschrijving, afbeelding, zaalID FROM evenementen";
 
 
 
-          if (isset($_GET["alert"]) && $_GET["alert"] == "evenementtoegevoegd") {
-            echo '<div id="success-alert" role="alert" class="alert alert-success">
-                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span>successfully added evenement!</span>
-              </div>';
+// Execute the SQL query
+$result = mysqli_query($mysqli, $sql);
+
+// Display the ticket data in an HTML table
+echo "<div class='grid grid-cols-4 gap-4'>";
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+      echo "<div class='p-4 border rounded-lg'>";
+      if ($row['afbeelding'] != '') {
+         // If the file exists in the 'img/eventPictures/' directory, set $imgPath to the path of the image
+    // Otherwise, set $imgPath to the path of the image in the 'Downloads/' directory
+   
+        $imgPath = file_exists('img/eventPictures/' . $row['afbeelding']) ? 'img/eventPictures/' . $row['afbeelding'] : 'Downloads/' . $row['afbeelding'];
+        // Display the image using the $imgPath as the source, and set the 'alt' attribute to the value of the 'naam' field in the $row array
+    // The image is displayed with a class of 'w-full' and inline styles for maximum width of 200px and auto height
     
-
         echo "<img src='" . $imgPath . "' alt='" . $row['naam'] . "' class='w-full' style='max-width: 200px; height: auto;'>";
     } else {
       // If the 'afbeelding' field is empty, display a default image using a URL from the Noun Project API
@@ -46,59 +52,18 @@ $sql = "SELECT * FROM evenementen";
       echo "<p class='text-gray-600'>Beschrijving: " . $row['beschrijving'] . "</p>";
       echo "<p class='text-gray-600'>aantal Tickets: " . $row['aantalTickets'] . "</p>";
       echo '<form method="post" action="index.php">
-      <input type="hidden" value="'.$row["zaalID"].'" name="zaalID">
-      <button class="btn btn-primary" name="koopNu">Buy Now</button>
-      </form>
-      </div>';
-  }
+      <input type="hidden" value="'.$row['zaalID'].'" name="zaalID">
+      <button class="btn btn-primary" name="bestel">Buy Now</button>
+      </form>';
+      echo "</div>";
   }
 } else {
   echo "No results to display!";
 }
 echo "</div>";
-=======
-              echo '<script>
-                      setTimeout(function() {
-                        var successAlert = document.getElementById("success-alert");
-                        successAlert.style.display = "none";
-                      
-                      }, 2000);
-                    </script>';
 
-          }
-
- 
-          // Display all the tickets in an HTML table from the database
-          echo '<div class="flex flex-wrap gap-4">';
-          //dont get results from database just show all the events
-          $data = getallevents($mysqli);
-          foreach ($data as $event) {
-            if($event["weergeven"] == 1) {
-            echo '
-            <div class="card w-72 bg-base-100 shadow-xl">
-            <figure class="px-10 pt-10">';
-            if (empty($event["afbeelding"])) {
-              echo ' <img src="../img/eventPictures/no_picture.png" alt="'.$event["naam"].'" class="rounded-xl" />';
-            } else {
-              echo ' <img src="../img/eventPictures/'.$event["afbeelding"].'" alt="'.$event["naam"].'" class="rounded-xl" />'; 
-            }
-              echo'
-            </figure>
-            <div class="card-body items-center text-center">
-              <h2 class="card-title">'.$event["naam"].'</h2>
-              <p>'.$event["beschrijving"].'</p>
-              <p> datum: '.$event["datum"].'</p>
-              <div class="card-actions">
-                <button class="btn btn-primary">Bestel tickets</button>
-              </div>
-            </div>
-          </div>'; 
-            }
-          }
-          echo '</div>';
 
 ?>
-
   </body>
   </html>
   <?php

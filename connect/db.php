@@ -83,8 +83,9 @@ function  getEventsByUserID($mysqli,$userID) {
 }
 
 function getCategorieData($mysqli) {
-    $resultaat = $mysqli ->  query("SELECT id, name FROM ticket_categories"); 
+    $resultaat = $mysqli ->  query("SELECT id, prijs, name FROM ticket_categories"); 
     return(($resultaat->num_rows == 0)?false:$resultaat);
+}
 
 function getallevents($mysqli) {
     $resultaat = $mysqli -> query("SELECT * FROM evenementen"); 

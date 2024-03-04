@@ -51,7 +51,7 @@ foreach ($zaalAsString as $zaal) {
           
           foreach (getCategorieData($mysqli) as $categorie) { 
  ?>
-  <option value="<?php echo $categorie['id']?>"><?php echo $categorie['name']?></option>
+  <option value="<?php echo $categorie['id']?>"><?php echo ($categorie['name']. " €". $categorie['prijs'])?></option>
  <?php 
 }
 ?>
@@ -71,7 +71,7 @@ foreach ($zaalAsString as $zaal) {
           <input type="hidden" name="zaalID2" value="<?php echo $zaalID ?>">
           <input type="hidden" name="ticketCategorie2" value="<?php echo $ticketCategorie ?>">
           <select class="select w-full max-w-xs" name="blok2">
-            <?php  foreach (berekenZaalBlokken($ticketCategorie) as $blok) { ?>
+            <?php  foreach (berekenZaalBlokken($ticketCategorie, $zaalID) as $blok) { ?>
              <option value="<?php echo $blok ?>"><?php echo $blok?></option> <?php } ?>
           </select>
         </div>
@@ -91,7 +91,7 @@ foreach ($zaalAsString as $zaal) {
           <input type="hidden" name="ticketCategorie3" value="<?php echo $ticketCategorie ?>">
           <input type="hidden" name="blok3" value="<?php echo $blok ?>">
           <select class="select w-full max-w-xs" name="stoel3">
-            <?php  foreach (berekenZaalStoel($blok) as $stoel) { ?>
+            <?php  foreach (berekenZaalStoel($blok, $zaalID) as $stoel) { ?>
              <option value="<?php echo $stoel ?>"><?php echo $stoel?></option> <?php } ?>
           </select>
         </div>
@@ -103,11 +103,13 @@ foreach ($zaalAsString as $zaal) {
       <div class="card w-96 bg-base-100 shadow-xl">
       <div class="card-body">
         <h2 class="card-title">Afrekenen</h2>
-        <p>wil je uw plaats afrekenen?</p><br>
-        <?php $sql = 'SELECT `name` FROM ticket_categories WHERE id= "'.$ticketCategorie.'"';
+        <p>Wil je uw plaats afrekenen?</p><br>
+        <?php $sql = 'SELECT `name`, `prijs` FROM ticket_categories WHERE id= "'.$ticketCategorie.'"';
         $categorienaamString = $mysqli -> query($sql);
+        ($categorienaamString->num_rows == 0)?false:$categorienaamString; 
         foreach ($categorienaamString as $categorienaam) {?>
-        <p>uw plaats is categorie: <?php echo $categorienaam["name"] ?> blok: <?php echo $blok ?> stoel: <?php echo $stoel ?></p>
+        <p>Uw plaats is categorie: <?php echo $categorienaam["name"] ?> blok: <?php echo $blok ?> stoel: <?php echo $stoel ?>.</p><br>
+        <p> Prijs: €<?php echo $categorienaam["prijs"]?>
         <?php } ?>
       </div>
         <div class="card-actions justify-end">
