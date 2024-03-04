@@ -1,5 +1,8 @@
 <?php
  include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
+ if (isset($_POST["koopNu"])) {
+  header("Location:../selectTicketPage.php?zaalID=".$_POST["zaalID"]); 
+ }
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,6 +16,15 @@
 <?php 
   
 
+ 
+
+// Define the SQL query to retrieve the ticket data
+
+
+
+$sql = "SELECT * FROM evenementen";
+
+
 
           if (isset($_GET["alert"]) && $_GET["alert"] == "evenementtoegevoegd") {
             echo '<div id="success-alert" role="alert" class="alert alert-success">
@@ -22,6 +34,29 @@
                 <span>successfully added evenement!</span>
               </div>';
     
+
+        echo "<img src='" . $imgPath . "' alt='" . $row['naam'] . "' class='w-full' style='max-width: 200px; height: auto;'>";
+    } else {
+      // If the 'afbeelding' field is empty, display a default image using a URL from the Noun Project API
+    // The image is displayed with a class of 'w-full' and inline styles for maximum width of 250px and auto height
+        echo "<img src='https://thenounproject.com/api/private/icons/583402/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0' alt='No Image' class='w-full' style='max-width: 250px; height: auto;'>";
+      }
+      //$row is a variable that represents a row of data fetched from a database query result. 
+      echo "<h2 class='text-gray-600'>Naam: " . $row['naam'] . "</h2>";
+      echo "<p class='text-gray-600'>Beschrijving: " . $row['beschrijving'] . "</p>";
+      echo "<p class='text-gray-600'>aantal Tickets: " . $row['aantalTickets'] . "</p>";
+      echo '<form method="post" action="index.php">
+      <input type="hidden" value="'.$row["zaalID"].'" name="zaalID">
+      <button class="btn btn-primary" name="koopNu">Buy Now</button>
+      </form>
+      </div>';
+  }
+  }
+} else {
+  echo "No results to display!";
+}
+echo "</div>";
+=======
               echo '<script>
                       setTimeout(function() {
                         var successAlert = document.getElementById("success-alert");
@@ -61,6 +96,7 @@
             }
           }
           echo '</div>';
+
 ?>
 
   </body>
