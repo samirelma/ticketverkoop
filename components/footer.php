@@ -1,3 +1,19 @@
+<style>
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.footer {
+  margin-top: auto;
+}
+
+.content-container {
+  flex: 1 0 auto;
+}
+
+</style>
 <footer class="footer footer-center p-10 bg-[#150578] text-primary-content">
   <aside>
     <p class="normal-case text-xl text-[#FF101F]" href="../index.php">RS ticket service</p>

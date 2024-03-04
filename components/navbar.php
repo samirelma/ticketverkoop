@@ -17,7 +17,8 @@ $searchTerm = $_GET['search'] ?? '';
     <title>title</title>
 </head>
 <body>
-<div class="navbar bg-[#150578]">
+  
+<div class="navbar bg-[#150578]" style="margin-bottom: 20px;">
   <div class="flex-1 text-[#FF101F]">
     <a class="btn btn-ghost normal-case text-xl " href="../index.php">RS ticket service</a>
   </div>
@@ -26,10 +27,11 @@ $searchTerm = $_GET['search'] ?? '';
     <a class="btn btn-ghost normal-case text-xl " href="../index.php">Tickets</a>
     <div class="form-control">
     <form action="/components/search.php" method="get" class="form-control w-full relative">
-      <input type="text" name="search" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
+      <input type="text" name="search" placeholder="Search" class="input input-bordered w-24 md:w-auto text-black"/>
     </form>
     </div>
 </div>
+
 
     <?php
    echo ' <div class="dropdown dropdown-end">';
