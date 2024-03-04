@@ -71,7 +71,7 @@ foreach ($zaalAsString as $zaal) {
           <input type="hidden" name="zaalID2" value="<?php echo $zaalID ?>">
           <input type="hidden" name="ticketCategorie2" value="<?php echo $ticketCategorie ?>">
           <select class="select w-full max-w-xs" name="blok2">
-            <?php  foreach (berekenZaalBlokken($ticketCategorie) as $blok) { ?>
+            <?php  foreach (berekenZaalBlokken($ticketCategorie, $zaalID) as $blok) { ?>
              <option value="<?php echo $blok ?>"><?php echo $blok?></option> <?php } ?>
           </select>
         </div>
@@ -91,7 +91,7 @@ foreach ($zaalAsString as $zaal) {
           <input type="hidden" name="ticketCategorie3" value="<?php echo $ticketCategorie ?>">
           <input type="hidden" name="blok3" value="<?php echo $blok ?>">
           <select class="select w-full max-w-xs" name="stoel3">
-            <?php  foreach (berekenZaalStoel($blok) as $stoel) { ?>
+            <?php  foreach (berekenZaalStoel($blok, $zaalID) as $stoel) { ?>
              <option value="<?php echo $stoel ?>"><?php echo $stoel?></option> <?php } ?>
           </select>
         </div>
