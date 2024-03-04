@@ -1,5 +1,8 @@
 <?php
  include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
+ if(isset($_POST["bestel"])) {
+  header("Location:../selectTicketPage.php?zaalID=".$_POST["zaalID"]);
+ }
 ?>
 <!DOCTYPE html>
 <html>
@@ -18,7 +21,7 @@
 
 
 
-$sql = "SELECT naam, aantalTickets, beschrijving, afbeelding FROM evenementen";
+$sql = "SELECT naam, aantalTickets, beschrijving, afbeelding, zaalID FROM evenementen";
 
 
 
@@ -48,7 +51,10 @@ if ($result->num_rows > 0) {
       echo "<h2 class='text-gray-600'>Naam: " . $row['naam'] . "</h2>";
       echo "<p class='text-gray-600'>Beschrijving: " . $row['beschrijving'] . "</p>";
       echo "<p class='text-gray-600'>aantal Tickets: " . $row['aantalTickets'] . "</p>";
-      echo "<button class='btn btn-primary'>Buy Now</button>";
+      echo '<form method="post" action="index.php">
+      <input type="hidden" value="'.$row['zaalID'].'" name="zaalID">
+      <button class="btn btn-primary" name="bestel">Buy Now</button>
+      </form>';
       echo "</div>";
   }
 } else {
