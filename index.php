@@ -15,12 +15,6 @@
 <body>
 <?php 
   
- 
-
-
-
-
-
 
  
           // Display all the tickets in an HTML table from the database
