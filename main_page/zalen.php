@@ -20,7 +20,7 @@ if (isset($_POST["zaal"])) {
  foreach ($data as $event) {
   if($event["weergeven"] == 1) {
   echo '
-  <div class="card w-96 bg-base-100 shadow-xl">
+  <div class="card w-72 bg-base-100 shadow-xl">
   <figure class="px-10 pt-10">';
   if (empty($event["afbeelding"])) {
     echo ' <img src="../img/eventPictures/no_picture.png" alt="'.$event["naam"].'" class="rounded-xl" />';
@@ -38,9 +38,12 @@ if (isset($_POST["zaal"])) {
       <input type="hidden" value="'.$event["zaalID"].'" name="zaalID">
       <button class="btn btn-primary" name="bestelTicket">Bestel tickets</button>
       </form>
+      
       </div>
   </div>
-</div>'; 
+</div>
+
+'; 
   } 
  }
 } else {
