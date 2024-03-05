@@ -1,15 +1,19 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
+ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
+if (isset($_POST["verwijderen"])) {
+  $eventID = $_POST["evenementID"]; 
+  $sql = ("DELETE * FROM evenementen WHERE evenementID = ".$eventID); 
 
+ $mysqli -> query($sql); 
+}
 
-
-?>
+ ?>
 <!DOCTYPE html>
 <html>
 
 <head>
-  <meta charset="UTF-8" />
-  <title>title</title>
+    <meta charset="UTF-8" />
+    <title>title</title>
 </head>
 <?php
     // Database connection
@@ -26,22 +30,23 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 
     ?>
 <body>
-  <div class="overflow-x-auto">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Concert</th>
-          <th>Beschrijving</th>
-          <th>Weergeven</th>
+       <div class="overflow-x-auto">
+   <table class="table">
+     <thead>
+       <tr>
+         <th>Concert</th>
+         <th>Beschrijving</th>
+         <th>Weergeven</th>
+         <th>Verwijderen</th>
         </tr>
-      </thead>
-      <tbody>
-        <?php
-        $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
+     </thead>
+     <tbody>
+       <?php
+$mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
 
         // Fetch rows from the database
         $query = "SELECT * FROM evenementen WHERE userID = ?";
-        $userID = $_SESSION["gebruikersid"];
+       $userID = $_SESSION["gebruikersid"]; 
         $stmt = $mysqli->prepare($query);
         $stmt->bind_param('i', $userID);
         $stmt->execute();
@@ -53,27 +58,33 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
           // Set $checked based on the weergeven value
           $checked = $row['weergeven'] == 1 ? 'checked' : '';
 
-        ?>
-          <tr>
-            <td><?php echo $row['naam']; ?></td>
-            <td><?php echo $row['beschrijving']; ?></td>
-            <form method="POST" action="overzichtEvenementen.php">
+       ?>
+           <tr>
+             <td><?php echo $row['naam']; ?></td>
+             <td><?php echo $row['beschrijving']; ?></td>
+             <form method="POST" action="overzichtEvenementen.php">
               <td>
                 <input type="hidden" name="evenementID" value="<?php echo $row['evenementID']; ?>" />
                 <input type="checkbox" class="toggle toggle-info" id="weergeven" name="weergeven" value="1" <?php echo $checked; ?> onchange="this.form.submit()" />
               </td>
-            </form>
-          </tr>
-          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <?php
-        }
-        ?>
-      </tbody>
+              </form>
+              <form method="POST" action="overzichtEvenementen.php">
+                <td>
+                  <input type="hidden", name="evenementID" value="<?php echo $row['evenementID']; ?>" />
+                  <button type="submit" name="verwijderen" class="btn btn-primary">verwijderen</button>
+                </td>
+              </form>
+                        </tr>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+       <?php
+       }
+            ?>
+</tbody>
 
     </table>
 
 
-  </div>
+     </div>
 
 </body>
 

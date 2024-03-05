@@ -81,7 +81,19 @@ function  getEventsByUserID($mysqli,$userID) {
     $resultaat = $mysqli -> query("SELECT * FROM  evenementen WHERE userID=" . $userID); 
     return(($resultaat->num_rows == 0)?false:$resultaat); 
 }
+
+function getCategorieData($mysqli) {
+    $resultaat = $mysqli ->  query("SELECT id, prijs, name FROM ticket_categories"); 
+    return(($resultaat->num_rows == 0)?false:$resultaat);
+}
+
 function getallevents($mysqli) {
     $resultaat = $mysqli -> query("SELECT * FROM evenementen"); 
     return(($resultaat->num_rows == 0)?false:$resultaat->fetch_all(MYSQLI_ASSOC)); 
+
+}
+
+function  verwijderEvent($mysqli, $eventID) {
+    $sql = ("DELETE * FROM evenementen WHERE evenementID = ".$eventID); 
+    $mysqli -> query($sql); 
 }

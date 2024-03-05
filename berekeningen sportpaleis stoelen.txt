@@ -1,0 +1,15 @@
+  37 blokken
++ 80 blokken 
++ 16 blokken 
+
+= 133 (kleine blokken) 
+
+= 175 stoelen
+
+
+balkon = 175 / blok (normal) = 6 475 (+ 84 verdeeld over 37 blokken) 
+midden = 350 / blok (casual) 	14 000 
+vip = 700 / blok (vip) 		= 2 800
+
+
+23275

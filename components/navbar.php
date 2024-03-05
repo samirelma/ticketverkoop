@@ -53,19 +53,22 @@ $searchTerm = $_GET['search'] ?? '';
       </label>
       <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
         <li><a href="../profile/gegevens_aanpassen.php">Profiel</a>
-        <li><a href="../profile/register.php">Registreren</a></li> 
         <li><a href="../profile/logout.php">Uitloggen</a></li>';         
           if ($_SESSION["user"] == "bedrijf") { 
-            echo '<li><a href="../profile/evenementen-toevoegen.php">evenementen toevoegen</a></li>';
-            echo'<li><a href="../profile/overzichtEvenementen.php">overzicht evenementen</a></li>'; 
+            echo '<li><a href="../profile/evenementen-toevoegen.php">Evenementen Toevoegen</a></li>';
+            echo'<li><a href="../profile/overzichtEvenementen.php">Overzicht Evenementen</a></li>'; 
+            echo '<li><a href="../profile/tijd-aanpassen.php">Tijd Aanpassen</a></li>';
+            echo '<li><a href="../profile/mijnTickets.php">Mijn Tickets</a></li>';
           }
           if ($_SESSION["user"] == "member") {
             echo '<li><a href="../profile/mijnTickets.php">Mijn Tickets</a></li>';
           }
           if ($_SESSION["user"] == "admin") {
-            echo '<li><a href="../profile/evenementen-toevoegen.php">evenementen toevoegen</a></li>';
-            echo '<li><a href="../profile/bedrijven-verwijderen.php">bedrijven verwijderen</a></li>';
-            echo '<li><a href="../profile/tijd-aanpassen.php">tijd aanpassen</a></li>';
+            echo '<li><a href="../profile/evenementen-toevoegen.php">Evenementen Toevoegen</a></li>';
+            echo '<li><a href="../profile/bedrijven-verwijderen.php">Bedrijven Verwijderen</a></li>';
+            echo '<li><a href="../profile/tijd-aanpassen.php">Tijd Aanpassen</a></li>';
+            echo'<li><a href="../profile/overzichtEvenementen.php">Overzicht Evenementen</a></li>'; 
+            echo '<li><a href="../profile/mijnTickets.php">Mijn Tickets</a></li>';
           } 
           } else {
           if (isset($_POST['login'])) {
@@ -76,8 +79,8 @@ $searchTerm = $_GET['search'] ?? '';
           }
           echo '<form method="post" action="../components/navbar.php">
           <div class="flex-auto text-[#FDFFFF]">
-         <button class="btn btn-ghost" name="login">login</button>
-         <button class="btn btn-ghost" name="register">register</button>
+         <button class="btn btn-ghost" name="login">Login</button>
+         <button class="btn btn-ghost" name="register">Register</button>
           </div>
           </form>'; 
         }
