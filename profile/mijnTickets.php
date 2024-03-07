@@ -44,14 +44,19 @@
                   <th><?php echo $ticket["TicketID"]; ?></th>
                   <td><?php echo $event["naam"]; ?></td>
                   <td><?php echo $event["beschrijving"]; ?></td>
-                  <?php
-                  echo '
                    <form method="post" action="mijnTickets.php">
-                   <input type="hidden" value="'.$ticket["TicketID"].'" name="ticketID"> 
+                   <input type="hidden" value="<?php echo $ticket["TicketID"] ?>" name="ticketID"> 
                    <td><button class="btn" name="ticket">Ticket</button></td>
+                   <?php 
+                  $query = "SELECT * FROM tbloverdraagnotifications WHERE overdragerID = ".$_SESSION["gebruikersid"]; 
+                  $resultaat = $mysqli -> query($query); 
+                  if(empty($resultaat)) {
+                  ?>
                    <td><button class="btn" name="overdragen">Overdragen</button></td>
-                   </form>
-                  '?>
+                   </form>  
+                   <?php } else {
+                    echo '<td> overdraging aangevraagd</td>';
+                   }?>               
                 </tr>
           <?php  
         }
