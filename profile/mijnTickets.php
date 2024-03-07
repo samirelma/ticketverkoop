@@ -2,6 +2,9 @@
  include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
  if(isset($_POST["ticket"])) {
  header("Location: ../generatePDF.php?ticketID=".$_POST["ticketID"]);
+ }    
+ if(isset($_POST["overdragen"])) {
+ header("Location:../ticketOverdragen.php?ticketID=".$_POST["ticketID"]); 
  }
  ?>
 <!DOCTYPE html>
@@ -29,6 +32,7 @@
               <th>concert</th>
               <th>beschrijving</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -45,6 +49,7 @@
                    <form method="post" action="mijnTickets.php">
                    <input type="hidden" value="'.$ticket["TicketID"].'" name="ticketID"> 
                    <td><button class="btn" name="ticket">Ticket</button></td>
+                   <td><button class="btn" name="overdragen">Overdragen</button></td>
                    </form>
                   '?>
                 </tr>
@@ -59,7 +64,7 @@
     } else {
         echo "Je hebt nog geen tickets besteld"; 
     }
-    
+
     ?>
 </body>
 </html>
