@@ -90,3 +90,15 @@ $searchTerm = $_GET['search'] ?? '';
 </div> 
 </body>
 </html>
+<?php 
+if (isset($_SESSION["gebruikersid"])) {
+ $userid = $_SESSION["gebruikersid"];
+ $query = "SELECT * FROM tbloverdraagnotifications WHERE ontvangerID = ".$_SESSION["gebruikersid"]; 
+ $resultaat = $mysqli -> query($query); 
+ foreach ($resultaat as $notification) {
+  if ($notification["ontvangerID"] == $userid) {
+  include $_SERVER['DOCUMENT_ROOT'] . "../ticketOverdragenMessage.php";
+  }
+  }
+}
+?>
