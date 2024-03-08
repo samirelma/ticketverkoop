@@ -83,6 +83,7 @@ if (isset($_GET['search'])) {
         <div class='form-control w-full text-center'>
             <button class='btn btn-dark mx-auto' type='submit'>Wijzig</button>
         </div>
+        <br>
         <?php
         // End the form
         echo "</form>";
