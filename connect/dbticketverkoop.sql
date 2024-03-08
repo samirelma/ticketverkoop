@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 22 jan 2024 om 15:05
--- Serverversie: 10.4.24-MariaDB
--- PHP-versie: 7.4.29
+-- Gegenereerd op: 07 mrt 2024 om 23:16
+-- Serverversie: 10.4.32-MariaDB
+-- PHP-versie: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,7 +37,7 @@ CREATE TABLE `evenementen` (
   `zaalID` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `weergeven` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `evenementen`
@@ -58,6 +58,26 @@ INSERT INTO `evenementen` (`evenementID`, `naam`, `datum`, `aantalTickets`, `bes
 -- --------------------------------------------------------
 
 --
+-- Tabelstructuur voor tabel `tbloverdraagnotifications`
+--
+
+CREATE TABLE `tbloverdraagnotifications` (
+  `overdragerID` int(11) NOT NULL,
+  `ontvangerID` int(11) NOT NULL,
+  `ticketID` int(11) NOT NULL,
+  `notificatieID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `tbloverdraagnotifications`
+--
+
+INSERT INTO `tbloverdraagnotifications` (`overdragerID`, `ontvangerID`, `ticketID`, `notificatieID`) VALUES
+(30, 32, 1, 4);
+
+-- --------------------------------------------------------
+
+--
 -- Tabelstructuur voor tabel `tbltickets`
 --
 
@@ -68,14 +88,14 @@ CREATE TABLE `tbltickets` (
   `evenementID` int(11) NOT NULL,
   `categoryID` int(11) NOT NULL,
   `userID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `tbltickets`
 --
 
 INSERT INTO `tbltickets` (`TicketID`, `rij`, `stoel`, `evenementID`, `categoryID`, `userID`) VALUES
-(1, 10, 20, 4, 1, 26);
+(1, 10, 20, 4, 1, 30);
 
 -- --------------------------------------------------------
 
@@ -87,16 +107,17 @@ CREATE TABLE `tblzalen` (
   `zaalID` int(11) NOT NULL,
   `naam` varchar(9999) NOT NULL,
   `afbeelding` mediumtext NOT NULL,
+  `plategrond` text NOT NULL,
   `capaciteit` mediumtext NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `tblzalen`
 --
 
-INSERT INTO `tblzalen` (`zaalID`, `naam`, `afbeelding`, `capaciteit`) VALUES
-(1, 'Sportpaleis', 'Sportpaleis.jpg', '23359'),
-(2, 'Lotto Arena ', 'LottoArena.jpg', '8050');
+INSERT INTO `tblzalen` (`zaalID`, `naam`, `afbeelding`, `plategrond`, `capaciteit`) VALUES
+(1, 'Sportpaleis', 'Sportpaleis.jpg', '', '23359'),
+(2, 'Lotto Arena ', 'LottoArena.jpg', '', '8050');
 
 -- --------------------------------------------------------
 
@@ -110,16 +131,16 @@ CREATE TABLE `ticket_categories` (
   `icon` text NOT NULL,
   `beschrijving` text NOT NULL,
   `prijs` decimal(38,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `ticket_categories`
 --
 
 INSERT INTO `ticket_categories` (`id`, `name`, `icon`, `beschrijving`, `prijs`) VALUES
-(1, 'Golden Cirkel (VIP) ', 'vipIcon.jpg', 'Op vertoon van dit ticket krijg je toegang tot het eten, de zaal en de parking. De deuren van de voorstelling gaan telkens een half uur voor de start van de voorstelling open. ', '80'),
-(2, 'casual', '', 'de stoelen met goed zicht achter de vip arrangementen ', '70'),
-(3, 'normal', '', 'zitplaatsen verst verwijderd van het podium ', '50');
+(1, 'Golden Cirkel (VIP) ', 'vipIcon.jpg', 'Op vertoon van dit ticket krijg je toegang tot het eten, de zaal en de parking. De deuren van de voorstelling gaan telkens een half uur voor de start van de voorstelling open. ', 80),
+(2, 'casual', '', 'de stoelen met goed zicht achter de vip arrangementen ', 70),
+(3, 'normal', '', 'zitplaatsen verst verwijderd van het podium ', 50);
 
 -- --------------------------------------------------------
 
@@ -138,7 +159,7 @@ CREATE TABLE `users` (
   `profilePicture` text NOT NULL,
   `updatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `createdAt` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `users`
@@ -160,7 +181,9 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `firstname`, `lastna
 (21, 'bedijf', 'bedrijftest@test.com', '$argon2id$v=19$m=65536,t=4,p=1$ZTFkOTBZY0JmTVdIS2p2eg$yKEx+BHWd3mWp6Rgkmlv4Bv1hY9nQvVMiPEAr5l2zis', 'bdrijf', 'bedrijf', 2, '', '2023-12-01 12:47:24', '2023-12-01 12:47:24'),
 (22, 'john', 'john@gmail.com', '$argon2id$v=19$m=65536,t=4,p=1$YnNjTTdtcVhacU9xcUhmVA$Wvf27gmT2sxZKqozdk/CB0GE87Ms02nMPGPKk+RokX8', 'john', 'Doe', 3, '', '2023-12-01 12:53:32', '2023-12-01 12:50:01'),
 (26, 'alfa', 'alfa@alfa.com', '$argon2id$v=19$m=65536,t=4,p=1$cG10bEpuRjBTUno2VXNBbA$aj9C0TTDTNs8KSNZ2y55EkkIEmmiYkFY0gucgjLSQss', 'alfa', 'alfa', 2, 'achtergrond.jpg', '2024-01-15 14:48:13', '2024-01-08 15:10:09'),
-(28, 'AAAAAAAAAAAAAA', 'a@b.c', '$argon2id$v=19$m=65536,t=4,p=1$QWxMQUsuOHhYSkp3WmxjWA$B/kZyv/iycZAf47V9TEBsV5XjCOfq4/Hq54NouY7cWA', 'AAAAAAAAAAAAAAAAAA', 'AAAAAAAAAAAAAAAAAA', 1, 'achtergrond.jpeg', '2024-01-15 14:49:18', '2024-01-15 14:49:04');
+(28, 'AAAAAAAAAAAAAA', 'a@b.c', '$argon2id$v=19$m=65536,t=4,p=1$QWxMQUsuOHhYSkp3WmxjWA$B/kZyv/iycZAf47V9TEBsV5XjCOfq4/Hq54NouY7cWA', 'AAAAAAAAAAAAAAAAAA', 'AAAAAAAAAAAAAAAAAA', 1, 'achtergrond.jpeg', '2024-01-15 14:49:18', '2024-01-15 14:49:04'),
+(30, 'robi', 'robi@gebruiker.com', '$argon2id$v=19$m=65536,t=4,p=1$TjhJeDVidlpVdU12MlM4MQ$v0l4m2Da4XrWtmZxS7GiBGFca+we801qG00VDEIZk6Y', 'robi', 'robi', 1, '', '2024-03-07 20:55:52', '2024-03-07 20:55:52'),
+(32, 'Hans', 'robi@gebruiker2.com', '$argon2id$v=19$m=65536,t=4,p=1$Q1Bad1dkbWJBdXV1d2N1NA$PzxHR6LVU5VWmYtf1PMb2NlGvgz/ASn2mvWH8OEgtr8', 'robi', 'robi', 1, '', '2024-03-07 21:04:11', '2024-03-07 21:04:11');
 
 -- --------------------------------------------------------
 
@@ -175,7 +198,7 @@ CREATE TABLE `user_purchases` (
   `price` int(11) NOT NULL,
   `productName` text NOT NULL,
   `productImage` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -186,7 +209,7 @@ CREATE TABLE `user_purchases` (
 CREATE TABLE `user_roles` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `user_roles`
@@ -206,6 +229,12 @@ INSERT INTO `user_roles` (`id`, `name`) VALUES
 --
 ALTER TABLE `evenementen`
   ADD PRIMARY KEY (`evenementID`);
+
+--
+-- Indexen voor tabel `tbloverdraagnotifications`
+--
+ALTER TABLE `tbloverdraagnotifications`
+  ADD PRIMARY KEY (`notificatieID`);
 
 --
 -- Indexen voor tabel `tbltickets`
@@ -252,6 +281,12 @@ ALTER TABLE `evenementen`
   MODIFY `evenementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT voor een tabel `tbloverdraagnotifications`
+--
+ALTER TABLE `tbloverdraagnotifications`
+  MODIFY `notificatieID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT voor een tabel `tbltickets`
 --
 ALTER TABLE `tbltickets`
@@ -273,7 +308,7 @@ ALTER TABLE `ticket_categories`
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT voor een tabel `user_roles`
