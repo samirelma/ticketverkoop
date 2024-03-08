@@ -72,7 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <center>
         <h1 class="md:text-center text-4xl font-bold mb-8">Wijzig account</h1>
-        <p>Account Nummer: <?php echo $data["id"]?></p><br>
 <form action="/profile/gegevens_aanpassen.php" method="post" class="flex flex-col gap-8 w-full md:max-w-2xl" enctype="multipart/form-data">            <div class="flex flex-col gap-4">
                 <div class="flex flex-col gap-4 md:flex-row">
                     <div class="form-control md:flex-1">
