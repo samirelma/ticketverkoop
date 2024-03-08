@@ -5,7 +5,7 @@ if(isset($_POST["overdragen"])) {
     $userid = $_SESSION["gebruikersid"];
     $overdraagEmail = $_POST["acountEmail"]; 
     $evenementID = $_POST["evenementID"];
-    $query = ("SELECT * from users WHERE email = ".$overdraagEmail); 
+    $query = "SELECT * FROM users WHERE email = '".$overdraagEmail."'";
     $resultaat = $mysqli -> query($query); 
     ($resultaat->num_rows == 0)?false:$resultaat; 
     foreach ($resultaat as $overdraagID); 
