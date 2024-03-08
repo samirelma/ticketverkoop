@@ -4,7 +4,7 @@
  header("Location: ../generatePDF.php?ticketID=".$_POST["ticketID"]);
  }    
  if(isset($_POST["overdragen"])) {
- header("Location:../ticketOverdragen.php?ticketID=".$_POST["ticketID"]); 
+ header("Location:../ticketOverdragen.php?ticketID=".$_POST["ticketID"]."&evenementID=".$_POST["evenementID"]); 
  }
  ?>
 <!DOCTYPE html>
@@ -46,11 +46,12 @@
                   <td><?php echo $event["beschrijving"]; ?></td>
                    <form method="post" action="mijnTickets.php">
                    <input type="hidden" value="<?php echo $ticket["TicketID"] ?>" name="ticketID"> 
+                   <input type="hidden" value="<?php echo $ticket["evenementID"] ?>" name="evenementID" >
                    <td><button class="btn" name="ticket">Ticket</button></td>
                    <?php 
                   $query = "SELECT * FROM tbloverdraagnotifications WHERE overdragerID = ".$_SESSION["gebruikersid"]; 
                   $resultaat = $mysqli -> query($query); 
-                  if(empty($resultaat)) {
+                  if(mysqli_num_rows($resultaat) == 0) {
                   ?>
                    <td><button class="btn" name="overdragen">Overdragen</button></td>
                    </form>  
