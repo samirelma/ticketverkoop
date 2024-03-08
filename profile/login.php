@@ -20,7 +20,7 @@ if (isset($_POST["knop"])) {
             header('Location: ../index.php');
         }
     } else {
-        header('location: login.php?');
+        header('location: login.php');
     }
 }
 ?>
@@ -33,11 +33,7 @@ if (isset($_POST["knop"])) {
     </head>
 
     <body>
-    <?php
 
-
- if (!isset($_POST["knop"])) {
-    echo '
 <div class="card-body">
 <div class="card-actions justify-center">
 <form  method="post" action="login.php">
@@ -55,9 +51,7 @@ if (isset($_POST["knop"])) {
 <div class="flex justify-center mt-2">
 <a href="../profile/register.php" >klik hier om te Registreren </a>
 </div>
-';
-}
-    ?>
+
     </body>
 
     </html>
