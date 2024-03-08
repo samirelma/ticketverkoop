@@ -3,6 +3,7 @@
  if(isset($_POST["bestel"])) {
   header("Location:../selectTicketPage.php?zaalID=".$_POST["zaalID"]);
  }
+ 
 ?>
 <!DOCTYPE html>
 <html>
@@ -38,7 +39,10 @@
               <p>'.$event["beschrijving"].'</p>
               <p> datum: '.$event["datum"].'</p>
               <div class="card-actions">
-                <button class="btn btn-primary">Bestel tickets</button>
+              <form method="post" action="index.php">
+              <input type="hidden" value="'.$event["zaalID"].'" name="zaalID">
+                <button class="btn btn-primary" name="bestel">Bestel tickets</button>
+              </form>
               </div>
             </div>
           </div>'; 
