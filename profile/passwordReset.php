@@ -35,7 +35,7 @@ if (isset($_POST["knop2"])) {
                     <input type="password" placeholder="wachtwoord" class="input input-bordered input-primary w-full max-w-xs" name="wachtwoord" /><br>
                     <label class="label">bevestig wachtwoord</label>
                     <input type="password" placeholder="wachtwoord" class="input input-bordered input-primary w-full max-w-xs" name="wachtwoord2" /><br><br>
-                    <button class="btn btn-primary text-[#FDFFFF]" type="submit" name="knop2">verander wachtwoord</button>
+                    <button class="btn text-blue-500" type="submit" name="knop2">verander wachtwoord</button>
             </div>
             </form>
         </div>
