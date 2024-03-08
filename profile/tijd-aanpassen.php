@@ -48,12 +48,13 @@ if (isset($_GET['search'])) {
   $stmt = $mysqli->prepare($sql);
 
 }
-
-  
-  // Execute the statement
-$stmt->execute();
-// Get the result set from the executed statement
-$result = $stmt->get_result();
+  // Fetch rows from the database
+  $query = "SELECT * FROM evenementen WHERE userID = ?";
+  $userID = $_SESSION["gebruikersid"]; 
+   $stmt = $mysqli->prepare($query);
+   $stmt->bind_param('i', $userID);
+   $stmt->execute();
+   $result = $stmt->get_result();
 
     // Display the ticket data in an HTML table
     echo "<div class='grid grid-cols-4 gap-4'>";
@@ -90,11 +91,10 @@ $result = $stmt->get_result();
         }
     } else {
         echo "No results to display!";
-        
-        
+    
   ?>
   <br>
-  <a href="../profile/tijd-aanpassen.php" >klik hier om terug te gaan</a>
+
   <?php
     }
     echo "</div>";
