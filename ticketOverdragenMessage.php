@@ -1,4 +1,18 @@
-
+<?php 
+include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
+if (isset($_POST["accepteer"])) {
+    $sql = ("UPDATE tbltickets SET userID =" .$_POST["ontvangerID"] . " WHERE ticketID = " . $_POST["ticketID"]);
+    $mysqli -> query($sql); 
+    $query = ("DELETE FROM tbloverdraagnotifications WHERE ticketID = ".$_POST["ticketID"]);
+    $mysqli ->query($query);
+    header("Location: index.php");
+}
+if (isset($_POST["weigeren"])) {
+    $query = ("DELETE FROM tbloverdraagnotifications WHERE ticketID = ".$_POST["ticketID"]);
+    $mysqli ->query($query);
+    header("Location: index.php");
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,12 +35,18 @@
                     ($resultaat->num_rows == 0)?false:$resultaat;
                     foreach ($resultaat as $gebruikerData); 
 
-                    $queryTicket = ("SELECT naam FROM evenementen WHERE evenementID =" .$notificationData["evenementID"]); 
-                    $evenementData = $mysqli -> query($queryTicket); 
-                    echo $gebruikerData["username"]. " wil zijn ticket voor ".$evenementData." overdragen aan jouw"; 
+                    $queryTicket = ("SELECT * FROM evenementen WHERE evenementID =" .$notificationData["evenementID"]); 
+                    $resultaat = $mysqli -> query($queryTicket); 
+                    ($resultaat->num_rows == 0)?false:$resultaat;
+                    foreach ($resultaat as $evenementData); 
+
+                    echo $gebruikerData["username"]. " wil zijn ticket voor ".$evenementData["naam"]." overdragen aan jouw"; 
 
                 ?>
-                <form>
+                <form method="post" action="ticketOverdragenMessage.php">
+                <input type="hidden" value="<?php echo $notificationData["ticketID"]?>" name="ticketID"/>
+                <input type="hidden" value="<?php echo $notificationData["overdragerID"]?>" name="overdragerID"/>
+                <input type="hidden" value="<?php echo $notificationData["ontvangerID"]?>" name="ontvangerID"/>
                 <button name="accepteer"  class="btn btn-primary">accepteren</button>
                 <button name="weigeren"  class="btn btn-primary">weigeren</button>
                 </form> 
