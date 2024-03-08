@@ -2,8 +2,7 @@
  include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 if (isset($_POST["verwijderen"])) {
   $eventID = $_POST["evenementID"]; 
-  $sql = ("DELETE * FROM evenementen WHERE evenementID = ".$eventID); 
-
+  $sql = ("DELETE FROM evenementen WHERE evenementID = ".$eventID); 
  $mysqli -> query($sql); 
 }
 
@@ -67,10 +66,7 @@ $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
                 <input type="hidden" name="evenementID" value="<?php echo $row['evenementID']; ?>" />
                 <input type="checkbox" class="toggle toggle-info" id="weergeven" name="weergeven" value="1" <?php echo $checked; ?> onchange="this.form.submit()" />
               </td>
-              </form>
-              <form method="POST" action="overzichtEvenementen.php">
-                <td>
-                  <input type="hidden", name="evenementID" value="<?php echo $row['evenementID']; ?>" />
+              <td>
                   <button type="submit" name="verwijderen" class="btn btn-primary">verwijderen</button>
                 </td>
               </form>
@@ -80,10 +76,7 @@ $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
        }
             ?>
 </tbody>
-
     </table>
-
-
      </div>
 
 </body>
