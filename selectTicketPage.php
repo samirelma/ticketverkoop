@@ -54,9 +54,14 @@ if (isset($_POST["betalen"])) {
     $stmt->execute();
     //go to start page if the ticket is saved in the database else give error message
     if ($stmt->affected_rows == 0) {
-      echo "Er is een fout opgetreden bij het aankopen van uw ticket!";
+      echo "Er iseen fout opgetreden bij het aankopen van uw ticket!";
     } else {
-      header("Location: /index.php");
+
+
+      // Get the purchase id from the last insert
+      $purchaseId = $mysqli->insert_id;
+
+      header("Location: /profile/betalen/stripe-betaalsysteem.php?purchaseid=" . $purchaseId);
       echo "Uw ticket is succesvol aangekocht!";
     }
   }
