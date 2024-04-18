@@ -4,6 +4,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/connect/db.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/fetch/util.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/functions/userfunctions.php";
 
+
 if (isset($_GET['purchaseid']) && isset($_GET['secret'])) {
     $purchaseID = $_GET['purchaseid'];
     $secret = $_GET['secret'];
@@ -18,15 +19,14 @@ if (isset($_GET['purchaseid']) && isset($_GET['secret'])) {
         header("Location: /");
     }
 
-    // Cancel the purchase
-    $sql = "DELETE FROM user_purchases WHERE purchaseId = ?";
+    // Set the purchase to paid
+    $sql = "UPDATE user_purchases SET isPaid = 1 WHERE purchaseId = ?";
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param('i', $purchaseID);
     $stmt->execute();
 
     // Redirect to the index page
-    header("Location: /?payment=cancelled");
-
+    header("Location: /?payment=success");
 
 
 } else {
