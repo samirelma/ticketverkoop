@@ -228,7 +228,7 @@ document.getElementById('zaal').addEventListener('change', updateMaxValue);
             <label class="label">
                 <span class="label-text text-blue-500">Foto</span>
             </label>
-            <input type="file" name="fileToUpload" id="fileToUpload">
+            <input type="file" name="fileToUpload" id="fileToUpload" required>
         </div>
 
         <!-- Submit -->

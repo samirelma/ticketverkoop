@@ -18,11 +18,7 @@ if (isset($_GET['purchaseid']) && isset($_GET['secret'])) {
         header("Location: /");
     }
 
-    // Cancel the purchase
-    $sql = "DELETE FROM user_purchases WHERE purchaseId = ?";
-    $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param('i', $purchaseID);
-    $stmt->execute();
+
 
     // Redirect to the index page
     header("Location: /?payment=cancelled");

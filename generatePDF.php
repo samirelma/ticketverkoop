@@ -11,6 +11,39 @@ define('EURO',chr(128));
 $userid = $_SESSION["gebruikersid"];
 $ticketid = $_GET["ticketID"];
 
+// validate if ticket exists and is paid for
+$sql = "SELECT * FROM tbltickets WHERE userID = ? AND TicketID = ?";
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param('ii', $userid, $ticketid);
+$stmt->execute();
+$result = $stmt->get_result();
+if ($result->num_rows == 0) {
+    header("Location: /");
+}
+
+// Get purchaseID that is associated with the ticket
+$result = $result->fetch_assoc();
+$purchaseID = $result['purchaseID'];
+
+
+$sql = "SELECT * FROM user_purchases WHERE purchaseID = ?";
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param('i', $purchaseID);
+$stmt->execute();
+$result = $stmt->get_result();
+if ($result->num_rows == 0) {
+    header("Location: /");
+}
+
+// Check if isPaid is 1
+$purchase = $result->fetch_assoc();
+if ($purchase['isPaid'] != 1) {
+    header("Location: /");
+}
+
+
+
+
 $dataTickets = getTicketData($mysqli, $ticketid); 
 foreach ($dataTickets as $tickets); 
 $evenementID = $tickets["evenementID"]; 
