@@ -54,7 +54,6 @@ if (isset($_POST["betalen"])) {
     $stmt->bind_param('isiss', $_SESSION["gebruikersid"], date("Y-m-d H:i:s"), $ticketCategorie, $categorienaam["prijs"], $categorienaam["name"]);
     $stmt->execute();
     //go to start page if the ticket is saved in the database else give error message
-    //go to start page if the ticket is saved in the database else give error message
     if ($stmt->affected_rows == 0) {
       echo "Er iseen fout opgetreden bij het aankopen van uw ticket!";
     } else {
@@ -62,6 +61,13 @@ if (isset($_POST["betalen"])) {
 
       // Get the purchase id from the last insert
       $purchaseId = $mysqli->insert_id;
+
+      // Insert new ticket into tbltickets and link it to the purchase (via id)
+      $sql = 'INSERT INTO tbltickets (rij, stoel, evenementID, categoryID, userID, purchaseID) VALUES (?,?,?,?,?,?)';
+      $stmt = $mysqli->prepare($sql);
+      $stmt->bind_param('ssiiii', $blok, $stoel, $zaalID, $ticketCategorie, $_SESSION["gebruikersid"], $purchaseId);
+      $stmt->execute();
+      
 
       header("Location: /profile/betalen/stripe-betaalsysteem.php?purchaseid=" . $purchaseId);
       echo "Uw ticket is succesvol aangekocht!";

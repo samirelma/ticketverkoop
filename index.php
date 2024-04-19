@@ -1,9 +1,33 @@
 <?php
- include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
- if(isset($_POST["bestel"])) {
+include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
+if(isset($_POST["bestel"])) {
   header("Location:../selectTicketPage.php?zaalID=".$_POST["zaalID"]);
- }
- 
+}
+//check if the payment is successful
+if (isset($_GET['payment']) && $_GET['payment'] == 'success') {
+  echo '<div class="alert alert-success" role="alert">
+  Betaling is gelukt!
+</div>';
+  echo '<script>
+  setTimeout(function() {
+    document.querySelector(".alert").style.display = "none";
+  }, 4000);
+  </script>';
+}
+
+//check if the payment is cancelled  let the message dissapear after 5 seconds
+if (isset($_GET['payment']) && $_GET['payment'] == 'cancelled') {
+  echo '<div class="alert alert-danger" role="alert">
+  Betaling is geannuleerd!
+</div>';
+  echo '<script>
+  setTimeout(function() {
+    document.querySelector(".alert").style.display = "none";
+  }, 4000);
+  </script>';
+}
+
+
 ?>
 <!DOCTYPE html>
 <html>

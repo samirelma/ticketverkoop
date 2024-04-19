@@ -51,9 +51,21 @@ function updateWachtwoord($mysqli, $email, $wachtwoord) {
     }  
 }
 
+
 function getTicketsByUser($mysqli, $userId) {
     $resultaat = $mysqli->query("SELECT * FROM tbltickets WHERE userID =" .$userId);
-    return ($resultaat->num_rows ==0)?false:$resultaat->fetch_all(MYSQLI_ASSOC); 
+    $tickets = ($resultaat->num_rows ==0)?false:$resultaat->fetch_all(MYSQLI_ASSOC);
+
+    if($tickets) {
+        foreach($tickets as $key => $ticket) {
+            $purchaseId = $ticket['purchaseID'];
+            $purchaseResult = $mysqli->query("SELECT * FROM user_purchases WHERE purchaseID =".$purchaseId." AND isPaid = 1");
+            if($purchaseResult->num_rows == 0) {
+                unset($tickets[$key]);
+            }
+        }
+    }
+    return $tickets;
 }
 
 function getEventsByEventid($mysqli, $eventId) {
