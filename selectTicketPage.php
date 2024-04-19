@@ -40,6 +40,7 @@ foreach ($zaalAsString as $zaal) {
 }
 
 ?>
+
 <?php
 //save the ticket in the database in user_purchases with the 	id	timeOfPurchase	productId	price	productName	
 //give success message if the ticket is saved in the database
@@ -52,6 +53,7 @@ if (isset($_POST["betalen"])) {
     $stmt = $mysqli->prepare($sql);
     $stmt->bind_param('isiss', $_SESSION["gebruikersid"], date("Y-m-d H:i:s"), $ticketCategorie, $categorienaam["prijs"], $categorienaam["name"]);
     $stmt->execute();
+    //go to start page if the ticket is saved in the database else give error message
     //go to start page if the ticket is saved in the database else give error message
     if ($stmt->affected_rows == 0) {
       echo "Er iseen fout opgetreden bij het aankopen van uw ticket!";
