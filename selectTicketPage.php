@@ -2,7 +2,6 @@
 include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/berekenZaalStoelen.php";
 
-
 if (!isset($_SESSION['user'])) {
     echo "<div class='bg-red-200 p-3 rounded-lg text-red-700'>";
     echo "Please login first!";
@@ -10,9 +9,6 @@ if (!isset($_SESSION['user'])) {
     echo "</div>";
     exit;
 }
-
-
-
 
 if (isset($_POST["categorieAntwoord"])) {
   $zaalID = $_POST["zaalID1"];
@@ -31,7 +27,16 @@ if (isset($_POST["categorieAntwoord"])) {
   $ticketCategorie = $_POST["ticketCategorie3"];
   $blok = $_POST["blok3"];
   $stoel = $_POST["stoel3"];
-} else {
+} elseif (isset($_POST["volgendeTicket"])) {
+    $zaalID = $_POST["zaalID3"];
+    $ticketCategorie = $_POST["ticketCategorie3"];
+    $blok = $_POST["blok3"];
+    $stoel = $_POST["stoel3"];
+  if ($_SESSION["chart"] == 1) {
+   $_SESSION["chart"] = 2;
+  }
+  header("Location: selectTicketPage.php?zaalID=" . $_POST["zaalID3"]);
+}else {
   $zaalID = $_GET["zaalID"];
 }
 $zaalAsString = getzalenByID($mysqli, $zaalID);
@@ -177,6 +182,7 @@ if (isset($_POST["betalen"])) {
                 <input type="hidden" name="ticketCategorie3" value="<?php echo $ticketCategorie ?>">
                 <input type="hidden" name="blok3" value="<?php echo $blok ?>">
                 <input type="hidden" name="stoel3" value="<?php echo $stoel ?>">
+                <button class="btn btn-primary" name="volgendeTicket">Nog een ticket toevoegen</button>
                 <button class="btn btn-primary" name="betalen">Betalen</button>
               </form>
             
