@@ -12,32 +12,39 @@ if (!isset($_SESSION['user'])) {
 
 if (isset($_POST["categorieAntwoord"])) {
   $zaalID = $_POST["zaalID1"];
+  $evenementID = $_POST["evenementID1"];
   $ticketCategorie = $_POST["ticketCategorie1"];
 } else if (isset($_POST["blokantwoord"])) {
   $zaalID = $_POST["zaalID2"];
+  $evenementID = $_POST["evenementID2"];  
   $ticketCategorie = $_POST["ticketCategorie2"];
   $blok = $_POST["blok2"];
 } elseif (isset($_POST["stoelantwoord"])) {
   $zaalID = $_POST["zaalID3"];
+  $evenementID = $_POST["evenementID3"];
   $ticketCategorie = $_POST["ticketCategorie3"];
   $blok = $_POST["blok3"];
   $stoel = $_POST["stoel3"];
 } elseif (isset($_POST["betalen"])) {
   $zaalID = $_POST["zaalID3"];
+  $evenementID = $_POST["evenementID3"];
   $ticketCategorie = $_POST["ticketCategorie3"];
   $blok = $_POST["blok3"];
   $stoel = $_POST["stoel3"];
+  $sql = 'Insert into tblreservedtickets (userID, evenementID, zaalID, blok, stoel) VALUES (' . $_SESSION["gebruikersid"] . ',' .$evenementID.',' . $zaalID . ', ' . $blok . ',' . $stoel . ')';
+  $mysqli->query($sql);
 } elseif (isset($_POST["volgendeTicket"])) {
     $zaalID = $_POST["zaalID3"];
+    $evenementID = $_POST["evenementID3"];
     $ticketCategorie = $_POST["ticketCategorie3"];
     $blok = $_POST["blok3"];
     $stoel = $_POST["stoel3"];
-  if ($_SESSION["chart"] == 1) {
-   $_SESSION["chart"] = 2;
-  }
-  header("Location: selectTicketPage.php?zaalID=" . $_POST["zaalID3"]);
+    $sql = 'Insert into tblreservedtickets (userID, evenementID, zaalID, blok, stoel) VALUES (' . $_SESSION["gebruikersid"] . ',' .$evenementID.',' . $zaalID . ', ' . $blok . ',' . $stoel . ')';
+    $mysqli->query($sql);
+  header("Location: selectTicketPage.php?zaalID=" . $_POST["zaalID3"]."&evenementID=".$_POST["evenementID3"]);
 }else {
   $zaalID = $_GET["zaalID"];
+  $evenementID = $_GET["evenementID"];
 }
 $zaalAsString = getzalenByID($mysqli, $zaalID);
 foreach ($zaalAsString as $zaal) {
@@ -107,6 +114,7 @@ if (isset($_POST["betalen"])) {
           <form class="card-body" method="post" action="selectTicketPage.php">
             <div class="form-control">
               <input type="hidden" value="<?php echo $_GET["zaalID"] ?> " name="zaalID1">
+              <input type="hidden" value="<?php echo $_GET["evenementID"] ?> " name="evenementID1">
               <label class="label">
                 <span class="label-text">categorie</span>
               </label>
@@ -133,6 +141,7 @@ if (isset($_POST["betalen"])) {
                 <span class="label-text">Blok</span>
               </label>
               <input type="hidden" name="zaalID2" value="<?php echo isset($zaalID) ? $zaalID : '' ?>">
+              <input type="hidden" name="evenementID2" value="<?php echo isset($evenementID) ? $evenementID : '' ?>">
               <input type="hidden" name="ticketCategorie2" value="<?php echo $ticketCategorie ?>">
               <select class="select w-full max-w-xs" name="blok2">
                 <?php foreach (berekenZaalBlokken($ticketCategorie, $zaalID) as $blok) { ?>
@@ -152,6 +161,7 @@ if (isset($_POST["betalen"])) {
                 <span class="label-text">Stoel</span>
               </label>
               <input type="hidden" name="zaalID3" value="<?php echo $zaalID ?>">
+              <input type="hidden" name="evenementID3" value="<?php echo isset($evenementID) ? $evenementID : '' ?>">
               <input type="hidden" name="ticketCategorie3" value="<?php echo $ticketCategorie ?>">
               <input type="hidden" name="blok3" value="<?php echo $blok ?>">
               <select class="select w-full max-w-xs" name="stoel3">
@@ -179,7 +189,7 @@ if (isset($_POST["betalen"])) {
             <div class="card-actions justify-end">
               <form method="post" action="selectTicketPage.php">
                 <input type="hidden" name="zaalID3" value="<?php echo isset($zaalID) ? $zaalID : '' ?>">
-                <input type="hidden" name="ticketCategorie3" value="<?php echo $ticketCategorie ?>">
+                <input type="hidden" name="evenementID3" value="<?php echo isset($evenementID) ? $evenementID : '' ?>">
                 <input type="hidden" name="blok3" value="<?php echo $blok ?>">
                 <input type="hidden" name="stoel3" value="<?php echo $stoel ?>">
                 <button class="btn btn-primary" name="volgendeTicket">Nog een ticket toevoegen</button>
@@ -191,6 +201,7 @@ if (isset($_POST["betalen"])) {
       </div>
     <?php  } ?>
     <input type="hidden" name="zaalID3" value="<?php echo isset($zaalID) ? $zaalID : '' ?>">
+    <input type="hidden" name="evenementID3" value="<?php echo isset($evenementID) ? $evenementID : '' ?>">
     </div>
   </div>
   </div>
