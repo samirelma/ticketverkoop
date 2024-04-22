@@ -6,8 +6,6 @@ include $_SERVER['DOCUMENT_ROOT'] . "/functions/userfunctions.php";
 session_start();
 $searchTerm = $_GET['search'] ?? '';
 ?>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +27,7 @@ $searchTerm = $_GET['search'] ?? '';
     <form action="/components/search.php" method="get" class="form-control w-full relative">
       <input type="text" name="search" placeholder="Search" class="input input-bordered w-24 md:w-auto text-black"/>
     </form>
-    </div>  
+    </div>
 </div>
 <div class="flex-none">
      <div class="dropdown dropdown-end">
@@ -44,12 +42,15 @@ $searchTerm = $_GET['search'] ?? '';
           <span class="font-bold text-lg">8 Items</span>
           <span class="text-info">Subtotal: $999</span>
           <div class="card-actions">
-            <button class="btn btn-primary btn-block">View cart</button>
+            <form method="post" action="../chart.php">
+            <button class="btn btn-primary btn-block" name="chart">View cart</button>
+            </form>
           </div>
         </div>
       </div>
     </div>
 </div>
+
     <?php
    echo ' <div class="dropdown dropdown-end">';
    if (isset($_SESSION["user"])) {
