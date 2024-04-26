@@ -204,7 +204,7 @@ if (isset($_POST["betalen"])) {
                 <input type="hidden" name="blok3" value="<?php echo $blok ?>">
                 <input type="hidden" name="stoel3" value="<?php echo $stoel ?>">
                 <button class="btn btn-primary" name="volgendeTicket">Nog een ticket toevoegen</button>
-                <button class="btn btn-primary" name="betalen">Betalen</button>
+                <button class="btn btn-primary" name="betalen">winkelwagen</button>
               </form>
             
             </div>
