@@ -25,78 +25,51 @@ if (isset($_POST["categorieAntwoord"])) {
   $ticketCategorie = $_POST["ticketCategorie3"];
   $blok = $_POST["blok3"];
   $stoel = $_POST["stoel3"];
-} elseif (isset($_POST["betalen"])) {
+} elseif (isset($_POST["winkelwagen"])) {
   $zaalID = $_POST["zaalID3"];
   $evenementID = $_POST["evenementID3"];
   $ticketCategorie = $_POST["ticketCategorie3"];
-  $blok = $_POST["blok3"];
   $stoel = $_POST["stoel3"];
+  $blok = $_POST["blok3"];
   $sqlPrijs = 'SELECT prijs FROM ticket_categories WHERE id = ' . $ticketCategorie;
   $resultaat = $mysqli->query($sqlPrijs);
   $prijs = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
   foreach ($prijs as $prijs) {
     $prijs = $prijs["prijs"];
   }
-  $sql = 'INSERT into tblreservedtickets (userID, evenementID, zaalID, blok, stoel, prijs) VALUES (' . $_SESSION["gebruikersid"] . ',' .$evenementID.',' . $zaalID . ', ' . $blok . ',' . $stoel . ',' . $prijs . ')';
-  $mysqli->query($sql);
+  $sqlproductnaam = 'SELECT name FROM ticket_categories WHERE id = ' . $ticketCategorie;
+  $resultaat = $mysqli->query($sqlproductnaam);
+  $productnaam = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
+  foreach ($productnaam as $productnaam) {
+    $productnaam = $productnaam["name"];
+  }
+
+// save the selected ticket in user_purchases with the id timeOfPurchase productId is auto increment, price, productName ,stoel, blok, evenementID, isPaid = 0 if isPaid = 1 the ticket is paid
+$sql = 'INSERT INTO user_purchases (id, timeOfPurchase, productId, price, productName, secretKey,  isPaid , stoel, blok) VALUES (?,?,?,?,?,?,?,?)';
+$stmt = $mysqli->prepare($sql);
+
+if ($stmt === false) {
+    die("Failed to prepare SQL query: " . $mysqli->error);
+}
+$isPaid = 0;
+$stmt->bind_param('isissiii', $_SESSION["gebruikersid"], date("Y-m-d H:i:s"), $ticketCategorie, $prijs, $productnaam, $isPaid, $stoel, $blok,);
+$stmt->execute();
+  var_dump($stmt->affected_rows);
+  $stmt->execute();
+  header("Location: ../chart.php");
 } elseif (isset($_POST["volgendeTicket"])) {
-    $zaalID = $_POST["zaalID3"];
-    $evenementID = $_POST["evenementID3"];
-    $ticketCategorie = $_POST["ticketCategorie3"];
-    $blok = $_POST["blok3"];
-    $stoel = $_POST["stoel3"];
-    $sqlPrijs = 'SELECT prijs FROM ticket_categories WHERE id = ' . $ticketCategorie;
-    $resultaat = $mysqli->query($sqlPrijs);
-    $prijs = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
-    foreach ($prijs as $prijs) {
-      $prijs = $prijs["prijs"];
-    }
-    $sql = 'INSERT into tblreservedtickets (userID, evenementID, zaalID, blok, stoel, prijs) VALUES (' . $_SESSION["gebruikersid"] . ',' .$evenementID.',' . $zaalID . ', ' . $blok . ',' . $stoel . ',' . $prijs . ')';
-    $mysqli->query($sql);
-  header("Location: selectTicketPage.php?zaalID=" . $_POST["zaalID3"]."&evenementID=".$_POST["evenementID3"]);
-}else {
+   $zaalID = $_POST["zaalID3"];
+  $evenementID = $_POST["evenementID3"];
+  $ticketCategorie = $_POST["ticketCategorie3"];
+  $blok = $_POST["blok3"];
+  $stoel = $_POST["stoel3"];
+} else {
   $zaalID = $_GET["zaalID"];
   $evenementID = $_GET["evenementID"];
 }
 $zaalAsString = getzalenByID($mysqli, $zaalID);
 foreach ($zaalAsString as $zaal) {
   $zaalPlategrond = "img/zaalPictures/" . $zaal["plategrond"];
-}
-
-?>
-
-<?php
-//save the ticket in the database in user_purchases with the 	id	timeOfPurchase	productId	price	productName	
-//give success message if the ticket is saved in the database
-if (isset($_POST["betalen"])) {
-  $sql = 'SELECT `name`, `prijs` FROM ticket_categories WHERE id= "' . $ticketCategorie . '"';
-  $categorienaamString = $mysqli->query($sql);
-  ($categorienaamString->num_rows == 0) ? false : $categorienaamString;
-  foreach ($categorienaamString as $categorienaam) {
-    $sql = 'INSERT INTO user_purchases (id, timeOfPurchase, productId, price, productName) VALUES (?,?,?,?,?)';
-    $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param('isiss', $_SESSION["gebruikersid"], date("Y-m-d H:i:s"), $ticketCategorie, $categorienaam["prijs"], $categorienaam["name"]);
-    $stmt->execute();
-    //go to start page if the ticket is saved in the database else give error message
-    if ($stmt->affected_rows == 0) {
-      echo "Er iseen fout opgetreden bij het aankopen van uw ticket!";
-    } else {
-
-
-      // Get the purchase id from the last insert
-      $purchaseId = $mysqli->insert_id;
-
-      // Insert new ticket into tbltickets and link it to the purchase (via id)
-      $sql = 'INSERT INTO tbltickets (rij, stoel, evenementID, categoryID, userID, purchaseID) VALUES (?,?,?,?,?,?)';
-      $stmt = $mysqli->prepare($sql);
-      $stmt->bind_param('ssiiii', $blok, $stoel, $zaalID, $ticketCategorie, $_SESSION["gebruikersid"], $purchaseId);
-      $stmt->execute();
-      
-
-      header("Location: /profile/betalen/stripe-betaalsysteem.php?purchaseid=" . $purchaseId);
-      echo "Uw ticket is succesvol aangekocht!";
-    }
-  }
 }
 
 ?>
@@ -204,7 +177,7 @@ if (isset($_POST["betalen"])) {
                 <input type="hidden" name="blok3" value="<?php echo $blok ?>">
                 <input type="hidden" name="stoel3" value="<?php echo $stoel ?>">
                 <button class="btn btn-primary" name="volgendeTicket">Nog een ticket toevoegen</button>
-                <button class="btn btn-primary" name="betalen">winkelwagen</button>
+                <button class="btn btn-primary" name="winkelwagen">winkelwagen</button>
               </form>
             
             </div>
