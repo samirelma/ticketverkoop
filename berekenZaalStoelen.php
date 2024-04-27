@@ -1,4 +1,5 @@
 <?php
+include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
 function berekenZaalBlokken($categorie, $zaalID) { 
 if ($zaalID == 2) {
 if ($categorie == 1)  {
@@ -29,7 +30,7 @@ if ($categorie == 1)  {
 }
 }
 
-function berekenZaalStoel($blok, $zaalID) {
+function berekenZaalStoel($blok, $zaalID, $eventID) {
     if ($zaalID == 2) {
     if (($blok >= 1)&&($blok <= 6)) {
         $aantalStoelen = 80*4; 
@@ -37,21 +38,18 @@ function berekenZaalStoel($blok, $zaalID) {
         for ($stoel = 1; $stoel <= $aantalStoelen; $stoel ++) {
           $stoelList[] = $stoel;
     }
-        return $stoelList; 
     } elseif ((($blok >= 113)&&($blok <= 120))||(($blok >= 131)&&($blok <= 136))||(($blok >= 147)&&($blok <= 152))) {
         $aantalStoelen = 80*2; 
         $stoelList = array();
         for ($stoel = 1; $stoel <= $aantalStoelen; $stoel ++) {
             $stoelList[] = $stoel;
     }
-        return $stoelList; 
     } elseif ((($blok >= 219)&& ($blok <= 249))||(($blok >= 137)&& ($blok <= 146))||(($blok >= 121)&& ($blok <= 130))) {
         $aantalStoelen = 80; 
         $stoelList = array();
         for ($stoel = 1; $stoel <= $aantalStoelen; $stoel ++) {
             $stoelList[] = $stoel;  
         }
-        return $stoelList; 
 }
     } else if ($zaalID == 1) {
         if (($blok >= 1)&&($blok <= 4)) {
@@ -67,15 +65,25 @@ function berekenZaalStoel($blok, $zaalID) {
             for ($stoel = 1; $stoel <= $aantalStoelen; $stoel ++) {
                 $stoelList[] = $stoel;
         }
-            return $stoelList; 
         } elseif (($blok >= 212)&& ($blok <= 249)) {
             $aantalStoelen = 37; 
             $stoelList = array();
             for ($stoel = 1; $stoel <= $aantalStoelen; $stoel ++) {
                 $stoelList[] = $stoel;  
             }
-            return $stoelList; 
-    }  
     }
-}
+    $sql = "SELECT stoel FROM user_purchases WHERE evenementID = " . $eventID . " AND blok = " . $blok;
+    $resultaat = $mysqli->query($sql);
+    $stoelen = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
+    foreach ($stoelen as $stoel) {
+        $index = array_search($stoel["stoel"], $stoelList);
+         unset($stoelList[$index]);
+    }
+    if (empty($stoelList)) {
+        return null;
+    } else {
+        return $sql;
+    }
+    }
+    }
 ?>
