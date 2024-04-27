@@ -45,17 +45,15 @@ if (isset($_POST["categorieAntwoord"])) {
   }
 
 // save the selected ticket in user_purchases with the id timeOfPurchase productId is auto increment, price, productName ,stoel, blok, evenementID, isPaid = 0 if isPaid = 1 the ticket is paid
-$sql = 'INSERT INTO user_purchases (id, timeOfPurchase, productId, price, productName, secretKey,  isPaid , stoel, blok) VALUES (?,?,?,?,?,?,?,?)';
+$sql = 'INSERT INTO user_purchases (id, timeOfPurchase, productId, price, productName,  isPaid , stoel, blok, evenementID) VALUES (?,?,?,?,?,?,?,?,?)';
 $stmt = $mysqli->prepare($sql);
 
 if ($stmt === false) {
     die("Failed to prepare SQL query: " . $mysqli->error);
 }
 $isPaid = 0;
-$stmt->bind_param('isissiii', $_SESSION["gebruikersid"], date("Y-m-d H:i:s"), $ticketCategorie, $prijs, $productnaam, $isPaid, $stoel, $blok,);
+$stmt->bind_param('isissiiii', $_SESSION["gebruikersid"], date("Y-m-d H:i:s"), $ticketCategorie, $prijs, $productnaam, $isPaid, $stoel, $blok, $evenementID);
 $stmt->execute();
-  var_dump($stmt->affected_rows);
-  $stmt->execute();
   header("Location: ../chart.php");
 } elseif (isset($_POST["volgendeTicket"])) {
    $zaalID = $_POST["zaalID3"];
