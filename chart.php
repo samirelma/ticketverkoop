@@ -6,8 +6,7 @@ if (isset($_POST["betalen"])) {
   $sql = 'SELECT `name`, `prijs` FROM ticket_categories WHERE id= "' . $ticketCategorie . '"';
   $categorienaamString = $mysqli->query($sql);
   ($categorienaamString->num_rows == 0) ? false : $categorienaamString;
-  foreach ($categorienaamString as $categorienaam) {
-   
+  foreach ($categorienaamString as $categorienaam) {   
       // Insert new ticket into tbltickets and link it to the purchase (via id)
       $sql = 'INSERT INTO tbltickets (rij, stoel, evenementID, categoryID, userID, purchaseID) VALUES (?,?,?,?,?,?)';
       $stmt = $mysqli->prepare($sql);
@@ -25,12 +24,10 @@ if (isset($_POST["betalen"])) {
     }
   }
 
-
 if (isset($_POST["verwijder"])) {
-  $sql = "DELETE FROM tblreservedtickets WHERE userID = " . $_POST["userID"] . " AND evenementID = " . $_POST["evenementID"] . " AND blok = " . $_POST["blok"] . " AND stoel = " . $_POST["stoel"] . " AND prijs = " . $_POST["prijs"];
-  var_dump($sql);
+  $sql = "DELETE FROM user_purchases WHERE id = " . $_POST["userID"] . " AND evenementID = " . $_POST["evenementID"] . " AND blok = " . $_POST["blok"] . " AND stoel = " . $_POST["stoel"] . " AND price = " . $_POST["prijs"];
   $mysqli->query($sql);
-  header("Location: chart.php");
+  header("Location: chart.php");    
 }
 
 ?>
@@ -63,7 +60,7 @@ if (isset($_POST["verwijder"])) {
         foreach ($event as $event) {
           echo "<h2>" . $event["naam"] . "</h2>";
         }
-      }
+      
       ?>
         <div style="display: flex; align-items: center;">
           <form method="post" action="chart.php" style="margin-left: 10px;">
@@ -79,6 +76,7 @@ if (isset($_POST["verwijder"])) {
           </form>
         </div>
       <?php
+      }
       }
       ?>
       <form action="#" method="post">
