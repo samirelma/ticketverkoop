@@ -11,12 +11,8 @@ session_start();
 
 $purchaseID = $_GET['purchaseid'] ?? null;
 
-if (strpos($purchaseID, ',') !== false) {
-  $purchaseID = explode(',', $purchaseID)[0];
-}
-
 if ($purchaseID == null) {
-// header("Location: /");
+  header("Location: /");
 }
 
 
@@ -40,10 +36,8 @@ $stmt->bind_param('i', $purchaseID);
 $stmt->execute();
 $result = $stmt->get_result();
 if ($result->num_rows == 0) {
-  // header("Location: /");
+  header("Location: /");
 }
-
-die();
 
 $purchase = $result->fetch_assoc();
 $productPrice = $purchase['price'];
@@ -65,8 +59,6 @@ $checkout = $stripe->checkout->sessions->create([
   'success_url' => 'http://localhost:8080/profile/betalen/success.php?purchaseid=' . $purchaseID . '&secret=' . $secret,
   'cancel_url' => 'http://localhost:8080/profile/betalen/cancel.php?purchaseid=' . $purchaseID . '&secret=' . $secret,
 ]);
-
-var_dump($_GET['purchaseid']);
 
 header("Location: " . $checkout->url);
 
