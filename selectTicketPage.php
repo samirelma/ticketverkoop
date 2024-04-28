@@ -171,8 +171,14 @@ foreach ($zaalAsString as $zaal) {
               <select class="select w-full max-w-xs" name="stoel3">
                 <?php 
                 $stoelen = berekenZaalStoel($mysqli, $evenementID, $blok, $zaalID);
+                if (empty($stoelen)) {
+                  echo "<p>Er zijn geen stoelen beschikbaar in dit blok</p>";
+                  echo "<a href='selectTicketPage.php?zaalID=" . $zaalID . "&evenementID=" . $evenementID . "' class='btn btn-primary'>Terug</a>";
+                  return;
+                } else {
                 foreach ( $stoelen as $stoel) { ?>
-                  <option value="<?php echo $stoel ?>"><?php echo $stoel?></option> <?php } ?>
+                  <option value="<?php echo $stoel ?>"><?php echo $stoel?></option> <?php } 
+                  }?>
               </select>
             </div>
             <div class="form-control mt-6">
