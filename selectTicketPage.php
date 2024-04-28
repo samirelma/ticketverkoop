@@ -2,7 +2,6 @@
 include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/berekenZaalStoelen.php";
 
-
 if (!isset($_SESSION['user'])) {
     echo "<div class='bg-red-200 p-3 rounded-lg text-red-700'>";
     echo "Please login first!";
@@ -11,71 +10,89 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
-
-
-
 if (isset($_POST["categorieAntwoord"])) {
   $zaalID = $_POST["zaalID1"];
+  $evenementID = $_POST["evenementID1"];
   $ticketCategorie = $_POST["ticketCategorie1"];
 } else if (isset($_POST["blokantwoord"])) {
   $zaalID = $_POST["zaalID2"];
+  $evenementID = $_POST["evenementID2"];  
   $ticketCategorie = $_POST["ticketCategorie2"];
   $blok = $_POST["blok2"];
 } elseif (isset($_POST["stoelantwoord"])) {
   $zaalID = $_POST["zaalID3"];
+  $evenementID = $_POST["evenementID3"];
   $ticketCategorie = $_POST["ticketCategorie3"];
   $blok = $_POST["blok3"];
   $stoel = $_POST["stoel3"];
-} elseif (isset($_POST["betalen"])) {
+} elseif (isset($_POST["winkelwagen"])) {
   $zaalID = $_POST["zaalID3"];
+  $evenementID = $_POST["evenementID3"];
   $ticketCategorie = $_POST["ticketCategorie3"];
-  $blok = $_POST["blok3"];
   $stoel = $_POST["stoel3"];
+  $blok = $_POST["blok3"];
+  $sqlPrijs = 'SELECT prijs FROM ticket_categories WHERE id = ' . $ticketCategorie;
+  $resultaat = $mysqli->query($sqlPrijs);
+  $prijs = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
+  foreach ($prijs as $prijs) {
+    $prijs = $prijs["prijs"];
+  }
+  $sqlproductnaam = 'SELECT name FROM ticket_categories WHERE id = ' . $ticketCategorie;
+  $resultaat = $mysqli->query($sqlproductnaam);
+  $productnaam = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
+  foreach ($productnaam as $productnaam) {
+    $productnaam = $productnaam["name"];
+  }
+
+// save the selected ticket in user_purchases with the id timeOfPurchase productId is auto increment, price, productName ,stoel, blok, evenementID, isPaid = 0 if isPaid = 1 the ticket is paid
+$sql = 'INSERT INTO user_purchases (id, timeOfPurchase, productId, price, productName,  isPaid , stoel, blok, evenementID) VALUES (?,?,?,?,?,?,?,?,?)';
+$stmt = $mysqli->prepare($sql);
+
+if ($stmt === false) {
+    die("Failed to prepare SQL query: " . $mysqli->error);
+}
+$isPaid = 0;
+$stmt->bind_param('isissiiii', $_SESSION["gebruikersid"], date("Y-m-d H:i:s"), $ticketCategorie, $prijs, $productnaam, $isPaid, $stoel, $blok, $evenementID);
+$stmt->execute();
+  header("Location: ../chart.php");
+} elseif (isset($_POST["volgendeTicket"])) {
+  $zaalID = $_POST["zaalID3"];
+  $evenementID = $_POST["evenementID3"];
+  $ticketCategorie = $_POST["ticketCategorie3"];
+  $stoel = $_POST["stoel3"];
+  $blok = $_POST["blok3"];
+  $sqlPrijs = 'SELECT prijs FROM ticket_categories WHERE id = ' . $ticketCategorie;
+  $resultaat = $mysqli->query($sqlPrijs);
+  $prijs = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
+  foreach ($prijs as $prijs) {
+    $prijs = $prijs["prijs"];
+  }
+  $sqlproductnaam = 'SELECT name FROM ticket_categories WHERE id = ' . $ticketCategorie;
+  $resultaat = $mysqli->query($sqlproductnaam);
+  $productnaam = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
+  foreach ($productnaam as $productnaam) {
+    $productnaam = $productnaam["name"];
+  }
+
+// save the selected ticket in user_purchases with the id timeOfPurchase productId is auto increment, price, productName ,stoel, blok, evenementID, isPaid = 0 if isPaid = 1 the ticket is paid
+$sql = 'INSERT INTO user_purchases (id, timeOfPurchase, productId, price, productName,  isPaid , stoel, blok, evenementID) VALUES (?,?,?,?,?,?,?,?,?)';
+$stmt = $mysqli->prepare($sql);
+
+if ($stmt === false) {
+    die("Failed to prepare SQL query: " . $mysqli->error);
+}
+$isPaid = 0;
+$stmt->bind_param('isissiiii', $_SESSION["gebruikersid"], date("Y-m-d H:i:s"), $ticketCategorie, $prijs, $productnaam, $isPaid, $stoel, $blok, $evenementID);
+$stmt->execute();
+  header("Location: selectTicketPage.php?zaalID=" . $zaalID . "&evenementID=" . $evenementID);
 } else {
   $zaalID = $_GET["zaalID"];
+  $evenementID = $_GET["evenementID"];
 }
 $zaalAsString = getzalenByID($mysqli, $zaalID);
 foreach ($zaalAsString as $zaal) {
   $zaalPlategrond = "img/zaalPictures/" . $zaal["plategrond"];
 }
-
-?>
-
-<?php
-//save the ticket in the database in user_purchases with the 	id	timeOfPurchase	productId	price	productName	
-//give success message if the ticket is saved in the database
-if (isset($_POST["betalen"])) {
-  $sql = 'SELECT `name`, `prijs` FROM ticket_categories WHERE id= "' . $ticketCategorie . '"';
-  $categorienaamString = $mysqli->query($sql);
-  ($categorienaamString->num_rows == 0) ? false : $categorienaamString;
-  foreach ($categorienaamString as $categorienaam) {
-    $sql = 'INSERT INTO user_purchases (id, timeOfPurchase, productId, price, productName) VALUES (?,?,?,?,?)';
-    $stmt = $mysqli->prepare($sql);
-    $stmt->bind_param('isiss', $_SESSION["gebruikersid"], date("Y-m-d H:i:s"), $ticketCategorie, $categorienaam["prijs"], $categorienaam["name"]);
-    $stmt->execute();
-    //go to start page if the ticket is saved in the database else give error message
-    if ($stmt->affected_rows == 0) {
-      echo "Er iseen fout opgetreden bij het aankopen van uw ticket!";
-    } else {
-
-
-      // Get the purchase id from the last insert
-      $purchaseId = $mysqli->insert_id;
-
-      // Insert new ticket into tbltickets and link it to the purchase (via id)
-      $sql = 'INSERT INTO tbltickets (rij, stoel, evenementID, categoryID, userID, purchaseID) VALUES (?,?,?,?,?,?)';
-      $stmt = $mysqli->prepare($sql);
-      $stmt->bind_param('ssiiii', $blok, $stoel, $zaalID, $ticketCategorie, $_SESSION["gebruikersid"], $purchaseId);
-      $stmt->execute();
-      
-
-      header("Location: /profile/betalen/stripe-betaalsysteem.php?purchaseid=" . $purchaseId);
-      echo "Uw ticket is succesvol aangekocht!";
-    }
-  }
-}
-
-
 
 ?>
 
@@ -86,7 +103,6 @@ if (isset($_POST["betalen"])) {
   <meta charset="UTF-8" />
   <title>title</title>
 </head>
-
 <body>
   <div class="hero min-h-screen">
     <div class="hero-content flex-col lg:flex-row-reverse">
@@ -102,6 +118,7 @@ if (isset($_POST["betalen"])) {
           <form class="card-body" method="post" action="selectTicketPage.php">
             <div class="form-control">
               <input type="hidden" value="<?php echo $_GET["zaalID"] ?> " name="zaalID1">
+              <input type="hidden" value="<?php echo $_GET["evenementID"] ?> " name="evenementID1">
               <label class="label">
                 <span class="label-text">categorie</span>
               </label>
@@ -128,9 +145,10 @@ if (isset($_POST["betalen"])) {
                 <span class="label-text">Blok</span>
               </label>
               <input type="hidden" name="zaalID2" value="<?php echo isset($zaalID) ? $zaalID : '' ?>">
+              <input type="hidden" name="evenementID2" value="<?php echo isset($evenementID) ? $evenementID : '' ?>">
               <input type="hidden" name="ticketCategorie2" value="<?php echo $ticketCategorie ?>">
               <select class="select w-full max-w-xs" name="blok2">
-                <?php foreach (berekenZaalBlokken($ticketCategorie, $zaalID) as $blok) { ?>
+                <?php foreach (berekenZaalBlokken($ticketCategorie, $zaalID, $evenementID) as $blok) { ?>
                   <option value="<?php echo $blok ?>"><?php echo $blok ?></option> <?php } ?>
               </select>
             </div>
@@ -147,11 +165,20 @@ if (isset($_POST["betalen"])) {
                 <span class="label-text">Stoel</span>
               </label>
               <input type="hidden" name="zaalID3" value="<?php echo $zaalID ?>">
+              <input type="hidden" name="evenementID3" value="<?php echo isset($evenementID) ? $evenementID : '' ?>">
               <input type="hidden" name="ticketCategorie3" value="<?php echo $ticketCategorie ?>">
               <input type="hidden" name="blok3" value="<?php echo $blok ?>">
               <select class="select w-full max-w-xs" name="stoel3">
-                <?php foreach (berekenZaalStoel($blok, $zaalID) as $stoel) { ?>
-                  <option value="<?php echo $stoel ?>"><?php echo $stoel ?></option> <?php } ?>
+                <?php 
+                $stoelen = berekenZaalStoel($mysqli, $evenementID, $blok, $zaalID);
+                if (empty($stoelen)) {
+                  echo "<p>Er zijn geen stoelen beschikbaar in dit blok</p>";
+                  echo "<a href='selectTicketPage.php?zaalID=" . $zaalID . "&evenementID=" . $evenementID . "' class='btn btn-primary'>Terug</a>";
+                  return;
+                } else {
+                foreach ( $stoelen as $stoel) { ?>
+                  <option value="<?php echo $stoel ?>"><?php echo $stoel?></option> <?php } 
+                  }?>
               </select>
             </div>
             <div class="form-control mt-6">
@@ -174,17 +201,19 @@ if (isset($_POST["betalen"])) {
             <div class="card-actions justify-end">
               <form method="post" action="selectTicketPage.php">
                 <input type="hidden" name="zaalID3" value="<?php echo isset($zaalID) ? $zaalID : '' ?>">
+                <input type="hidden" name="evenementID3" value="<?php echo isset($evenementID) ? $evenementID : '' ?>">
                 <input type="hidden" name="ticketCategorie3" value="<?php echo $ticketCategorie ?>">
                 <input type="hidden" name="blok3" value="<?php echo $blok ?>">
                 <input type="hidden" name="stoel3" value="<?php echo $stoel ?>">
-                <button class="btn btn-primary" name="betalen">Betalen</button>
+                <button class="btn btn-primary" name="volgendeTicket">Nog een ticket toevoegen</button>
+                <button class="btn btn-primary" name="winkelwagen">winkelwagen</button>
               </form>
-            
             </div>
           </div>
       </div>
     <?php  } ?>
     <input type="hidden" name="zaalID3" value="<?php echo isset($zaalID) ? $zaalID : '' ?>">
+    <input type="hidden" name="evenementID3" value="<?php echo isset($evenementID) ? $evenementID : '' ?>">
     </div>
   </div>
   </div>
