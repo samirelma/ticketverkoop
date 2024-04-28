@@ -45,8 +45,7 @@ if (isset($_POST["verwijder"])) {
   $sql = "SELECT * FROM user_purchases WHERE id = " . $_SESSION["gebruikersid"] ." AND isPaid = 0";
   $resultaat = $mysqli->query($sql);
   $chartData = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
-  ?>
-  
+  ?> 
   <div class="card w-96 bg-base-100 shadow-xl">
     <div class="card-body">
       <h2 class="card-title">Winkel Wagen</h2>
@@ -54,8 +53,10 @@ if (isset($_POST["verwijder"])) {
       if ($chartData == false) {
         echo "<p>U heeft geen tickets in uw winkelwagen</p>";
       } else {
+        $totaalprijs = 0; 
       foreach ($chartData as $chart) {
-        $sql = "SELECT naam FROM evenementen WHERE evenementID = " . $chart["productId"];
+        $totaalprijs += $chart["price"];
+        $sql = "SELECT naam FROM evenementen WHERE evenementID = " . $chart["evenementID"];
         $resultaat = $mysqli->query($sql);
         $event = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
         foreach ($event as $event) {
@@ -78,6 +79,7 @@ if (isset($_POST["verwijder"])) {
         </div>
       <?php
       }
+      echo "<h2>Totaal prijs: € " . $totaalprijs . "</h2>";
       }
       ?>
       <form action="#" method="post">
