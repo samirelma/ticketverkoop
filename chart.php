@@ -39,13 +39,14 @@ if (isset($_POST["verwijder"])) {
   <title>title</title>
 </head>
 
-<body>
+<body class="flex items-center justify-center min-h-screen">
   <?php
 //make a query to get all the tickets that are in the cart using the userID and check if isPaid is 0 (not paid) let it be in the cart if isPaid is 1 (paid) remove it from the cart
   $sql = "SELECT * FROM user_purchases WHERE id = " . $_SESSION["gebruikersid"] ." AND isPaid = 0";
   $resultaat = $mysqli->query($sql);
   $chartData = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
   ?>
+  
   <div class="card w-96 bg-base-100 shadow-xl">
     <div class="card-body">
       <h2 class="card-title">Winkel Wagen</h2>

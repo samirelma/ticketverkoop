@@ -56,11 +56,35 @@ $stmt->bind_param('isissiiii', $_SESSION["gebruikersid"], date("Y-m-d H:i:s"), $
 $stmt->execute();
   header("Location: ../chart.php");
 } elseif (isset($_POST["volgendeTicket"])) {
-   $zaalID = $_POST["zaalID3"];
+  $zaalID = $_POST["zaalID3"];
   $evenementID = $_POST["evenementID3"];
   $ticketCategorie = $_POST["ticketCategorie3"];
-  $blok = $_POST["blok3"];
   $stoel = $_POST["stoel3"];
+  $blok = $_POST["blok3"];
+  $sqlPrijs = 'SELECT prijs FROM ticket_categories WHERE id = ' . $ticketCategorie;
+  $resultaat = $mysqli->query($sqlPrijs);
+  $prijs = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
+  foreach ($prijs as $prijs) {
+    $prijs = $prijs["prijs"];
+  }
+  $sqlproductnaam = 'SELECT name FROM ticket_categories WHERE id = ' . $ticketCategorie;
+  $resultaat = $mysqli->query($sqlproductnaam);
+  $productnaam = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
+  foreach ($productnaam as $productnaam) {
+    $productnaam = $productnaam["name"];
+  }
+
+// save the selected ticket in user_purchases with the id timeOfPurchase productId is auto increment, price, productName ,stoel, blok, evenementID, isPaid = 0 if isPaid = 1 the ticket is paid
+$sql = 'INSERT INTO user_purchases (id, timeOfPurchase, productId, price, productName,  isPaid , stoel, blok, evenementID) VALUES (?,?,?,?,?,?,?,?,?)';
+$stmt = $mysqli->prepare($sql);
+
+if ($stmt === false) {
+    die("Failed to prepare SQL query: " . $mysqli->error);
+}
+$isPaid = 0;
+$stmt->bind_param('isissiiii', $_SESSION["gebruikersid"], date("Y-m-d H:i:s"), $ticketCategorie, $prijs, $productnaam, $isPaid, $stoel, $blok, $evenementID);
+$stmt->execute();
+  header("Location: selectTicketPage.php?zaalID=" . $zaalID . "&evenementID=" . $evenementID);
 } else {
   $zaalID = $_GET["zaalID"];
   $evenementID = $_GET["evenementID"];
@@ -79,7 +103,6 @@ foreach ($zaalAsString as $zaal) {
   <meta charset="UTF-8" />
   <title>title</title>
 </head>
-
 <body>
   <div class="hero min-h-screen">
     <div class="hero-content flex-col lg:flex-row-reverse">
@@ -146,8 +169,10 @@ foreach ($zaalAsString as $zaal) {
               <input type="hidden" name="ticketCategorie3" value="<?php echo $ticketCategorie ?>">
               <input type="hidden" name="blok3" value="<?php echo $blok ?>">
               <select class="select w-full max-w-xs" name="stoel3">
-                <?php foreach (berekenZaalStoel($blok, $zaalID, $evenementID) as $stoel) { ?>
-                  <option value="<?php echo $stoel ?>"><?php echo $stoel ?></option> <?php } ?>
+                <?php 
+                $stoelen = berekenZaalStoel($mysqli, $evenementID, $blok, $zaalID);
+                foreach ( $stoelen as $stoel) { ?>
+                  <option value="<?php echo $stoel ?>"><?php echo $stoel?></option> <?php } ?>
               </select>
             </div>
             <div class="form-control mt-6">
@@ -177,7 +202,6 @@ foreach ($zaalAsString as $zaal) {
                 <button class="btn btn-primary" name="volgendeTicket">Nog een ticket toevoegen</button>
                 <button class="btn btn-primary" name="winkelwagen">winkelwagen</button>
               </form>
-            
             </div>
           </div>
       </div>
