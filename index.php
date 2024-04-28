@@ -1,7 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 if(isset($_POST["bestel"])) {
-  header("Location:../selectTicketPage.php?zaalID=".$_POST["zaalID"]."&evenementID=".$_POST["evenementID"]);
+  header("Location:../selectTicketPage.php?zaalID=".$_POST["zaalID"]);
 }
 //check if the payment is successful
 if (isset($_GET['payment']) && $_GET['payment'] == 'success') {
@@ -65,7 +65,6 @@ if (isset($_GET['payment']) && $_GET['payment'] == 'cancelled') {
               <div class="card-actions">
               <form method="post" action="index.php">
               <input type="hidden" value="'.$event["zaalID"].'" name="zaalID">
-              <input type="hidden" value="'.$event["evenementID"].'" name="evenementID">
                 <button class="btn btn-primary" name="bestel">Bestel tickets</button>
               </form>
               </div>

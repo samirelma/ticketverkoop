@@ -1,7 +1,7 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 if (isset($_POST["bestelTicket"])) {
-  header("Location:../selectTicketPage.php?zaalID=".$_POST["zaalID"]."&evenementID=".$_POST["evenementID"]); 
+  header("Location:../selectTicketPage.php?zaalID=".$_POST["zaalID"]); 
 }
 ?>
 <!DOCTYPE html>
@@ -36,7 +36,6 @@ if (isset($_POST["zaal"])) {
     <div class="card-actions">
       <form method="post" action="zalen.php">
       <input type="hidden" value="'.$event["zaalID"].'" name="zaalID">
-      <input type="hidden" value="'.$event["evenementID"].'" name="evenementID">
       <button class="btn btn-primary" name="bestelTicket">Bestel tickets</button>
       </form>
       
