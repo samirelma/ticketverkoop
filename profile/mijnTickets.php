@@ -20,7 +20,6 @@ if (isset($_POST["overdragen"])) {
   $userId = $_SESSION["gebruikersid"];
   $ticketAsString = getTicketsByUser($mysqli, $userId);
   if ($ticketAsString != false) {
-
   ?>
     <table class="table">
       <thead>
