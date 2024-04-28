@@ -1,8 +1,11 @@
 
 <?php
 function checkEmail($mysqli, $email) {
-    $resultaat = $mysqli -> query("SELECT * FROM users WHERE email = '". $email ."'"); 
-    return ($resultaat -> num_rows == 0) ? false : true; 
+    $stmt = $mysqli->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $resultaat = $stmt->get_result();
+    return ($resultaat->num_rows == 0) ? false : true;
 }
 
 function checkWachtwoord($mysqli,$wachtwoord, $email){
