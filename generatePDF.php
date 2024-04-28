@@ -106,6 +106,7 @@ $pdf -> Ln(10);
 $pdf -> Cell(70,70,'qr code', 1, 0, 'C');
 
 $currentDate = date("Y-m-d");
+
 $eventDate = $evenement["datum"];/*This is like looking at an invitation to a party (the $evenement), 
 finding the date of the party (the "datum"), and writing it down.
 */

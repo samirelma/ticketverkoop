@@ -13,6 +13,10 @@ if (isset($_GET['payment']) && $_GET['payment'] == 'success') {
     document.querySelector(".alert").style.display = "none";
   }, 4000);
   </script>';
+  //update the database to set isPaid to 1
+  $sql = "UPDATE user_purchases SET isPaid = 1 WHERE id = " . $_SESSION["gebruikersid"] ." AND isPaid = 0";
+  $mysqli->query($sql);
+  
 }
 
 //check if the payment is cancelled  let the message dissapear after 5 seconds

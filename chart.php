@@ -2,27 +2,37 @@
 include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 
 if (isset($_POST["betalen"])) {
-  $ticketCategorie = $_POST["productID"];
-  $sql = 'SELECT `name`, `prijs` FROM ticket_categories WHERE id= "' . $ticketCategorie . '"';
-  $categorienaamString = $mysqli->query($sql);
-  ($categorienaamString->num_rows == 0) ? false : $categorienaamString;
-  foreach ($categorienaamString as $categorienaam) {   
-      // Insert new ticket into tbltickets and link it to the purchase (via id)
+
+
+      // Get all the data from the database user_purchases
+      $sql = "SELECT * FROM user_purchases WHERE id = " . $_SESSION["gebruikersid"] ." AND isPaid = 0";
+      $resultaat = $mysqli->query($sql);
+      $chartData = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
+
+      $rij = $_POST["blok"];
+      $stoel = $_POST["stoel"];
+      $evenementID = $_POST["evenementID"];
+      $categoryID = $_POST["productID"];
+
+      //purchaseId is the id of the purchase
+      $purchaseId = $_POST["purchaseID"];
+
+      //check if the purchase isnt canceled
+
+      // Insert new ticket into tbltickets and link it to the purchase (via id) is isPaid = 1 if there are multiple tickets in the cart insert them all
+      foreach ($chartData as $chart) {
       $sql = 'INSERT INTO tbltickets (rij, stoel, evenementID, categoryID, userID, purchaseID) VALUES (?,?,?,?,?,?)';
       $stmt = $mysqli->prepare($sql);
-      // data uit db halen
-      $blok = $_POST["blok"];
-      $stoel = $_POST["stoel"];
-      $ticketCategorie = $_POST["productID"];
-      $evenementID = $_POST["evenementID"];
-      $purchaseId = $_POST["purchaseID"];
-      $stmt->bind_param('ssiiii', $blok, $stoel, $evenementID, $ticketCategorie, $_SESSION["gebruikersid"], $purchaseId);
+      $stmt->bind_param('ssiiii', $rij, $stoel, $evenementID, $categoryID, $_SESSION["gebruikersid"], $purchaseId);
       $stmt->execute();
+      }
+        
+
+      
 
       header("Location: /profile/betalen/stripe-betaalsysteem.php?purchaseid=" . $purchaseId);
       echo "Uw ticket is succesvol aangekocht!";
-    }
-  }
+    }  
 
 if (isset($_POST["verwijder"])) {
   $sql = "DELETE FROM user_purchases WHERE id = " . $_POST["userID"] . " AND evenementID = " . $_POST["evenementID"] . " AND blok = " . $_POST["blok"] . " AND stoel = " . $_POST["stoel"] . " AND price = " . $_POST["prijs"];
