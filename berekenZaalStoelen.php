@@ -31,8 +31,10 @@ function berekenZaalBlokken($categorie, $zaalID)
     }
 }
 function berekenZaalStoel($mysqli, $evenementID, $blok, $zaalID) {
-    $sql = "SELECT stoel FROM user_purchases WHERE evenementID = $evenementID AND blok = $blok";
-    $resultaat = $mysqli->query($sql);
+    $stmt = $mysqli->prepare("SELECT stoel FROM user_purchases WHERE evenementID = ? AND blok = ?");
+    $stmt->bind_param("ii", $evenementID, $blok);
+    $stmt->execute();
+    $resultaat = $stmt->get_result();
     $stoeldata = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
     if ($stoeldata == false) {
         $stoelBezet[] = 0; 

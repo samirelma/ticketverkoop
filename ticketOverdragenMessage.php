@@ -1,15 +1,23 @@
 <?php 
 include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
 if (isset($_POST["accepteer"])) {
-    $sql = ("UPDATE tbltickets SET userID =" .$_POST["ontvangerID"] . " WHERE ticketID = " . $_POST["ticketID"]);
-    $mysqli -> query($sql); 
-    $query = ("DELETE FROM tbloverdraagnotifications WHERE ticketID = ".$_POST["ticketID"]);
-    $mysqli ->query($query);
+    $sql = "UPDATE tbltickets SET userID = ? WHERE ticketID = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("ii", $_POST["ontvangerID"], $_POST["ticketID"]);
+    $stmt->execute();
+    
+    $query = "DELETE FROM tbloverdraagnotifications WHERE ticketID = ?";
+    $stmt = $mysqli->prepare($query);
+    $stmt->bind_param("i", $_POST["ticketID"]);
+    $stmt->execute();
+    
     header("Location: index.php");
 }
 if (isset($_POST["weigeren"])) {
-    $query = ("DELETE FROM tbloverdraagnotifications WHERE ticketID = ".$_POST["ticketID"]);
-    $mysqli ->query($query);
+    $sql = "DELETE FROM tbloverdraagnotifications WHERE ticketID = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("i", $_POST["ticketID"]);
+    $stmt->execute();
     header("Location: index.php");
 }
 ?>
@@ -25,19 +33,25 @@ if (isset($_POST["weigeren"])) {
              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
              <span>
                 <?php 
-                    $query = ("SELECT *  FROM tbloverdraagnotifications WHERE ontvangerID =".$_SESSION["gebruikersid"]);
-                    $resultaat = $mysqli -> query($query); 
-                    ($resultaat->num_rows == 0)?false:$resultaat;
+                    $stmt = $mysqli->prepare("SELECT * FROM tbloverdraagnotifications WHERE ontvangerID = ?");
+                    $stmt->bind_param("i", $_SESSION["gebruikersid"]);
+                    $stmt->execute();
+                    $resultaat = $stmt->get_result();
+                    ($resultaat->num_rows == 0) ? false : $resultaat;
                     foreach ($resultaat as $notificationData); 
 
-                    $queryGebruiker = ("SELECT * FROM users WHERE id=" .$notificationData["overdragerID"]); 
-                    $resultaat = $mysqli -> query($queryGebruiker); 
-                    ($resultaat->num_rows == 0)?false:$resultaat;
+                    $stmt = $mysqli->prepare("SELECT * FROM users WHERE id = ?");
+                    $stmt->bind_param("i", $notificationData["overdragerID"]);
+                    $stmt->execute();
+                    $resultaat = $stmt->get_result();
+                    ($resultaat->num_rows == 0) ? false : $resultaat;
                     foreach ($resultaat as $gebruikerData); 
 
-                    $queryTicket = ("SELECT * FROM evenementen WHERE evenementID =" .$notificationData["evenementID"]); 
-                    $resultaat = $mysqli -> query($queryTicket); 
-                    ($resultaat->num_rows == 0)?false:$resultaat;
+                    $stmt = $mysqli->prepare("SELECT * FROM evenementen WHERE evenementID = ?");
+                    $stmt->bind_param("i", $notificationData["evenementID"]);
+                    $stmt->execute();
+                    $resultaat = $stmt->get_result();
+                    ($resultaat->num_rows == 0) ? false : $resultaat;
                     foreach ($resultaat as $evenementData); 
 
                     echo $gebruikerData["username"]. " wil zijn ticket voor ".$evenementData["naam"]." overdragen aan jouw"; 
