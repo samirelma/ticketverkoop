@@ -11,12 +11,10 @@ session_start();
 
 $purchaseID = $_GET['purchaseid'] ?? null;
 
-if (strpos($purchaseID, ',') !== false) {
-  $purchaseID = explode(',', $purchaseID)[0];
-}
+
 
 if ($purchaseID == null) {
-// header("Location: /");
+ header("Location: /");
 }
 
 
@@ -40,13 +38,22 @@ $stmt->bind_param('i', $purchaseID);
 $stmt->execute();
 $result = $stmt->get_result();
 if ($result->num_rows == 0) {
-  // header("Location: /");
+  header("Location: /");
 }
 
-die();
 
-$purchase = $result->fetch_assoc();
-$productPrice = $purchase['price'];
+// Get the price of the purchase from the database by adding up all the prices of the tickets with the same userid and isPaid = 0
+$sql = "SELECT SUM(price) as total FROM user_purchases WHERE id = ? AND isPaid = 0";
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param('i', $_SESSION["gebruikersid"]);
+$stmt->execute();
+$result = $stmt->get_result();
+if ($result->num_rows == 0) {
+  header("Location: /");
+}
+$productPrice = $result->fetch_assoc()['total'];
+
+
 
 
 $checkout = $stripe->checkout->sessions->create([
@@ -66,7 +73,6 @@ $checkout = $stripe->checkout->sessions->create([
   'cancel_url' => 'http://localhost:8080/profile/betalen/cancel.php?purchaseid=' . $purchaseID . '&secret=' . $secret,
 ]);
 
-var_dump($_GET['purchaseid']);
 
 header("Location: " . $checkout->url);
 
