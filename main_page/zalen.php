@@ -8,7 +8,7 @@ if (isset($_POST["bestelTicket"])) {
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>title</title>
+    <title>main page</title>
 </head>
 <body>
 <?php

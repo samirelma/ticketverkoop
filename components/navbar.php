@@ -12,7 +12,7 @@ $searchTerm = $_GET['search'] ?? '';
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <meta charset="UTF-8" />
-    <title>title</title>
+    <title>RS Ticket Service</title>
 </head>
 <body>
   

@@ -12,7 +12,7 @@ if (isset($_POST["overdragen"])) {
 
 <head>
   <meta charset="UTF-8" />
-  <title>title</title>
+  <title>mijn Tickets</title>
 </head>
 
 <body>
