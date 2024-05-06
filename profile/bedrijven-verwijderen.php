@@ -147,10 +147,12 @@ if (count($users) > 0) {
     echo "</div>";
   }
 } else {
-  echo "<p>Geen bedrijven gevonden</p>";
-  ?>
-  <a href="../profile/bedrijven-verwijderen.php" >klik hier om terug te gaan</a>
-  <?php
+  echo '<div class="flex flex-col gap-8">';
+  echo '<p class="text-center text-gray-600">Geen bedrijven gevonden</p>';
+  echo '<a href="../profile/bedrijven-verwijderen.php" class="text-center text-blue-500">klik hier om terug te gaan</a>';
+  echo '</div>';
+
+  
 }
 include $_SERVER['DOCUMENT_ROOT'] . "/components/footer.php";
 
