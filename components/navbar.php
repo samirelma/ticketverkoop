@@ -148,5 +148,8 @@ foreach($pastevents as $evenement){
     $stmt3->bind_param("i", $evenement['evenementID']);
     $stmt3->execute();
 } 
+$stmt->close();
+$stmt2->close();
+$stmt3->close();
 }
 ?>
