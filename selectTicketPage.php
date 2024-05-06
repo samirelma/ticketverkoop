@@ -31,14 +31,18 @@ if (isset($_POST["categorieAntwoord"])) {
   $ticketCategorie = $_POST["ticketCategorie3"];
   $stoel = $_POST["stoel3"];
   $blok = $_POST["blok3"];
-  $sqlPrijs = 'SELECT prijs FROM ticket_categories WHERE id = ' . $ticketCategorie;
-  $resultaat = $mysqli->query($sqlPrijs);
+  $stmt = $mysqli->prepare('SELECT prijs FROM ticket_categories WHERE id = ?');
+  $stmt->bind_param('i', $ticketCategorie);
+  $stmt->execute();
+  $resultaat = $stmt->get_result();
   $prijs = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
   foreach ($prijs as $prijs) {
     $prijs = $prijs["prijs"];
   }
-  $sqlproductnaam = 'SELECT name FROM ticket_categories WHERE id = ' . $ticketCategorie;
-  $resultaat = $mysqli->query($sqlproductnaam);
+  $stmt = $mysqli->prepare("SELECT name FROM ticket_categories WHERE id = ?");
+  $stmt->bind_param("i", $ticketCategorie);
+  $stmt->execute();
+  $resultaat = $stmt->get_result();
   $productnaam = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
   foreach ($productnaam as $productnaam) {
     $productnaam = $productnaam["name"];
@@ -61,14 +65,18 @@ $stmt->execute();
   $ticketCategorie = $_POST["ticketCategorie3"];
   $stoel = $_POST["stoel3"];
   $blok = $_POST["blok3"];
-  $sqlPrijs = 'SELECT prijs FROM ticket_categories WHERE id = ' . $ticketCategorie;
-  $resultaat = $mysqli->query($sqlPrijs);
+  $stmt = $mysqli->prepare('SELECT prijs FROM ticket_categories WHERE id = ?');
+  $stmt->bind_param('i', $ticketCategorie);
+  $stmt->execute();
+  $resultaat = $stmt->get_result();
   $prijs = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
   foreach ($prijs as $prijs) {
     $prijs = $prijs["prijs"];
   }
-  $sqlproductnaam = 'SELECT name FROM ticket_categories WHERE id = ' . $ticketCategorie;
-  $resultaat = $mysqli->query($sqlproductnaam);
+  $stmt = $mysqli->prepare('SELECT name FROM ticket_categories WHERE id = ?');
+  $stmt->bind_param('i', $ticketCategorie);
+  $stmt->execute();
+  $resultaat = $stmt->get_result();
   $productnaam = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
   foreach ($productnaam as $productnaam) {
     $productnaam = $productnaam["name"];
@@ -190,9 +198,13 @@ foreach ($zaalAsString as $zaal) {
             <div class="card-body">
               <h2 class="card-title">Afrekenen</h2>
               <p>Wil je uw plaats afrekenen?</p><br>
-              <?php $sql = 'SELECT `name`, `prijs` FROM ticket_categories WHERE id= "' . $ticketCategorie . '"';
-              $categorienaamString = $mysqli->query($sql);
-              ($categorienaamString->num_rows == 0) ? false : $categorienaamString;
+              <?php
+              $sql = 'SELECT `name`, `prijs` FROM ticket_categories WHERE id = ?';
+              $stmt = $mysqli->prepare($sql);
+              $stmt->bind_param('i', $ticketCategorie);
+              $stmt->execute();
+              $result = $stmt->get_result();
+              $categorienaamString = ($result->num_rows == 0) ? false : $result->fetch_all(MYSQLI_ASSOC);
               foreach ($categorienaamString as $categorienaam) { ?>
                 <p>Uw plaats is categorie: <?php echo $categorienaam["name"] ?> blok: <?php echo $blok ?> stoel: <?php echo $stoel ?>.</p><br>
                 <p> Prijs: €<?php echo $categorienaam["prijs"] ?>

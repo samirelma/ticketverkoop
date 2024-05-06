@@ -20,29 +20,19 @@ if (isset($_POST['register'])) {
 
     $password = password_hash($password, PASSWORD_ARGON2ID);
 
-
-
-
-
-    // Define the SQL query
-    $sql = "INSERT INTO users (firstname, lastname, email, username, password, function) VALUES ('$firstname', '$lastname', '$email', '$username', '$password','$function')";
-
-
     $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
-    try {
-      // Execute the SQL query
-      $result = mysqli_query($mysqli, $sql);
-      if ($result) {
-        header("Location: ../index.php");
-      } else {
-        echo "Something went wrong";
-      }
+    $stmt = $mysqli->prepare("INSERT INTO users (firstname, lastname, email, username, password, function) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssi", $firstname, $lastname, $email, $username, $password, $function);
 
-      // Code that may throw a mysqli_sql_exception
+    try {
+        $stmt->execute();
+        if ($stmt->affected_rows > 0) {
+            header("Location: ../index.php");
+        } else {
+            echo "Something went wrong";
+        }
     } catch (mysqli_sql_exception $e) {
-      echo "";
-      // This catch block handles the mysqli_sql_exception that may be thrown in the try block.
-      // In this case, it echoes an empty string.
+        echo "";
     }
   } else {
     echo '<div id="alert" role="alert" class="alert alert-warning">

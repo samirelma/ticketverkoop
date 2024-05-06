@@ -5,8 +5,10 @@ if (isset($_POST["betalen"])) {
 
 
       // Get all the data from the database user_purchases
-      $sql = "SELECT * FROM user_purchases WHERE id = " . $_SESSION["gebruikersid"] ." AND isPaid = 0";
-      $resultaat = $mysqli->query($sql);
+      $stmt = $mysqli->prepare("SELECT * FROM user_purchases WHERE id = ? AND isPaid = 0");
+      $stmt->bind_param('i', $_SESSION["gebruikersid"]);
+      $stmt->execute();
+      $resultaat = $stmt->get_result();
       $chartData = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
 
       $rij = $_POST["blok"];
@@ -35,8 +37,10 @@ if (isset($_POST["betalen"])) {
     }  
 
 if (isset($_POST["verwijder"])) {
-  $sql = "DELETE FROM user_purchases WHERE id = " . $_POST["userID"] . " AND evenementID = " . $_POST["evenementID"] . " AND blok = " . $_POST["blok"] . " AND stoel = " . $_POST["stoel"] . " AND price = " . $_POST["prijs"];
-  $mysqli->query($sql);
+  $sql = "DELETE FROM user_purchases WHERE id = ? AND evenementID = ? AND blok = ? AND stoel = ? AND price = ?";
+  $stmt = $mysqli->prepare($sql);
+  $stmt->bind_param('iiisi', $_POST["userID"], $_POST["evenementID"], $_POST["blok"], $_POST["stoel"], $_POST["prijs"]);
+  $stmt->execute();
   header("Location: chart.php");    
 }
 
@@ -52,8 +56,10 @@ if (isset($_POST["verwijder"])) {
 <body class="flex items-center justify-center min-h-screen">
   <?php
 //make a query to get all the tickets that are in the cart using the userID and check if isPaid is 0 (not paid) let it be in the cart if isPaid is 1 (paid) remove it from the cart
-  $sql = "SELECT * FROM user_purchases WHERE id = " . $_SESSION["gebruikersid"] ." AND isPaid = 0";
-  $resultaat = $mysqli->query($sql);
+  $stmt = $mysqli->prepare("SELECT * FROM user_purchases WHERE id = ? AND isPaid = 0");
+  $stmt->bind_param('i', $_SESSION["gebruikersid"]);
+  $stmt->execute();
+  $resultaat = $stmt->get_result();
   $chartData = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
   ?> 
   <div class="card w-96 bg-base-100 shadow-xl">
@@ -66,8 +72,10 @@ if (isset($_POST["verwijder"])) {
         $totaalprijs = 0; 
       foreach ($chartData as $chart) {
         $totaalprijs += $chart["price"];
-        $sql = "SELECT naam FROM evenementen WHERE evenementID = " . $chart["evenementID"];
-        $resultaat = $mysqli->query($sql);
+        $stmt = $mysqli->prepare("SELECT naam FROM evenementen WHERE evenementID = ?");
+        $stmt->bind_param('i', $chart["evenementID"]);
+        $stmt->execute();
+        $resultaat = $stmt->get_result();
         $event = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
         foreach ($event as $event) {
           echo "<h2>" . $event["naam"] . "</h2>";

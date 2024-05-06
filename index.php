@@ -14,9 +14,10 @@ if (isset($_GET['payment']) && $_GET['payment'] == 'success') {
   }, 4000);
   </script>';
   //update the database to set isPaid to 1
-  $sql = "UPDATE user_purchases SET isPaid = 1 WHERE id = " . $_SESSION["gebruikersid"] ." AND isPaid = 0";
-  $mysqli->query($sql);
-  
+  $stmt = $mysqli->prepare("UPDATE user_purchases SET isPaid = 1 WHERE id = ? AND isPaid = 0");
+  $stmt->bind_param("i", $_SESSION["gebruikersid"]);
+  $stmt->execute();
+  $stmt->close();
 }
 
 //check if the payment is cancelled  let the message dissapear after 5 seconds

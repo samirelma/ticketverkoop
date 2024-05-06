@@ -5,12 +5,15 @@ if(isset($_POST["overdragen"])) {
     $userid = $_SESSION["gebruikersid"];
     $overdraagEmail = $_POST["acountEmail"]; 
     $evenementID = $_POST["evenementID"];
-    $query = "SELECT * FROM users WHERE email = '".$overdraagEmail."'";
-    $resultaat = $mysqli -> query($query); 
-    ($resultaat->num_rows == 0)?false:$resultaat; 
+    $stmt = $mysqli->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->bind_param("s", $overdraagEmail);
+    $stmt->execute();
+    $resultaat = $stmt->get_result();
+    ($resultaat->num_rows == 0) ? false : $resultaat;
     foreach ($resultaat as $overdraagID); 
-    $sql = ("INSERT INTO tbloverdraagnotifications (overdragerID, ontvangerID, evenementID, ticketID) VALUES (".$userid.",".$overdraagID["id"].",".$evenementID.','.$ticketid.")"); 
-    $mysqli -> query($sql); 
+    $stmt = $mysqli->prepare("INSERT INTO tbloverdraagnotifications (overdragerID, ontvangerID, evenementID, ticketID) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("iiii", $userid, $overdraagID["id"], $evenementID, $ticketid);
+    $stmt->execute();
     header("Location: ../profile/mijnTickets.php");
 } else {
     $ticketid = $_GET["ticketID"]; 
