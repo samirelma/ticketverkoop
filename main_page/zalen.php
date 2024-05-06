@@ -8,7 +8,7 @@ if (isset($_POST["bestelTicket"])) {
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>title</title>
+    <title>main page</title>
 </head>
 <body>
 <?php
@@ -48,7 +48,7 @@ if (isset($_POST["zaal"])) {
   } 
  }
 } else {
-  echo '<p class="text-2xl">er zijn geen gegevens gepland voor deze zaal</p>';
+  echo '<p class="text-2xl ml-6">Er zijn geen evenementen in deze zaal.</p>';
 }
  echo '</div>';
 } else {

@@ -7,7 +7,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 
 <head>
     <meta charset="UTF-8" />
-    <title>title</title>
+    <title>Profiel</title>
 </head>
 
 <?php

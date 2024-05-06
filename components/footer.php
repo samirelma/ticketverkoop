@@ -19,7 +19,7 @@ body {
     <p class="normal-case text-xl text-[#FF101F]" href="../index.php">RS ticket service</p>
     <p class="font-bold text-[#FDFFFF]">
       Uw betrouwbare partner voor al uw evenementen.
-      <br /> Live kom en beleef de experience !
+      <br />Kom en beleef de live experience !
       <br />RS ticket service nv - Zandpoortsebaan 12 - 2800 Mechelen
     </p>
     <p class="text-[#FDFFFF]">info@RSticketservice.be</p>
