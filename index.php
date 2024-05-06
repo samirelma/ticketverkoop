@@ -51,6 +51,7 @@ if (isset($_GET['payment']) && $_GET['payment'] == 'cancelled') {
           echo '<div class="flex flex-wrap gap-4">';
           //dont get results from database just show all the events
           $data = getallevents($mysqli);
+          if ($data != false) {
           foreach ($data as $event) {
             if($event["weergeven"] == 1) {
             echo '
@@ -78,6 +79,9 @@ if (isset($_GET['payment']) && $_GET['payment'] == 'cancelled') {
           </div>'; 
             }
           }
+        } else {
+          echo '<p class="text-2xl">Er zijn geen evenementen gevonden</p>';
+        }
           echo '</div>';
       
           
