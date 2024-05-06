@@ -14,8 +14,8 @@ body {
 }
 
 </style>
-<footer class="footer footer-center p-10 bg-[#150578] text-primary-content fixed bottom-0 left-0 right-0">
-  <aside>
+<footer class="footer footer-center p-10 bg-[#150578] text-primary-content">
+    <aside>
     <p class="normal-case text-xl text-[#FF101F]" href="../index.php">RS ticket service</p>
     <p class="font-bold text-[#FDFFFF]">
       Uw betrouwbare partner voor al uw evenementen.
