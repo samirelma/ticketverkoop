@@ -1,6 +1,12 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
-
+if (!isset($_SESSION['user'])) {
+    echo "<div class='bg-red-200 p-3 rounded-lg text-red-700'>";
+    echo "Please login first!";
+    echo "<a href='/profile/login.php' class='block mt-2 text-blue-500 hover:text-blue-700'>Login</a>";
+    echo "</div>";
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html>
