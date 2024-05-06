@@ -9,9 +9,6 @@ if ($_SESSION['user'] != 'admin') {
     exit;
 }
 ?>
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,8 +16,6 @@ if ($_SESSION['user'] != 'admin') {
     <title>title</title>
 </head>
 <body>
-
-
 <?php
 
 if (isset($_POST['userid'])) {
@@ -147,17 +142,17 @@ if (count($users) > 0) {
     echo "</div>";
   }
 } else {
-  echo "<p>Geen bedrijven gevonden</p>";
+  echo "<p class='ml-6'>Geen bedrijven gevonden</p>";
   ?>
-  <a href="../profile/bedrijven-verwijderen.php" >klik hier om terug te gaan</a>
+  <a class="ml-6" href="../profile/bedrijven-verwijderen.php" >klik hier om terug te gaan</a>
   <?php
 }
-include $_SERVER['DOCUMENT_ROOT'] . "/components/footer.php";
-
 ?>
 
 </body>
 </html>
-
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . "/components/footer.php";
+?>
 
 
