@@ -12,7 +12,7 @@ if (isset($_POST["overdragen"])) {
 
 <head>
   <meta charset="UTF-8" />
-  <title>title</title>
+  <title>mijn Tickets</title>
 </head>
 
 <body>
@@ -78,7 +78,7 @@ if (isset($_POST["overdragen"])) {
   <?php
 
   } else {
-    echo "Je hebt nog geen tickets besteld";
+    echo "<p class='ml-6'>Je hebt nog geen tickets besteld</p>";
   }
 
   ?>

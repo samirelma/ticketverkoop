@@ -80,7 +80,7 @@ if (isset($_GET['payment']) && $_GET['payment'] == 'cancelled') {
             }
           }
         } else {
-          echo '<p class="text-2xl">Er zijn geen evenementen gevonden</p>';
+          echo '<p class="text-2xl ml-6">Er zijn geen evenementen gevonden</p>';
         }
           echo '</div>';
       
