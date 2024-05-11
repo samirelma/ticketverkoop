@@ -23,6 +23,21 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
 
 <body>
     <?php
+    error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED);
+
+      try {
+        // Execute the SQL query
+        $result = $stmt->execute();
+        if ($result) {
+          
+} else {
+            // Print an error message if the query failed
+            echo "Something went wrong";
+        }
+    } catch (mysqli_sql_exception $e) {
+        // Print any errors that occurred during the execution of the query
+        echo $e->getMessage();
+    }
 
     if (isset($_POST['create'])) {
         global $mysqli;

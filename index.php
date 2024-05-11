@@ -31,6 +31,17 @@ if (isset($_GET['payment']) && $_GET['payment'] == 'cancelled') {
   }, 4000);
   </script>';
 }
+// now make also an alert for ?alert=evenementtoegevoegd
+if (isset($_GET['alert']) && $_GET['alert'] == 'evenementtoegevoegd') {
+  echo '<div class="alert alert-success" role="alert">
+  Evenement is toegevoegd!
+</div>';
+  echo '<script>
+  setTimeout(function() {
+    document.querySelector(".alert").style.display = "none";
+  }, 4000);
+  </script>';
+}
 
 
 ?>
