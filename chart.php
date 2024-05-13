@@ -60,7 +60,7 @@ if (isset($_POST["verwijder"])) {
   ?>
   <div class="card w-96 bg-base-100 shadow-xl">
     <div class="card-body">
-      <h2 class="card-title">Winkel Wagen</h2>
+      <h2 class="card-title">Winkelwagen</h2>
       <?php
       if ($chartData == false) {
         echo "<p>U heeft geen tickets in uw winkelwagen</p>";
