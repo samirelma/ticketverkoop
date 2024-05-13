@@ -34,7 +34,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
             }
     
             // Connect to the database
-            $mysqli = new mysqli('localhost', 'samirelmazzoujisql1', 'jwVhocruvE', 'samirelmazzoujisql1');
+            $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
     
             // Check the connection
             if ($mysqli->connect_error) {

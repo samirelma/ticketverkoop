@@ -115,7 +115,7 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
             }
         }
         // Create a new mysqli object to connect to the database
-        $mysqli = new mysqli('localhost', 'samirelmazzoujisql1', 'jwVhocruvE', 'samirelmazzoujisql1');
+        $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
 
         // Prepare the SQL query
         $stmt = $mysqli->prepare($query);
@@ -165,7 +165,7 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
         <select name="zaal" id="zaal" class="input input-bordered w-full" required>
             <?php
             // Connect to the database
-            $mysqli = new mysqli('localhost', 'samirelmazzoujisql1', 'jwVhocruvE', 'samirelmazzoujisql1');
+            $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
 
             // Prepare the SQL query
             $stmt = $mysqli->prepare("SELECT zaalID, naam, capaciteit FROM tblzalen");
