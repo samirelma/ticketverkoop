@@ -28,7 +28,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 </form>
 <br>
 <?php
-$mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
+$mysqli = new mysqli('localhost', 'samirelmazzoujisql1', 'jwVhocruvE', 'samirelmazzoujisql1');
 
 // Check if the search term is set in the URL query parameters
 if (isset($_GET['search'])) {
