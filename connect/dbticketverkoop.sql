@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 16 mei 2024 om 13:52
+-- Gegenereerd op: 16 mei 2024 om 16:10
 -- Serverversie: 10.4.28-MariaDB
 -- PHP-versie: 8.2.4
 
@@ -80,14 +80,6 @@ CREATE TABLE `tbltickets` (
   `purchaseID` int(11) NOT NULL,
   `scanned` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Gegevens worden geëxporteerd voor tabel `tbltickets`
---
-
-INSERT INTO `tbltickets` (`TicketID`, `rij`, `stoel`, `evenementID`, `categoryID`, `userID`, `purchaseID`, `scanned`) VALUES
-(80, 1, 12, 16, 1, 36, 205, 0),
-(81, 1, 12, 16, 1, 36, 205, 1);
 
 -- --------------------------------------------------------
 
@@ -187,7 +179,8 @@ CREATE TABLE `user_purchases` (
 --
 
 INSERT INTO `user_purchases` (`purchaseID`, `id`, `timeOfPurchase`, `productId`, `price`, `productName`, `secretkey`, `isPaid`, `blok`, `stoel`, `evenementID`) VALUES
-(205, 36, '2024-05-16 13:14:06', 1, 80, 'Golden Cirkel (VIP) ', '5d21ad61b598f13654f9c2ff887dd6bf7c68b7b9f65d4ac3ad4c6424a6589c8d99c4d8bf174660339fe1aabc9b6ef1c304a8a41773f56a85f84186bd1ef08fe0', 1, 1, 12, 16);
+(205, 36, '2024-05-16 13:14:06', 1, 80, 'Golden Cirkel (VIP) ', '5d21ad61b598f13654f9c2ff887dd6bf7c68b7b9f65d4ac3ad4c6424a6589c8d99c4d8bf174660339fe1aabc9b6ef1c304a8a41773f56a85f84186bd1ef08fe0', 1, 1, 12, 16),
+(206, 36, '2024-05-16 14:00:50', 1, 80, 'Golden Cirkel (VIP) ', '', 0, 1, 1, 16);
 
 -- --------------------------------------------------------
 
@@ -303,13 +296,13 @@ ALTER TABLE `ticket_categories`
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT voor een tabel `user_purchases`
 --
 ALTER TABLE `user_purchases`
-  MODIFY `purchaseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=206;
+  MODIFY `purchaseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
 
 --
 -- AUTO_INCREMENT voor een tabel `user_roles`

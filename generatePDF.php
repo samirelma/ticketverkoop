@@ -185,11 +185,3 @@ $pdf-> MultiCell( 120, $lengte, $kleineLetters, 1, 'L');
 // output to browser 
 $pdf-> Output('i'); 
 ?>
-
-
-
-
-
-
-
-

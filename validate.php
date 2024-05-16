@@ -54,4 +54,4 @@ $stmt->bind_param('i', $ticketid);
 $stmt->execute();
 
 echo "Valid Ticket";
-?>
+?> 
