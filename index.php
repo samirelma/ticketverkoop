@@ -30,6 +30,12 @@ if (isset($_GET['payment']) && $_GET['payment'] == 'cancelled') {
     document.querySelector(".alert").style.display = "none";
   }, 4000);
   </script>';
+  //delete the ticket from the database in user_purchases
+  $stmt = $mysqli->prepare("DELETE FROM user_purchases WHERE id = ? AND isPaid = 0");
+  $stmt->bind_param("i", $_SESSION["gebruikersid"]);
+  $stmt->execute();
+  $stmt->close();
+  
 }
 // now make also an alert for ?alert=evenementtoegevoegd
 if (isset($_GET['alert']) && $_GET['alert'] == 'evenementtoegevoegd') {
