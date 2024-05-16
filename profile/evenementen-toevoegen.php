@@ -230,8 +230,7 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
             <label class="label">
                 <span class="label-text text-blue-500">beschrijving</span>
             </label>
-            <textarea name="beschrijving" class="textarea textarea-bordered min-h-[8em]" placeholder="Event Description" required></textarea>
-        </div>
+            <textarea name="beschrijving" class="textarea textarea-bordered min-h-[8em]" placeholder="Event Description" required minlength="50" maxlength="252"></textarea>        </div>
 
         <!-- Image -->
         <div class="form-control w-full">
