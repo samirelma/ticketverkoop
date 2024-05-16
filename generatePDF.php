@@ -35,9 +35,9 @@ if ($result->num_rows == 0) {
     header("Location: /");
 }
 
-// Check if isPaid is 1
-$purchase = $result->fetch_assoc();
-if ($purchase['isPaid'] != 1) {
+// Check if isPaid is 1 in user_purchases
+$result = $result->fetch_assoc();
+if ($result['isPaid'] == 0) {
     header("Location: /");
 }
 
@@ -99,24 +99,32 @@ $pdf -> Cell(100,10,' beschrijving',1,0, 'L', 1);
 $pdf -> Cell (45,10, 'rij',1,0, 'L',1); 
 $pdf -> Cell(45,10,'stoel',1,1,'L',1);
 $pdf -> SetTextColor(0,0,0);
-$pdf -> Cell(100,15,$evenement["beschrijving"],1,0, 'L'); 
-$pdf -> Cell (45,15, $tickets["rij"] ,1,0, 'L',0); 
-$pdf -> Cell(45,15,$tickets["stoel"] ,1,1,'L',0);
-$pdf -> Ln(10); 
-$pdf -> Cell(70,70,'qr code', 1, 0, 'C');
+// Remember the x and y coordinates
+$x = $pdf->GetX();
+$y = $pdf->GetY();
 
+// Output the "beschrijving" cell
+$beschrijving = $evenement["beschrijving"];
+$beschrijving = trim($beschrijving);
+$pdf->MultiCell(100, 15, $beschrijving, 1, 'L');
+
+// Get the height of the MultiCell
+$height = $pdf->GetY() - $y;
+
+// Move the cursor back to the right of the "beschrijving" cell
+$pdf->SetXY($x + 100, $y);
+
+// Output the "rij" and "stoel" cells
+$pdf->Cell(45, $height, $tickets["rij"], 1, 0, 'L');
+$pdf->Cell(45, $height, $tickets["stoel"], 1, 1, 'L');
+
+// Output the "qr code" cell
+$pdf->Cell(70, 70, 'qr code', 1, 0, 'C');
 $currentDate = date("Y-m-d");
 
-$eventDate = $evenement["datum"];/*This is like looking at an invitation to a party (the $evenement), 
-finding the date of the party (the "datum"), and writing it down.
-*/
-$eventDate = date("Y-m-d", strtotime($eventDate));//So, overall, these lines of code retrieve the current date,
-// assigns the value of $evenement["datum"] to $eventDate, and then format $eventDate as a date in the "Y-m-d" format.
+$eventDate = $evenement["datum"];
+$eventDate = date("Y-m-d", strtotime($eventDate));
 
-/*This is like taking the date we wrote down from the invitation and making sure it's in the same special format as today's date. 
-We do this so we can easily compare the two dates later.
- The strtotime part is like translating the date from the invitation into a language that our special date format understands.
-*/
 if ($eventDate == $currentDate) {
     $codeText = "Valid Ticket";
 } else {
@@ -124,8 +132,29 @@ if ($eventDate == $currentDate) {
 }
 
 $codeText = str_replace(" ", "", $codeText);
-QRcode::png($codeText, "qrcode.png", QR_ECLEVEL_L, 3);
-$pdf -> Image("qrcode.png", 20, 210, 50, 50); 
+
+// Check if ticket is already scanned
+$sql = "SELECT scanned FROM tbltickets WHERE TicketID = ?";
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param('i', $ticketid);
+$stmt->execute();
+$result = $stmt->get_result();
+$ticket = $result->fetch_assoc();
+
+if ($ticket['scanned'] == 1) {
+    $codeText = "Invalid Ticket";
+} else {
+    // Check if ticket is valid
+    if ($eventDate == $currentDate) {
+        $codeText = "Valid Ticket";
+    } else {
+        $codeText = "Invalid Ticket";
+    }
+}
+
+$validate = 'http://localhost:8080/validate.php?ticketID=' . $ticketid;
+QRcode::png($validate, "qrcode.png", QR_ECLEVEL_L, 3);
+$pdf->Image("qrcode.png", 20, 20, 50, 50);
 unlink("qrcode.png");
 /*1st line
 $codeText = str_replace(" ", "", $codeText); - This line is removing all spaces from the $codeText string. 
@@ -156,11 +185,3 @@ $pdf-> MultiCell( 120, $lengte, $kleineLetters, 1, 'L');
 // output to browser 
 $pdf-> Output('i'); 
 ?>
-
-
-
-
-
-
-
-
