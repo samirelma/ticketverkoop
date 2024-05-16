@@ -12,7 +12,7 @@ $searchTerm = $_GET['search'] ?? '';
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <meta charset="UTF-8" />
-    <title>title</title>
+    <title>RS Ticket Service</title>
 </head>
 <body>
   
@@ -29,12 +29,14 @@ $searchTerm = $_GET['search'] ?? '';
     </form>
     </div>
 </div>
+<?php 
+if(isset( $_SESSION["gebruikersid"])) {
+?>
 <div class="flex-none">
      <div class="dropdown dropdown-end">
-      <label tabindex="0" class="btn btn-ghost btn-circle">
+      <label tabindex="0" class="btn btn-circle">
         <div class="indicator">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-          <span class="badge badge-sm indicator-item"></span>
         </div>
       </label>
       <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
@@ -43,13 +45,16 @@ $searchTerm = $_GET['search'] ?? '';
           <span class="text-info"></span>
           <div class="card-actions">
             <form method="post" action="../chart.php">
-            <button class="btn btn-primary btn-block" name="chart">View cart</button>
+            <button class="btn btn-primary btn-block" name="chart">bekijke winkelwagen</button>
             </form>
           </div>
         </div>
       </div>
     </div>
 </div>
+<?php
+}
+?>
 
     <?php
    echo ' <div class="dropdown dropdown-end">';
@@ -110,13 +115,41 @@ $searchTerm = $_GET['search'] ?? '';
 </html>
 <?php 
 if (isset($_SESSION["gebruikersid"])) {
- $userid = $_SESSION["gebruikersid"];
- $query = "SELECT * FROM tbloverdraagnotifications WHERE ontvangerID = ".$_SESSION["gebruikersid"]; 
- $resultaat = $mysqli -> query($query); 
- foreach ($resultaat as $notification) {
-  if ($notification["ontvangerID"] == $userid) {
-  include $_SERVER['DOCUMENT_ROOT'] . "../ticketOverdragenMessage.php";
+  $userid = $_SESSION["gebruikersid"];
+  $query = "SELECT * FROM tbloverdraagnotifications WHERE ontvangerID = ?";
+  $stmt = $mysqli->prepare($query);
+  $stmt->bind_param("i", $userid);
+  $stmt->execute();
+  $resultaat = $stmt->get_result();
+  while ($notification = $resultaat->fetch_assoc()) {
+    if ($notification["ontvangerID"] == $userid) {
+      include $_SERVER['DOCUMENT_ROOT'] . "../ticketOverdragenMessage.php";
+    }
   }
-  }
+  $stmt->close();
+}
+$sql = "SELECT * FROM evenementen WHERE datum < CURDATE()"; 
+$stmt = $mysqli->prepare($sql);
+$stmt->execute();
+$result = $stmt->get_result();
+$pastevents = (($result->num_rows == 0) ? false : $result->fetch_all(MYSQLI_ASSOC));
+if ($pastevents != false) {
+foreach($pastevents as $evenement){
+    $sql = "DELETE FROM evenementen WHERE evenementID = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("i", $evenement['evenementID']);
+    $stmt->execute();
+    $sql2 = "DELETE FROM tblTickets WHERE evenementID = ?";
+    $stmt2 = $mysqli->prepare($sql2);
+    $stmt2->bind_param("i", $evenement['evenementID']);
+    $stmt2->execute();
+    $sql3 = "DELETE FROM user_purchases WHERE evenementID = ?";
+    $stmt3 = $mysqli->prepare($sql3);
+    $stmt3->bind_param("i", $evenement['evenementID']);
+    $stmt3->execute();
+} 
+$stmt->close();
+$stmt2->close();
+$stmt3->close();
 }
 ?>

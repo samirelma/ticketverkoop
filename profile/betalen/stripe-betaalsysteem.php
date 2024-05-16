@@ -69,8 +69,8 @@ $checkout = $stripe->checkout->sessions->create([
     'quantity' => 1,
   ]],
   'mode' => 'payment',
-  'success_url' => 'http://localhost:8080/profile/betalen/success.php?purchaseid=' . $purchaseID . '&secret=' . $secret,
-  'cancel_url' => 'http://localhost:8080/profile/betalen/cancel.php?purchaseid=' . $purchaseID . '&secret=' . $secret,
+  'success_url' => 'http://localhost/profile/betalen/success.php?purchaseid=' . $purchaseID . '&secret=' . $secret,
+  'cancel_url' => 'http://localhost/profile/betalen/cancel.php?purchaseid=' . $purchaseID . '&secret=' . $secret,
 ]);
 
 

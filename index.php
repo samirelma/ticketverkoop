@@ -14,15 +14,27 @@ if (isset($_GET['payment']) && $_GET['payment'] == 'success') {
   }, 4000);
   </script>';
   //update the database to set isPaid to 1
-  $sql = "UPDATE user_purchases SET isPaid = 1 WHERE id = " . $_SESSION["gebruikersid"] ." AND isPaid = 0";
-  $mysqli->query($sql);
-  
+  $stmt = $mysqli->prepare("UPDATE user_purchases SET isPaid = 1 WHERE id = ? AND isPaid = 0");
+  $stmt->bind_param("i", $_SESSION["gebruikersid"]);
+  $stmt->execute();
+  $stmt->close();
 }
 
 //check if the payment is cancelled  let the message dissapear after 5 seconds
 if (isset($_GET['payment']) && $_GET['payment'] == 'cancelled') {
   echo '<div class="alert alert-danger" role="alert">
   Betaling is geannuleerd!
+</div>';
+  echo '<script>
+  setTimeout(function() {
+    document.querySelector(".alert").style.display = "none";
+  }, 4000);
+  </script>';
+}
+// now make also an alert for ?alert=evenementtoegevoegd
+if (isset($_GET['alert']) && $_GET['alert'] == 'evenementtoegevoegd') {
+  echo '<div class="alert alert-success" role="alert">
+  Evenement is toegevoegd!
 </div>';
   echo '<script>
   setTimeout(function() {
@@ -50,6 +62,7 @@ if (isset($_GET['payment']) && $_GET['payment'] == 'cancelled') {
           echo '<div class="flex flex-wrap gap-4">';
           //dont get results from database just show all the events
           $data = getallevents($mysqli);
+          if ($data != false) {
           foreach ($data as $event) {
             if($event["weergeven"] == 1) {
             echo '
@@ -77,6 +90,9 @@ if (isset($_GET['payment']) && $_GET['payment'] == 'cancelled') {
           </div>'; 
             }
           }
+        } else {
+          echo '<p class="text-2xl ml-6">Er zijn geen evenementen gevonden</p>';
+        }
           echo '</div>';
       
           
