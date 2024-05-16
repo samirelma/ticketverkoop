@@ -4,8 +4,7 @@ if (isset($_POST["knop2"])) {
     $email = $_POST["email"];
     $wachtwoord = $_POST["wachtwoord"];
     $confirmedWachtwoord = $_POST["wachtwoord2"];
-    if ($wachtwoord === $confirmedWachtwoord) {
-        
+    if ($wachtwoord === $confirmedWachtwoord) {       
         updateWachtwoord($mysqli, $email, $wachtwoord);
     }
     if ($wachtwoord != $confirmedWachtwoord) {

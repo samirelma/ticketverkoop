@@ -14,13 +14,12 @@ body {
 }
 
 </style>
-<br>
 <footer class="footer footer-center p-10 bg-[#150578] text-primary-content">
-  <aside>
+    <aside>
     <p class="normal-case text-xl text-[#FF101F]" href="../index.php">RS ticket service</p>
     <p class="font-bold text-[#FDFFFF]">
       Uw betrouwbare partner voor al uw evenementen.
-      <br /> Live kom en beleef de experience !
+      <br />Kom en beleef de live experience !
       <br />RS ticket service nv - Zandpoortsebaan 12 - 2800 Mechelen
     </p>
     <p class="text-[#FDFFFF]">info@RSticketservice.be</p>

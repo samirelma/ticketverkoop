@@ -4,40 +4,40 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 if (isset($_POST["betalen"])) {
 
 
-      // Get all the data from the database user_purchases
-      $sql = "SELECT * FROM user_purchases WHERE id = " . $_SESSION["gebruikersid"] ." AND isPaid = 0";
-      $resultaat = $mysqli->query($sql);
-      $chartData = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
+  // Get all the data from the database user_purchases
+  $stmt = $mysqli->prepare("SELECT * FROM user_purchases WHERE id = ? AND isPaid = 0");
+  $stmt->bind_param('i', $_SESSION["gebruikersid"]);
+  $stmt->execute();
+  $resultaat = $stmt->get_result();
+  $chartData = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
 
-      $rij = $_POST["blok"];
-      $stoel = $_POST["stoel"];
-      $evenementID = $_POST["evenementID"];
-      $categoryID = $_POST["productID"];
+  foreach ($chartData as $chart) {
+    $rij = $chart["blok"];
+    $stoel = $chart["stoel"];
+    $evenementID = $chart["evenementID"];
+    $categoryID = $chart["productId"];
+    
+    $purchaseId = $chart["purchaseID"];
 
-      //purchaseId is the id of the purchase
-      $purchaseId = $_POST["purchaseID"];
+    $sql = 'INSERT INTO tbltickets (rij, stoel, evenementID, categoryID, userID, purchaseID) VALUES (?,?,?,?,?,?)';
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param('ssiiii', $rij, $stoel, $evenementID, $categoryID, $_SESSION["gebruikersid"], $purchaseId);
+    $stmt->execute();
+  }
 
-      //check if the purchase isnt canceled
 
-      // Insert new ticket into tbltickets and link it to the purchase (via id) is isPaid = 1 if there are multiple tickets in the cart insert them all
-      foreach ($chartData as $chart) {
-      $sql = 'INSERT INTO tbltickets (rij, stoel, evenementID, categoryID, userID, purchaseID) VALUES (?,?,?,?,?,?)';
-      $stmt = $mysqli->prepare($sql);
-      $stmt->bind_param('ssiiii', $rij, $stoel, $evenementID, $categoryID, $_SESSION["gebruikersid"], $purchaseId);
-      $stmt->execute();
-      }
-        
 
-      
 
-      header("Location: /profile/betalen/stripe-betaalsysteem.php?purchaseid=" . $purchaseId);
-      echo "Uw ticket is succesvol aangekocht!";
-    }  
+  header("Location: /profile/betalen/stripe-betaalsysteem.php?purchaseid=" . $purchaseId);
+  echo "Uw ticket is succesvol aangekocht!";
+}
 
 if (isset($_POST["verwijder"])) {
-  $sql = "DELETE FROM user_purchases WHERE id = " . $_POST["userID"] . " AND evenementID = " . $_POST["evenementID"] . " AND blok = " . $_POST["blok"] . " AND stoel = " . $_POST["stoel"] . " AND price = " . $_POST["prijs"];
-  $mysqli->query($sql);
-  header("Location: chart.php");    
+  $sql = "DELETE FROM user_purchases WHERE id = ? AND evenementID = ? AND blok = ? AND stoel = ? AND price = ?";
+  $stmt = $mysqli->prepare($sql);
+  $stmt->bind_param('iiisi', $_POST["userID"], $_POST["evenementID"], $_POST["blok"], $_POST["stoel"], $_POST["prijs"]);
+  $stmt->execute();
+  header("Location: chart.php");
 }
 
 ?>
@@ -51,45 +51,49 @@ if (isset($_POST["verwijder"])) {
 
 <body class="flex items-center justify-center min-h-screen">
   <?php
-//make a query to get all the tickets that are in the cart using the userID and check if isPaid is 0 (not paid) let it be in the cart if isPaid is 1 (paid) remove it from the cart
-  $sql = "SELECT * FROM user_purchases WHERE id = " . $_SESSION["gebruikersid"] ." AND isPaid = 0";
-  $resultaat = $mysqli->query($sql);
+  //make a query to get all the tickets that are in the cart using the userID and check if isPaid is 0 (not paid) let it be in the cart if isPaid is 1 (paid) remove it from the cart
+  $stmt = $mysqli->prepare("SELECT * FROM user_purchases WHERE id = ? AND isPaid = 0");
+  $stmt->bind_param('i', $_SESSION["gebruikersid"]);
+  $stmt->execute();
+  $resultaat = $stmt->get_result();
   $chartData = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
-  ?> 
+  ?>
   <div class="card w-96 bg-base-100 shadow-xl">
     <div class="card-body">
-      <h2 class="card-title">Winkel Wagen</h2>
+      <h2 class="card-title">Winkelwagen</h2>
       <?php
       if ($chartData == false) {
         echo "<p>U heeft geen tickets in uw winkelwagen</p>";
       } else {
-        $totaalprijs = 0; 
-      foreach ($chartData as $chart) {
-        $totaalprijs += $chart["price"];
-        $sql = "SELECT naam FROM evenementen WHERE evenementID = " . $chart["evenementID"];
-        $resultaat = $mysqli->query($sql);
-        $event = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
-        foreach ($event as $event) {
-          echo "<h2>" . $event["naam"] . "</h2>";
-        }
-      
+        $totaalprijs = 0;
+        foreach ($chartData as $chart) {
+          $totaalprijs += $chart["price"];
+          $stmt = $mysqli->prepare("SELECT naam FROM evenementen WHERE evenementID = ?");
+          $stmt->bind_param('i', $chart["evenementID"]);
+          $stmt->execute();
+          $resultaat = $stmt->get_result();
+          $event = ($resultaat->num_rows == 0) ? false : $resultaat->fetch_all(MYSQLI_ASSOC);
+          foreach ($event as $event) {
+            echo "<h2>" . $event["naam"] . "</h2>";
+          }
+
       ?>
-        <div style="display: flex; align-items: center;">
-          <form method="post" action="chart.php" style="margin-left: 10px;">
-            <p style="margin: 0;"> blok: <?php echo $chart["blok"] ?> stoel: <?php echo $chart["stoel"] ?> prijs: € <?php echo $chart["price"] ?></p>
-            <input type="hidden" name="blok" value="<?php echo $chart["blok"] ?>">
-            <input type="hidden" name="stoel" value="<?php echo $chart["stoel"] ?>">
-            <input type="hidden" name="prijs" value="<?php echo $chart["price"] ?>">
-            <input type="hidden" name="evenementID" value="<?php echo $chart["evenementID"] ?>">
-            <input type="hidden" name="userID" value="<?php echo $_SESSION["gebruikersid"] ?>">
-            <input type="hidden" name="productID" value="<?php echo $chart["productId"] ?>">
-            <input type="hidden" name="purchaseID" value="<?php echo $chart["purchaseID"] ?>">
-            <button class="btn btn-primary" name="verwijder">Verwijder</button>
-          </form>
-        </div>
+          <div style="display: flex; align-items: center;">
+            <form method="post" action="chart.php" style="margin-left: 10px;">
+              <p style="margin: 0;"> blok: <?php echo $chart["blok"] ?> stoel: <?php echo $chart["stoel"] ?> prijs: € <?php echo $chart["price"] ?></p>
+              <input type="hidden" name="blok" value="<?php echo $chart["blok"] ?>">
+              <input type="hidden" name="stoel" value="<?php echo $chart["stoel"] ?>">
+              <input type="hidden" name="prijs" value="<?php echo $chart["price"] ?>">
+              <input type="hidden" name="evenementID" value="<?php echo $chart["evenementID"] ?>">
+              <input type="hidden" name="userID" value="<?php echo $_SESSION["gebruikersid"] ?>">
+              <input type="hidden" name="productID" value="<?php echo $chart["productId"] ?>">
+              <input type="hidden" name="purchaseID" value="<?php echo $chart["purchaseID"] ?>">
+              <button class="btn btn-primary" name="verwijder">Verwijder</button>
+            </form>
+          </div>
       <?php
-      }
-      echo "<h2>Totaal prijs: € " . $totaalprijs . "</h2>";
+        }
+        echo "<h2>Totaal prijs: € " . $totaalprijs . "</h2>";
       }
       ?>
       <form action="#" method="post">

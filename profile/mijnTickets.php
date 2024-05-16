@@ -12,7 +12,7 @@ if (isset($_POST["overdragen"])) {
 
 <head>
   <meta charset="UTF-8" />
-  <title>title</title>
+  <title>mijn Tickets</title>
 </head>
 
 <body>
@@ -56,14 +56,17 @@ if (isset($_POST["overdragen"])) {
             <input type="hidden" value="<?php echo $ticket["evenementID"] ?>" name="evenementID">
             <td><button class="btn" name="ticket">Ticket</button></td>
             <?php
-            $query = "SELECT * FROM tbloverdraagnotifications WHERE overdragerID = " . $_SESSION["gebruikersid"];
-            $resultaat = $mysqli->query($query);
+            $query = "SELECT * FROM tbloverdraagnotifications WHERE overdragerID = ?";
+            $stmt = $mysqli->prepare($query);
+            $stmt->bind_param("i", $_SESSION["gebruikersid"]);
+            $stmt->execute();
+            $resultaat = $stmt->get_result();
             if (mysqli_num_rows($resultaat) == 0) {
             ?>
-              <td><button class="btn" name="overdragen">Overdragen</button></td>
-          </form>
-        <?php } else {
-              echo '<td> overdraging aangevraagd</td>';
+            <td><button class="btn" name="overdragen">Overdragen</button></td>
+            </form>
+            <?php } else {
+            echo '<td> overdraging aangevraagd</td>';
             } ?>
         </tr>
     <?php
@@ -75,7 +78,7 @@ if (isset($_POST["overdragen"])) {
   <?php
 
   } else {
-    echo "Je hebt nog geen tickets besteld";
+    echo "<p class='ml-6'>Je hebt nog geen tickets besteld</p>";
   }
 
   ?>
