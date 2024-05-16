@@ -94,7 +94,7 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
 
 
         // execute the query
-        $mysqli = new mysqli('localhost', 'samirelmazzoujisql1', '', 'dbticketverkoop');
+        $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
         $mysqli = $mysqli;
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param('i', $userid);
