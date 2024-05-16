@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 13 mei 2024 om 09:06
--- Serverversie: 10.4.24-MariaDB
--- PHP-versie: 7.4.29
+-- Gegenereerd op: 16 mei 2024 om 16:10
+-- Serverversie: 10.4.28-MariaDB
+-- PHP-versie: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,7 +37,7 @@ CREATE TABLE `evenementen` (
   `zaalID` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
   `weergeven` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `evenementen`
@@ -48,7 +48,7 @@ INSERT INTO `evenementen` (`evenementID`, `naam`, `datum`, `aantalTickets`, `bes
 (13, 'Alice Cooper - School\'s out', '2024-06-30 20:00:00', 8050, 'shock rock legend Alice Cooper komt terug met zijn nieuwe wereld tour School\'s out. ', 'alice cooper live.jpg', 2, 36, 1),
 (14, 'Cavalluna - A land of a thousand dreams ', '2024-07-05 20:30:00', 23359, 'De epische paarden show Cavalluna komt terug naar België en deze keer groter dan ooit. ', 'cavalluna.webp', 1, 36, 1),
 (15, 'The show - A tribute to ABBA ', '2024-06-07 20:00:00', 23359, 'Herbeleef de muziek van ABBA terug live in deze prachtige tribute concert', 'ABBA.jpg', 1, 36, 1),
-(16, 'Riverdance ', '2024-09-18 20:00:00', 8050, 'Riverdance the show is vernieuwd en terug. Beleef een avondje van dans en spektakel in de Lotto Arena van Antwerpen', 'riverdance.jpg', 2, 36, 1);
+(16, 'Riverdance ', '2024-05-16 13:47:49', 8050, 'Riverdance the show is vernieuwd en terug. Beleef een avondje van dans en spektakel in de Lotto Arena van Antwerpen Riverdance the show is vernieuwd en terug.', 'riverdance.jpg', 2, 36, 1);
 
 -- --------------------------------------------------------
 
@@ -62,7 +62,7 @@ CREATE TABLE `tbloverdraagnotifications` (
   `evenementID` int(11) NOT NULL,
   `ticketID` int(11) NOT NULL,
   `notificatieID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -77,8 +77,9 @@ CREATE TABLE `tbltickets` (
   `evenementID` int(11) NOT NULL,
   `categoryID` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
-  `purchaseID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `purchaseID` int(11) NOT NULL,
+  `scanned` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -92,7 +93,7 @@ CREATE TABLE `tblzalen` (
   `afbeelding` mediumtext NOT NULL,
   `plategrond` text NOT NULL,
   `capaciteit` mediumtext NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `tblzalen`
@@ -114,16 +115,16 @@ CREATE TABLE `ticket_categories` (
   `icon` text NOT NULL,
   `beschrijving` text NOT NULL,
   `prijs` decimal(38,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `ticket_categories`
 --
 
 INSERT INTO `ticket_categories` (`id`, `name`, `icon`, `beschrijving`, `prijs`) VALUES
-(1, 'Golden Cirkel (VIP) ', 'vipIcon.jpg', 'Op vertoon van dit ticket krijg je toegang tot het eten, de zaal en de parking. De deuren van de voorstelling gaan telkens een half uur voor de start van de voorstelling open. ', '80'),
-(2, 'casual', '', 'de stoelen met goed zicht achter de vip arrangementen ', '70'),
-(3, 'normal', '', 'zitplaatsen verst verwijderd van het podium ', '50');
+(1, 'Golden Cirkel (VIP) ', 'vipIcon.jpg', 'Op vertoon van dit ticket krijg je toegang tot het eten, de zaal en de parking. De deuren van de voorstelling gaan telkens een half uur voor de start van de voorstelling open. ', 80),
+(2, 'casual', '', 'de stoelen met goed zicht achter de vip arrangementen ', 70),
+(3, 'normal', '', 'zitplaatsen verst verwijderd van het podium ', 50);
 
 -- --------------------------------------------------------
 
@@ -142,7 +143,7 @@ CREATE TABLE `users` (
   `profilePicture` text NOT NULL,
   `updatedAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `createdAt` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `users`
@@ -171,7 +172,15 @@ CREATE TABLE `user_purchases` (
   `blok` int(11) NOT NULL,
   `stoel` int(11) NOT NULL,
   `evenementID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `user_purchases`
+--
+
+INSERT INTO `user_purchases` (`purchaseID`, `id`, `timeOfPurchase`, `productId`, `price`, `productName`, `secretkey`, `isPaid`, `blok`, `stoel`, `evenementID`) VALUES
+(205, 36, '2024-05-16 13:14:06', 1, 80, 'Golden Cirkel (VIP) ', '5d21ad61b598f13654f9c2ff887dd6bf7c68b7b9f65d4ac3ad4c6424a6589c8d99c4d8bf174660339fe1aabc9b6ef1c304a8a41773f56a85f84186bd1ef08fe0', 1, 1, 12, 16),
+(206, 36, '2024-05-16 14:00:50', 1, 80, 'Golden Cirkel (VIP) ', '', 0, 1, 1, 16);
 
 -- --------------------------------------------------------
 
@@ -182,7 +191,7 @@ CREATE TABLE `user_purchases` (
 CREATE TABLE `user_roles` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `user_roles`
@@ -257,7 +266,7 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT voor een tabel `evenementen`
 --
 ALTER TABLE `evenementen`
-  MODIFY `evenementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `evenementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT voor een tabel `tbloverdraagnotifications`
@@ -269,7 +278,7 @@ ALTER TABLE `tbloverdraagnotifications`
 -- AUTO_INCREMENT voor een tabel `tbltickets`
 --
 ALTER TABLE `tbltickets`
-  MODIFY `TicketID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `TicketID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT voor een tabel `tblzalen`
@@ -287,13 +296,13 @@ ALTER TABLE `ticket_categories`
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT voor een tabel `user_purchases`
 --
 ALTER TABLE `user_purchases`
-  MODIFY `purchaseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
+  MODIFY `purchaseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
 
 --
 -- AUTO_INCREMENT voor een tabel `user_roles`
