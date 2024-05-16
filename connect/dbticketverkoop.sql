@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 28 apr 2024 om 18:28
+-- Gegenereerd op: 16 mei 2024 om 13:52
 -- Serverversie: 10.4.28-MariaDB
 -- PHP-versie: 8.2.4
 
@@ -44,11 +44,11 @@ CREATE TABLE `evenementen` (
 --
 
 INSERT INTO `evenementen` (`evenementID`, `naam`, `datum`, `aantalTickets`, `beschrijving`, `afbeelding`, `zaalID`, `userID`, `weergeven`) VALUES
-(1, 'Test', '2024-04-19 14:05:26', 15, 'testtt', 'e8773f51-7d80-4086-a861-3ef6628fef30.jpeg', 1, 0, 0),
-(4, 'Hans Zimmer live! ', '2024-04-29 10:00:44', 200, 'Hans Zimmer live a unique concert experience ', 'HansZimmerLive.jpeg', 1, 26, 1),
-(5, 'Robi Live', '2023-12-08 00:00:00', 11, 'wwww', 'e8773f51-7d80-4086-a861-3ef6628fef30.jpeg', 0, 0, 0),
-(6, 'ww', '2023-11-29 00:00:00', 11, 'll', 'achtergrond.jpg', 1, 0, 0),
-(7, 'testttt', '2023-11-29 00:00:00', 1000, 'ttt', 'e8773f51-7d80-4086-a861-3ef6628fef30.jpeg', 2, 0, 0);
+(12, 'The world of Hans Zimmer - A new dimension', '2024-07-24 20:00:00', 23359, 'Concert met de muziek van Hans Zimmer gebracht door symfonisch orkest onder leiding van Gavin Greenway', 'A_new_dimension.jpg', 1, 36, 1),
+(13, 'Alice Cooper - School\'s out', '2024-06-30 20:00:00', 8050, 'shock rock legend Alice Cooper komt terug met zijn nieuwe wereld tour School\'s out. ', 'alice cooper live.jpg', 2, 36, 1),
+(14, 'Cavalluna - A land of a thousand dreams ', '2024-07-05 20:30:00', 23359, 'De epische paarden show Cavalluna komt terug naar België en deze keer groter dan ooit. ', 'cavalluna.webp', 1, 36, 1),
+(15, 'The show - A tribute to ABBA ', '2024-06-07 20:00:00', 23359, 'Herbeleef de muziek van ABBA terug live in deze prachtige tribute concert', 'ABBA.jpg', 1, 36, 1),
+(16, 'Riverdance ', '2024-05-16 13:47:49', 8050, 'Riverdance the show is vernieuwd en terug. Beleef een avondje van dans en spektakel in de Lotto Arena van Antwerpen Riverdance the show is vernieuwd en terug.', 'riverdance.jpg', 2, 36, 1);
 
 -- --------------------------------------------------------
 
@@ -64,13 +64,6 @@ CREATE TABLE `tbloverdraagnotifications` (
   `notificatieID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Gegevens worden geëxporteerd voor tabel `tbloverdraagnotifications`
---
-
-INSERT INTO `tbloverdraagnotifications` (`overdragerID`, `ontvangerID`, `evenementID`, `ticketID`, `notificatieID`) VALUES
-(32, 30, 4, 1, 15);
-
 -- --------------------------------------------------------
 
 --
@@ -84,23 +77,17 @@ CREATE TABLE `tbltickets` (
   `evenementID` int(11) NOT NULL,
   `categoryID` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
-  `purchaseID` int(11) NOT NULL
+  `purchaseID` int(11) NOT NULL,
+  `scanned` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `tbltickets`
 --
 
-INSERT INTO `tbltickets` (`TicketID`, `rij`, `stoel`, `evenementID`, `categoryID`, `userID`, `purchaseID`) VALUES
-(69, 1, 3, 4, 1, 34, 192),
-(70, 1, 3, 4, 1, 34, 192),
-(71, 1, 2, 9, 1, 34, 193),
-(72, 1, 2, 9, 1, 34, 193),
-(73, 1, 5, 4, 1, 34, 195),
-(74, 1, 5, 4, 1, 34, 195),
-(75, 1, 6, 4, 1, 34, 197),
-(76, 1, 6, 4, 1, 34, 197),
-(77, 212, 1, 4, 3, 34, 198);
+INSERT INTO `tbltickets` (`TicketID`, `rij`, `stoel`, `evenementID`, `categoryID`, `userID`, `purchaseID`, `scanned`) VALUES
+(80, 1, 12, 16, 1, 36, 205, 0),
+(81, 1, 12, 16, 1, 36, 205, 1);
 
 -- --------------------------------------------------------
 
@@ -171,8 +158,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `email`, `password`, `firstname`, `lastname`, `function`, `profilePicture`, `updatedAt`, `createdAt`) VALUES
-(33, 'klant', 'klant@123.com', '$argon2id$v=19$m=65536,t=4,p=1$REZQM0hUWnZKTUpabVhzVQ$K9Qb5GvYBsc0FOlD6Y1r2YRWLgqhkfFNaHSQWUe5BMs', 'klant', 'klant', 1, '', '2024-04-27 13:35:07', '2024-04-27 13:35:07'),
-(34, 'alfa@alfa.com', 'alfa@alfa.com', '$argon2id$v=19$m=65536,t=4,p=1$RjF5bzhxZVRzSGhJUFFXdw$gQYbZxgXr41R+usmVbenF+mov2ZeODUUlNHzvq1JCN0', 'alfa', 'alfa', 2, '', '2024-04-28 13:14:00', '2024-04-28 13:14:00');
+(35, 'Jack C.', 'jack.daniels@gmail.com', '$argon2id$v=19$m=65536,t=4,p=1$V1Y2MHhPeW1lZFRGRUIvMw$EniNjWX90O3yRwjwWh4pwRAmcCV1tEkesRo9gBVrAd8', 'Jack ', 'Daniels', 1, '', '2024-05-13 06:39:57', '2024-05-13 06:39:57'),
+(36, 'john B.', 'john.doe@gmail.com', '$argon2id$v=19$m=65536,t=4,p=1$OURFYTVtelczdDgySzlDSQ$Byp2YOH8r+6lHEZ9orRbEIkJNuJPfiM4cOkTx1u0C5E', 'John', 'Doe', 2, '', '2024-05-13 06:40:36', '2024-05-13 06:40:36'),
+(37, 'James A.', 'james.webb@gmail.com', '$argon2id$v=19$m=65536,t=4,p=1$Qnh4cE1VTEp2QVZIblVCbQ$symtWbQmfU033ABOinTheNLk4h4oSTU1OkeIdEzHSjg', 'James', 'Webb', 3, '', '2024-05-13 06:43:04', '2024-05-13 06:42:54');
 
 -- --------------------------------------------------------
 
@@ -199,7 +187,7 @@ CREATE TABLE `user_purchases` (
 --
 
 INSERT INTO `user_purchases` (`purchaseID`, `id`, `timeOfPurchase`, `productId`, `price`, `productName`, `secretkey`, `isPaid`, `blok`, `stoel`, `evenementID`) VALUES
-(198, 34, '2024-04-28 18:04:25', 3, 50, 'normal', '82b15ac8b11ad108e511888ca6110dd57acbd07439c00c21dff0b59b3ae89e044446e90ae25dc2f2d58bfd77e5d4c2b2097c929c9fa0d1b4a989ac781b11f89b', 1, 212, 1, 4);
+(205, 36, '2024-05-16 13:14:06', 1, 80, 'Golden Cirkel (VIP) ', '5d21ad61b598f13654f9c2ff887dd6bf7c68b7b9f65d4ac3ad4c6424a6589c8d99c4d8bf174660339fe1aabc9b6ef1c304a8a41773f56a85f84186bd1ef08fe0', 1, 1, 12, 16);
 
 -- --------------------------------------------------------
 
@@ -285,7 +273,7 @@ ALTER TABLE `user_roles`
 -- AUTO_INCREMENT voor een tabel `evenementen`
 --
 ALTER TABLE `evenementen`
-  MODIFY `evenementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `evenementID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT voor een tabel `tbloverdraagnotifications`
@@ -297,7 +285,7 @@ ALTER TABLE `tbloverdraagnotifications`
 -- AUTO_INCREMENT voor een tabel `tbltickets`
 --
 ALTER TABLE `tbltickets`
-  MODIFY `TicketID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `TicketID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT voor een tabel `tblzalen`
@@ -315,13 +303,13 @@ ALTER TABLE `ticket_categories`
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT voor een tabel `user_purchases`
 --
 ALTER TABLE `user_purchases`
-  MODIFY `purchaseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=199;
+  MODIFY `purchaseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=206;
 
 --
 -- AUTO_INCREMENT voor een tabel `user_roles`

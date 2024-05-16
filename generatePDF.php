@@ -35,9 +35,9 @@ if ($result->num_rows == 0) {
     header("Location: /");
 }
 
-// Check if isPaid is 1
-$purchase = $result->fetch_assoc();
-if ($purchase['isPaid'] != 1) {
+// Check if isPaid is 1 in user_purchases
+$result = $result->fetch_assoc();
+if ($result['isPaid'] == 0) {
     header("Location: /");
 }
 
@@ -147,18 +147,13 @@ if ($ticket['scanned'] == 1) {
     // Check if ticket is valid
     if ($eventDate == $currentDate) {
         $codeText = "Valid Ticket";
-        
-        // Update ticket status to scanned
-        $sql = "UPDATE tbltickets SET scanned = 1 WHERE TicketID = ?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param('i', $ticketid);
-        $stmt->execute();
     } else {
         $codeText = "Invalid Ticket";
     }
 }
 
-QRcode::png($codeText, "qrcode.png", QR_ECLEVEL_L, 3);
+$validate = 'http://localhost:8080/validate.php?ticketID=' . $ticketid;
+QRcode::png($validate, "qrcode.png", QR_ECLEVEL_L, 3);
 $pdf->Image("qrcode.png", 20, 20, 50, 50);
 unlink("qrcode.png");
 /*1st line

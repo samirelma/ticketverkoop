@@ -103,7 +103,7 @@ if(isset( $_SESSION["gebruikersid"])) {
           echo '<form method="post" action="../components/navbar.php">
           <div class="flex-auto text-[#FDFFFF]">
          <button class="btn btn-ghost" name="login">Login</button>
-         <button class="btn btn-ghost" name="register">Register</button>
+         <button class="btn btn-ghost" name="register">Registreer</button>
           </div>
           </form>'; 
         }
