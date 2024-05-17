@@ -37,7 +37,6 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
         <select name="zaal" id="zaal" class="input input-bordered w-full" required>
             <?php
             // Connect to the database
-            include $_SERVER['DOCUMENT_ROOT'] . "/components/connection.php";
             // Prepare the SQL query
             $stmt = $mysqli->prepare("SELECT zaalID, naam, capaciteit FROM tblzalen");
 

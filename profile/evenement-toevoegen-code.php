@@ -1,5 +1,4 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 define('PUBLIC_R', '/path/to/your/directory');
 //make it sp if u arent logged in u cant get to this page and if u arent admin or bedrijf u cant get to this page
 if (!isset($_SESSION['user'])) {
