@@ -1,5 +1,6 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
+
 
 //insert the data into the database
 if (isset($_POST['register'])) {
