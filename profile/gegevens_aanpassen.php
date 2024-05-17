@@ -12,7 +12,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 
 <?php
 // Database connection
-$mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
+$mysqli = new mysqli('localhost', 'samirelmazzoujisql1', 'jwVhocruvE', 'samirelmazzoujisql1');
 
 // Fetch the current user's data
 $query = 'SELECT * FROM users WHERE id = ?';

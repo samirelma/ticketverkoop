@@ -31,7 +31,7 @@ if ($_SESSION['user'] != 'admin') {
     $query = "DELETE FROM users WHERE id = ?";
 
     // Create a new mysqli_stmt object
-    $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
+    $mysqli = new mysqli('localhost', 'samirelmazzoujisql1', 'jwVhocruvE', 'samirelmazzoujisql1');
     // Prepare the SQL query
     $stmt = $mysqli->prepare($query);
 
@@ -100,7 +100,7 @@ if ($_SESSION['user'] != 'admin') {
 
 
   <?php
-  $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
+  $mysqli = new mysqli('localhost', 'samirelmazzoujisql1', 'jwVhocruvE', 'samirelmazzoujisql1');
 
   // Check if the search term is set in the URL query parameters
   if (isset($_GET['search'])) {
