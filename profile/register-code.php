@@ -1,9 +1,8 @@
 <?php
+  include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 
 //insert the data into the database
 if (isset($_POST['register'])) {
-  include $_SERVER['DOCUMENT_ROOT'] . "/fetch/util.php";
-  global $mysqli;
   $firstname = $_POST['firstname'];
   $lastname = $_POST['lastname'];
   $email = $_POST['email'];
@@ -20,7 +19,6 @@ if (isset($_POST['register'])) {
 
     $password = password_hash($password, PASSWORD_ARGON2ID);
 
-    include $_SERVER['DOCUMENT_ROOT'] . "/components/connection.php";
     $stmt = $mysqli->prepare("INSERT INTO users (firstname, lastname, email, username, password, function) VALUES (?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("sssssi", $firstname, $lastname, $email, $username, $password, $function);
 
@@ -55,7 +53,6 @@ if (isset($_POST['register'])) {
 
   }
 } else {
-  include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 
   // This block of code will always be executed, regardless of whether an exception occurred or not
   // It includes the closing curly brace for the try block
