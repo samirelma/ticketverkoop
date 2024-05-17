@@ -94,8 +94,8 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
 
 
         // execute the query
-        $mysqli = new mysqli('localhost', 'samirelmazzoujisql1', 'jwVhocruvE', 'samirelmazzoujisql1');
-        $mysqli = $mysqli;
+        include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
+
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param('i', $userid);
         $stmt->execute();
@@ -114,8 +114,6 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
                 move_uploaded_file($imageTmpName, $_SERVER['DOCUMENT_ROOT'] . '/img/eventPictures/' . $imageName);
             }
         }
-        // Create a new mysqli object to connect to the database
-        $mysqli = new mysqli('localhost', 'samirelmazzoujisql1', 'jwVhocruvE', 'samirelmazzoujisql1');
 
         // Prepare the SQL query
         $stmt = $mysqli->prepare($query);
@@ -165,8 +163,7 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
         <select name="zaal" id="zaal" class="input input-bordered w-full" required>
             <?php
             // Connect to the database
-            $mysqli = new mysqli('localhost', 'samirelmazzoujisql1', 'jwVhocruvE', 'samirelmazzoujisql1');
-
+            include $_SERVER['DOCUMENT_ROOT'] . "/components/connection.php";
             // Prepare the SQL query
             $stmt = $mysqli->prepare("SELECT zaalID, naam, capaciteit FROM tblzalen");
 

@@ -1,5 +1,6 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,7 +14,6 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
     <?php
 
     // Connect to the database
-    $mysqli = new mysqli('localhost', 'samirelmazzoujisql1', 'jwVhocruvE', 'samirelmazzoujisql1');
 
     if (isset($_GET['search'])) {
         $Search = $_GET['search'];
