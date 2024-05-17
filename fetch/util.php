@@ -1,6 +1,5 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . "../connect/connect.php";
-
+include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
 // This function fetches a single row of data from the database based on the provided query and parameters
 function fetchSingle($query, ...$params) {
   global $mysqli; // Access the global $mysqli object, assuming it's defined elsewhere
