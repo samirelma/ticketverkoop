@@ -1,6 +1,6 @@
 <?php
 //include navbar
-include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
