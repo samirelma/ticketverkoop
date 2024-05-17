@@ -16,7 +16,7 @@ if (isset($_POST["verwijderen"])) {
 </head>
 <?php
     // Database connection
-    $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
+    $mysqli = new mysqli('localhost', 'samirelmazzoujisql1', 'jwVhocruvE', 'samirelmazzoujisql1');
  
     // If the toggle button is on, set weergeven to 1, and if it's off, set it to 0
     $weergeven = isset($_POST['weergeven']) ? 1 : 0;
@@ -41,7 +41,7 @@ if (isset($_POST["verwijderen"])) {
      </thead>
      <tbody>
        <?php
-$mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
+$mysqli = new mysqli('localhost', 'samirelmazzoujisql1', 'jwVhocruvE', 'samirelmazzoujisql1');
 
         // Fetch rows from the database
         $query = "SELECT * FROM evenementen WHERE userID = ?";

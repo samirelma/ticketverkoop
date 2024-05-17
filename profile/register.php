@@ -20,7 +20,7 @@ if (isset($_POST['register'])) {
 
     $password = password_hash($password, PASSWORD_ARGON2ID);
 
-    $mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
+    $mysqli = new mysqli('localhost', 'samirelmazzoujisql1', 'jwVhocruvE', 'samirelmazzoujisql1');
     $stmt = $mysqli->prepare("INSERT INTO users (firstname, lastname, email, username, password, function) VALUES (?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("sssssi", $firstname, $lastname, $email, $username, $password, $function);
 
