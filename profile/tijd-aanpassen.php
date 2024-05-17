@@ -29,8 +29,8 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 </form>
 <br>
 <?php
-$mysqli = new mysqli('localhost', 'samirelmazzoujisql1', 'jwVhocruvE', 'samirelmazzoujisql1');
-$userID = $_SESSION["gebruikersid"]; // Assuming the user ID is stored in a session variable
+            include $_SERVER['DOCUMENT_ROOT'] . "/components/connection.php";
+            $userID = $_SESSION["gebruikersid"]; // Assuming the user ID is stored in a session variable
 
 // Check if the search term is set in the URL query parameters
 if (isset($_GET['search'])) {
