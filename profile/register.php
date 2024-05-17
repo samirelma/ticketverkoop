@@ -1,4 +1,7 @@
-
+<?php
+//include navbar
+include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <link href="https://cdn.jsdelivr.net/npm/daisyui@3.7.4/dist/full.css" rel="stylesheet" type="text/css" />
