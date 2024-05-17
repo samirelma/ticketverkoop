@@ -1,6 +1,5 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
-define('PUBLIC_R', '/path/to/your/directory');
 //make it sp if u arent logged in u cant get to this page and if u arent admin or bedrijf u cant get to this page
 if (!isset($_SESSION['user'])) {
     header("Location: /profile/login.php");
@@ -28,7 +27,7 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
 
     <h1 class="text-center text-4xl font-bold mb-12 text-blue-500">Maak een nieuwe evenement</h1>
 
-    <form action="/profile/evenementen-toevoegen-code.php" method="post" enctype="multipart/form-data" class="flex flex-col items-center justify-center gap-4 max-w-2xl mx-auto">
+    <form action="/profile/evenement-toevoegen-code.php" method="post" enctype="multipart/form-data" class="flex flex-col items-center justify-center gap-4 max-w-2xl mx-auto">
         <!-- Zaal Selection -->
 
         <label class="label">
