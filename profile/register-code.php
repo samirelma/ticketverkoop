@@ -54,9 +54,9 @@ if (isset($_POST['register'])) {
   }
 } else {
 
+
   // This block of code will always be executed, regardless of whether an exception occurred or not
   // It includes the closing curly brace for the try block
-  // It also includes the code to include the navbar.php file if the 'register' POST parameter is not set
 }
 
 function register($data)
