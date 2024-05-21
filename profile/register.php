@@ -1,17 +1,90 @@
 <?php
 //include navbar
-include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
+
+?>
+
+
+<?php
+//show error message form ?error=password
+if (isset($_GET['error'])) {
+    if ($_GET['error'] == "password") {
+      echo '<div id="alert" role="alert" class="alert alert-warning">
+      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+      <span>Warning: password not the same please try again!</span>
+    </div>';
+echo '<script>
+      setTimeout(function() {
+        var alertElement = document.getElementById("alert");
+        alertElement.style.display = "none";
+      }, 3000);
+    </script>';    }
+}
+
+//show error message form ?error=both
+if (isset($_GET['error'])) {
+    if ($_GET['error'] == "both") {
+      echo '<div id="alert" role="alert" class="alert alert-warning">
+      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+      <span>Warning: email address and username already in use! please choose another one.</span>
+    </div>';
+echo '<script>
+      setTimeout(function() {
+        var alertElement = document.getElementById("alert");
+        alertElement.style.display = "none";
+      }, 3000);
+    </script>';    }  
+}
+//show error message form ?error=email
+if (isset($_GET['error'])) {
+    if ($_GET['error'] == "email") {
+      echo '<div id="alert" role="alert" class="alert alert-warning">
+      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+      <span>Warning: email address already in use! please choose another one.</span>
+    </div>';
+echo '<script>
+      setTimeout(function() {
+        var alertElement = document.getElementById("alert");
+        alertElement.style.display = "none";
+      }, 3000);
+    </script>';    }
+}
+//show error message form ?error=username
+if (isset($_GET['error'])) {
+    if ($_GET['error'] == "username") {
+      echo '<div id="alert" role="alert" class="alert alert-warning">
+      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+      <span>Warning: username already in use! please choose another one.</span>
+    </div>';
+echo '<script>
+      setTimeout(function() {
+        var alertElement = document.getElementById("alert");
+        alertElement.style.display = "none";
+      }, 3000);
+    </script>';    }
+}
+//show error message form ?error=success
+if (isset($_GET['error'])) {
+    if ($_GET['error'] == "success") {
+      echo '<div id="alert" role="alert" class="alert alert-success">
+      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+      <span>Success: account created successfully!</span>
+    </div>';
+echo '<script>
+      setTimeout(function() {
+        var alertElement = document.getElementById("alert");
+        alertElement.style.display = "none";
+      }, 3000);
+    </script>';    }
+}
 ?>
 <!DOCTYPE html>
-<html lang="en">
-<link href="https://cdn.jsdelivr.net/npm/daisyui@3.7.4/dist/full.css" rel="stylesheet" type="text/css" />
-<script src="https://cdn.tailwindcss.com"></script>
+<html>
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <title>title</title>
 </head>
-
 <body>
 
   <center>
