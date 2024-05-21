@@ -1,6 +1,6 @@
 <?php
 //make the connection to the database
-$mysqli = new mysqli('localhost', 'samirelmazzoujisql1', 'jwVhocruvE', 'samirelmazzoujisql1');
+$mysqli = new mysqli('localhost', 'samirelma', 'hDY8RWeNNvcsWBh', 'samirelma');
 
 // Check if there is a connection error
 if ($mysqli->connect_error) {

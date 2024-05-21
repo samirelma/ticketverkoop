@@ -49,6 +49,19 @@ if (isset($_GET['alert']) && $_GET['alert'] == 'evenementtoegevoegd') {
   </script>';
 }
 
+// now make also an alert for ?alert=register
+if (isset($_GET['error'])) {
+  if ($_GET['error'] == "register") {
+    echo '<div class="alert alert-success" role="alert">
+    Registratie is gelukt!
+  </div>';
+    echo '<script>
+    setTimeout(function() {
+      document.querySelector(".alert").style.display = "none";
+    }, 4000);
+    </script>';
+  }
+}
 
 ?>
 <!DOCTYPE html>
