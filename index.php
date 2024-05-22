@@ -96,7 +96,12 @@ if (isset($_GET['success'])) {
             </figure>
             <div class="card-body items-center text-center">
               <h2 class="card-title">'.$event["naam"].'</h2>
-              <p>'.$event["beschrijving"].'</p>
+              ';
+              echo "<div class='text-gray-600'>
+              <p>Beschrijving:</p>
+                  <textarea name='beschrijving' class='text-gray-600' required readonly>" . $event["beschrijving"] . "</textarea>
+              </div>";
+              echo'
               <p> datum: '.$event["datum"].'</p>
               <div class="card-actions">
               <form method="post" action="index.php">

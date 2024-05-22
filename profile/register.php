@@ -63,20 +63,7 @@ echo '<script>
       }, 3000);
     </script>';    }
 }
-//show error message form ?error=success
-if (isset($_GET['error'])) {
-    if ($_GET['error'] == "success") {
-      echo '<div id="alert" role="alert" class="alert alert-success">
-      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
-      <span>Success: account created successfully!</span>
-    </div>';
-echo '<script>
-      setTimeout(function() {
-        var alertElement = document.getElementById("alert");
-        alertElement.style.display = "none";
-      }, 3000);
-    </script>';    }
-}
+
 ?>
 <!DOCTYPE html>
 <html>
