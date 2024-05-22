@@ -1,5 +1,6 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
+error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED);
 
 ?>
 
@@ -29,7 +30,6 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 </form>
 <br>
 <?php
-            include $_SERVER['DOCUMENT_ROOT'] . "/components/connection.php";
             $userID = $_SESSION["gebruikersid"]; // Assuming the user ID is stored in a session variable
 
 // Check if the search term is set in the URL query parameters
@@ -64,7 +64,10 @@ if ($result->num_rows > 0) {
         echo "<div class='p-4 border rounded-lg'>";
         //$row is a variable that represents a row of data fetched from a database query result. 
         echo "<h2 class='text-gray-600'>Naam: " . $row['naam'] . "</h2>";
-        echo "<p class='text-gray-600'>Beschrijving: " . $row['beschrijving'] . "</p>";
+        echo "<div class='text-gray-600'>
+        <p>Beschrijving:</p>
+            <textarea name='beschrijving' class='text-gray-600' required readonly>" . $row['beschrijving'] . "</textarea>
+        </div>";
         echo "<p class='text-gray-600'>aantal Tickets: " . $row['aantalTickets'] . "</p>";
         echo "<p class='text-gray-600'>Datum: " . $row['datum'] . "</p>";
 
@@ -77,9 +80,9 @@ if ($result->num_rows > 0) {
             <label class="label">
                 <span class="label-text text-blue-500">Wijzig datum event</span>
             </label>
-            <input type="datetime-local" name="datum" class="input input-bordered w-full" required />
-        </div>
+            <input type="datetime-local" name="datum" class="input input-bordered w-full" required min="<?php echo date('Y-m-d\TH:i'); ?>" />
         <br>
+        </div>
         <div class='form-control w-full text-center'>
             <button class='btn btn-dark mx-auto' type='submit'>Wijzig</button>
         </div>
@@ -96,7 +99,7 @@ if ($result->num_rows > 0) {
     echo "<div class='p-4 border rounded-lg'>";
     echo "<h2 class='text-gray-600'>No results to display!</h2>";
     echo "<div class='form-control w-full text-center'>";
-    echo "<a href='/profile/tijd-aanpassen.php' class='btn btn-primary'>Go Back</a>";
+    echo "<a href='../index.php' class='btn btn-primary'>Go Back</a>";
     echo "</div>";
     echo "</div>";
     echo "</div>";
