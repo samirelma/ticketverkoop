@@ -33,13 +33,6 @@ include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
                 
             }
     
-            // Connect to the database
-            include $_SERVER['DOCUMENT_ROOT'] . "/components/connection.php";
-    
-            // Check the connection
-            if ($mysqli->connect_error) {
-                die('Connection failed: ' . $mysqli->connect_error);
-            }
     
             // Prepare the SQL statement
             $stmt = $mysqli->prepare('UPDATE evenementen SET datum = ? WHERE evenementID = ?');

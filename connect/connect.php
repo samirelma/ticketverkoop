@@ -1,6 +1,6 @@
 <?php
 //make the connection to the database
-$mysqli = new mysqli('localhost', 'samirelma', 'hDY8RWeNNvcsWBh', 'samirelma');
+$mysqli = new mysqli('localhost', 'root', '', 'dbticketverkoop');
 
 // Check if there is a connection error
 if ($mysqli->connect_error) {
