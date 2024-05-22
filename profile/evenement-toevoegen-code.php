@@ -93,7 +93,7 @@ if ($_SESSION['user'] != 'admin' && $_SESSION["user"] != "bedrijf") {
 
 
         // execute the query
-        include $_SERVER['DOCUMENT_ROOT'] . "/connect/connect.php";
+        include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 
         $stmt = $mysqli->prepare($sql);
         $stmt->bind_param('i', $userid);
