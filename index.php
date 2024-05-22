@@ -50,8 +50,8 @@ if (isset($_GET['alert']) && $_GET['alert'] == 'evenementtoegevoegd') {
 }
 
 // now make also an alert for ?alert=register
-if (isset($_GET['error'])) {
-  if ($_GET['error'] == "register") {
+if (isset($_GET['success'])) {
+  if ($_GET['success'] == "register") {
     echo '<div class="alert alert-success" role="alert">
     Registratie is gelukt!
   </div>';

@@ -37,7 +37,7 @@ if (isset($_POST['register'])) {
     try {
         $stmt->execute();
         if ($stmt->affected_rows > 0) {
-            header("Location: ../index.php?error=register");
+            header("Location: ../index.php?success=register");
         } else {
             echo "Something went wrong";
         }
@@ -89,8 +89,9 @@ function register($data)
 
 
   if (empty($emailExists) && empty($usernameExists)) {
-    header("Location: ../index.php?error=register");
+    header("Location: ../index.php?success=register");
   
+    
     // The setTimeout function is used to delay the execution of a function.
     // In this case, it delays the execution of the function by 2000 milliseconds (2 seconds).
     // The following line retrieves the HTML element with the id "success-alert".
