@@ -152,7 +152,7 @@ if ($ticket['scanned'] == 1) {
     }
 }
 
-$validate = 'http://localhost:8080/validate.php?ticketID=' . $ticketid;
+$validate = 'https://ticketverkoop.virtualmin.cedricverlinden.com/validate.php?ticketID=' . $ticketid;
 QRcode::png($validate, "qrcode.png", QR_ECLEVEL_L, 3);
 $pdf->Image("qrcode.png", 20, 20, 50, 50);
 unlink("qrcode.png");
