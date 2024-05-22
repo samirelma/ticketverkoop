@@ -31,8 +31,10 @@ if (isset($_POST['register'])) {
 
     $password = password_hash($password, PASSWORD_ARGON2ID);
 
-    $stmt = $mysqli->prepare("INSERT INTO users (firstname, lastname, email, username, password, function) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssi", $firstname, $lastname, $email, $username, $password, $function);
+    $stmt = $mysqli->prepare("INSERT INTO users (firstname, lastname, email, username, password, function, profilePicture) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssis", $firstname, $lastname, $email, $username, $password, $function, $profilePicture);
+
+    $profilePicture = "no_profile_picture.jpg";
 
     try {
         $stmt->execute();
@@ -72,32 +74,27 @@ function register($data)
     'type' => 's',
     'value' => $username,
   ]);
+
   if (!empty($emailExists) && !empty($usernameExists)) {
     header("Location: /profile/register.php?error=both");
+    return false;
   }
 
   if (!empty($emailExists)) {
     header("Location: /profile/register.php?error=email");
+    return false;
 
   }
 
   if (!empty($usernameExists)) {
     header("Location: /profile/register.php?error=username");
-
+    return false;
   }
 
 
 
   if (empty($emailExists) && empty($usernameExists)) {
     header("Location: ../index.php?success=register");
-  
-    
-    // The setTimeout function is used to delay the execution of a function.
-    // In this case, it delays the execution of the function by 2000 milliseconds (2 seconds).
-    // The following line retrieves the HTML element with the id "success-alert".
-    // The style.display property is used to control the visibility of an element.
-    // In this case, it sets the display property of the successAlert element to "none",
-    // which means the element will be hidden from view.
 
     return true;
   } else {
