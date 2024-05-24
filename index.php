@@ -98,8 +98,7 @@ if (isset($_GET['success'])) {
               <h2 class="card-title">'.$event["naam"].'</h2>
               ';
               echo "<div class='text-gray-600'>
-              <p>Beschrijving:</p>
-                  <textarea name='beschrijving' class='text-gray-600' required readonly>" . $event["beschrijving"] . "</textarea>
+                  <textarea name='beschrijving' class='text-gray-600' required readonly style='height: 100px;''>" . $event["beschrijving"] . "</textarea>
               </div>";
               echo'
               <p> datum: '.$event["datum"].'</p>
