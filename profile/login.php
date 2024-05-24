@@ -1,5 +1,5 @@
 <?php
- include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
+include $_SERVER['DOCUMENT_ROOT'] . "/components/navbar.php";
 if (isset($_POST["knopResetWachtwoord"])) {
     header("Location: passwordReset.php");
 }
@@ -24,37 +24,37 @@ if (isset($_POST["knop"])) {
     }
 }
 ?>
-    <!DOCTYPE html>
-    <html>
+<!DOCTYPE html>
+<html>
 
-    <head>
-        <meta charset="UTF-8" />
-        <title>title</title>
-    </head>
+<head>
+    <meta charset="UTF-8" />
+    <title>title</title>
+</head>
 
-    <body>
+<body>
 
-<div class="card-body">
-<div class="card-actions justify-center">
-<form  method="post" action="login.php">
-<label class="label">email</label>
-<input type="text" placeholder="email" class="input input-bordered input-primary w-full max-w-xs" name="email" /> <br>  
-<label class="label">wachtwoord</label>
-<input type="password" placeholder="wachtwoord" class="input input-bordered input-primary w-full max-w-xs" name="wachtwoord" /><br><br>
+    <div class="card-body">
+        <div class="card-actions justify-center">
+            <form method="post" action="login.php">
+                <label class="label">email</label>
+                <input type="text" placeholder="email" class="input input-bordered input-primary w-full max-w-xs" name="email" /> <br>
+                <label class="label">wachtwoord</label>
+                <input type="password" placeholder="wachtwoord" class="input input-bordered input-primary w-full max-w-xs" name="wachtwoord" /><br><br>
+                <div class="flex justify-center">
+                    <button class="btn text-blue-500" type="submit" name="knop">login</button>
+                </div>
 
-<button class="btn text-blue-500" type="submit" name="knop">login</button>
-<button class="btn text-blue-500" type="submit" name="knopResetWachtwoord">wachtwoord vergeten</button><br>
+        </div>
+        </form>
+    </div>
+    <div class="flex justify-center mt-2">
+        <a href="../profile/register.php">klik hier om te Registreren </a>
+    </div>
 
-</div>
-</form>
-</div>
-<div class="flex justify-center mt-2">
-<a href="../profile/register.php" >klik hier om te Registreren </a>
-</div>
+</body>
 
-    </body>
-
-    </html>
-    <?php
-    include $_SERVER['DOCUMENT_ROOT'] . "/components/footer.php";
-    ?>
+</html>
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . "/components/footer.php";
+?>

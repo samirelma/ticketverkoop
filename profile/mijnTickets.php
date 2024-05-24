@@ -6,6 +6,10 @@ if (isset($_POST["ticket"])) {
 if (isset($_POST["overdragen"])) {
   header("Location:../ticketOverdragen.php?ticketID=" . $_POST["ticketID"] . "&evenementID=" . $_POST["evenementID"]);
 }
+if (!isset($_SESSION['user'])) {
+  header("Location: /profile/login.php");
+  exit;
+}
 ?>
 <!DOCTYPE html>
 <html>
