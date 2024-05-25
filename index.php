@@ -100,6 +100,15 @@ if (isset($_GET['success'])) {
               echo "<div class='text-gray-600'>
                   <textarea name='beschrijving' class='text-gray-600' required readonly style='height: 100px;''>" . $event["beschrijving"] . "</textarea>
               </div>";
+              ?>
+              <style>
+                textarea {
+                  background: none; 
+                  resize: none;
+                  text-align: center;
+                }
+              </style>
+              <?php
               echo'
               <p> datum: '.$event["datum"].'</p>
               <div class="card-actions">
@@ -117,9 +126,6 @@ if (isset($_GET['success'])) {
           echo '<p class="text-2xl ml-6">Er zijn geen evenementen gevonden</p>';
         }
           echo '</div>';
-      
-          
-
 ?>
   </body>
   </html>
