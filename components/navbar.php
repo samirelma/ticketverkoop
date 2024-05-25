@@ -156,4 +156,12 @@ $stmt->close();
 $stmt2->close();
 $stmt3->close();
 }
+if ( !isset($_SESSION["gebruikersVoorwaarde"])) {
+  header("Location: /components/gebruikersVoorwaarde.php");
+} else if (isset($_SESSION["gebruikersVoorwaarde"])) {
+  if (time() - $_SESSION["start_time"] > 3600) {
+    unset($_SESSION['gebruikersVoorwaarde']);
+    unset($_SESSION["start_time"]);
+}
+}
 ?>
