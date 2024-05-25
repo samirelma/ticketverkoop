@@ -31,7 +31,17 @@ if (isset($_POST["zaal"])) {
   </figure>
   <div class="card-body items-center text-center">
     <h2 class="card-title">'.$event["naam"].'</h2>
-    <p>'.$event["beschrijving"].'</p>
+    <textarea name="beschrijving" class="text-gray-600" required readonly style="height: 100px;">'.$event["beschrijving"].'</textarea>';
+    ?>
+    <style>
+    textarea {
+      background: none; 
+      resize: none;
+      text-align: center;
+    }
+  </style>
+  <?php
+  echo'
     <p> datum: '.$event["datum"].'</p>
     <div class="card-actions">
       <form method="post" action="zalen.php">
